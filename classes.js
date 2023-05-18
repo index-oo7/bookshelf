@@ -19,10 +19,9 @@ class autor{
 }
 
 class korisnik{
-    constructor(ime, prezime, lozinka, uloga){
+    constructor(ime, lozinka, uloga){
         this.id;
         this.ime = ime;
-        this.prezime = prezime;
         this.lozinka = lozinka;
         this.uloga = uloga;
     }
@@ -37,5 +36,3 @@ class Rezervacija {
     }
 }
 
-
-//geteri, seteri, prebacivanje u php
