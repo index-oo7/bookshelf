@@ -40,9 +40,16 @@
         </div>
     </nav>
 
-    <div class="container">
-
-
+    <div class="container col-8">
+      <div class="row">
+        <ul class="list-group list-group-flush">
+        <li class="list-group-item">An item <br> <span class = "autor">Ivo andric</span></li>
+        <li class="list-group-item">A second item<br> <span class = "autor"> </span></li>
+        <li class="list-group-item">A third item<br> <span class = "autor"> </span></li>
+        <li class="list-group-item">A fourth item<br> <span class = "autor"> </span></li>
+        <li class="list-group-item">And a fifth one<br> <span class = "autor"> </span></li>
+        </ul>
+      </div>
     </div>
 
     <!-- js connection -->
