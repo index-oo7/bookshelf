@@ -8,7 +8,10 @@ nav {
 }
 
 .autor{
-    color: yellowgreen;
-    font-size: small;
+    color: gray;
+    font-size: medium;
+}
 
+body{
+    font-size: large;
 }
