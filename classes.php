@@ -41,16 +41,24 @@ class admin{
 }
 
 class korisnik{
-    public function __construct($ime, $lozinka, $uloga){
+    public $id;
+    public $ime;
+    public $lozinka;
+
+    public function __construct($ime, $lozinka){
         $this->id;
         $this->ime = $ime;
         $this->lozinka = $lozinka;
-        $this->uloga = $uloga;
     }
 }
 
 class Rezervacija {
-    public function __construct($idKorisnik, $pocetakRezervacije, $krajRezervacije){
+    public $idKorisnik;
+    public $idKnjiga;
+    public $pocetakRezervacije;
+    public $krajRezervacije;
+
+    public function __construct($idKorisnik, $idKnjiga, $pocetakRezervacije, $krajRezervacije){
         $this->id;
         $this->korisnik = $idKorisnik;
         $this->pocetakRezervacije = $pocetakRezervacije;
