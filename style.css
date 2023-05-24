@@ -3,6 +3,9 @@
 
 }
 
+body{
+    font-size: large;
+}
 
 nav {
     background: var(--main);
@@ -18,11 +21,7 @@ nav {
     font-size: medium;
 }
 
-body{
-    font-size: large;
-}
-
-.window{
+.prozor{
     display: none;
     position: fixed;
     top: 50%;
@@ -39,14 +38,14 @@ body{
     z-index: 999;
     animation: fade-in 1s forwards;
     }
-.window form {
+.prozor form {
     color: white;
     }
-.window textarea{
+.prozor textarea{
     height: 32px;
     }
 
-#background {
+#pozadina {
   display: none;
   position: fixed;
   top: 0;

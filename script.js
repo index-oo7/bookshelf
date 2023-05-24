@@ -1,20 +1,15 @@
 
-  var btnAdd = document.getElementById("btnAdd");
-  var adding = document.getElementById("adding");
-  var background = document.getElementById("background");
+  var btnDodajKnjigu = document.getElementById("btnDodajKnjigu");
+  var DodavanjeKnjige = document.getElementById("DodavanjeKnjige");
+  var pozadina = document.getElementById("pozadina");
   
-  // btnComments.onclick = function(){
-  //   comments.style.display = "block";
-  //   background.style.display = "block";
-  // }
-
-  btnAdd.onclick = function() {
-    adding.style.display = "block";
-    background.style.display = "block";
+  btnDodajKnjigu.onclick = function() {
+    DodavanjeKnjige.style.display = "block";
+    pozadina.style.display = "block";
   }
 
-  background.onclick = function() {
-    adding.style.display = "none";
-    background.style.display = "none";
+  pozadina.onclick = function() {
+    DodavanjeKnjige.style.display = "none";
+    pozadina.style.display = "none";
     document.body.style.overflow = "auto";
   }

@@ -20,7 +20,6 @@ class knjiga {
 
     public function __construct($naziv, $autor, $godinaIzdavanja, $kategorija ){
         $this->id;
-        $this->status;
         $this->naziv = $naziv;
         $this->autor = $autor;
         $this->godinaIzdavanja = $godinaIzdavanja;
