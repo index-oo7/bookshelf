@@ -61,13 +61,16 @@
 
           <input type="submit" value="Dodaj podatke">
       </form> 
-    </div>
-    <?php
-    
-    
-    
-    ?>
 
+      <!-- PHP that handles adding book into the database -->
+
+      <?php
+        
+      ?>
+
+
+    </div>
+   
 
 
     <!-- prikaz knjiga (ovo treba procitati iz baze) -->
