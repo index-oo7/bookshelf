@@ -22,33 +22,37 @@
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-          <a id="logo" class="navbar-brand fa-fade" href="index.html">Bookshelf <sup>©</sup></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
-            
-            <button type="button" class="btn btn-outline-dark">Add Book</button>
 
+        <!-- logo -->
+          <a id="logo" class="navbar-brand fa-fade" href="index.html">Bookshelf <sup>©</sup></a>
+
+          <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
+
+            <!-- dodavanje knjige -->
+            <button type="button" class="btn btn-outline-dark">Add Book</button>
+            <!-- CLASS WINDOW IZ DEVSOCNET-A I QUERY KA BAZI -->
+
+            <!-- pretraga -->
             <form id="searchBar" class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-dark" type="submit">Search</button>
             </form>
+            <!-- PRETRAGA PREMA NAZIVU KNJIGE I AUTORU -->
 
+            <!-- sortiranje -->
             <button type="button" class="btn btn-outline-dark">Sort</button>
+            <!-- SORTIRANJE PREMA NAZIVU, AUTORU, DOSTUPNOSTI, KATEGORIJA, REJTING -->
+            <!-- AKO SORTIRAŠ PREMA DOSTUPNOSTI UKLJUČITI MOGUĆNOST REZERVACIJE. -->
           </div>
         </div>
     </nav>
 
+
+    <!-- prikaz knjiga (ovo treba procitati iz baze) -->
     <div class="container col-8">
       <div class="row">
         <ul class="list-group list-group-flush">
-        <li class="list-group-item">An item <br> <span class = "autor">Ivo andric</span></li>
-        <li class="list-group-item">A second item<br> <span class = "autor"> </span></li>
-        <li class="list-group-item">A third item<br> <span class = "autor"> </span></li>
-        <li class="list-group-item">A fourth item<br> <span class = "autor"> </span></li>
-        <li class="list-group-item">And a fifth one<br> <span class = "autor"> </span></li>
-        </ul>
+          <li class="list-group-item">An item <br> <span class = "autor">Ivo andric</span></li>
       </div>
     </div>
 
