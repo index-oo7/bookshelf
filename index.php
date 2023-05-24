@@ -27,9 +27,9 @@
           <a id="logo" class="navbar-brand fa-fade" href="index.html">Bookshelf <sup>©</sup></a>
 
           <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
-
+            
             <!-- dodavanje knjige -->
-            <button type="button" class="btn btn-outline-dark">Add Book</button>
+            <button name="btnAdd" id="btnAdd" type="button" class="btn btn-outline-dark">Add Book</button>
             <!-- CLASS WINDOW IZ DEVSOCNET-A I QUERY KA BAZI -->
 
             <!-- pretraga -->
@@ -48,6 +48,28 @@
     </nav>
 
 
+    <div id="adding" class="window">
+      <form method="POST" action="index.php">
+          <label for="naziv">Naziv:</label>
+          <input type="text" name="naziv" id="naziv" required><br><br>
+
+          <label for="autor">Autor:</label>
+          <input type="text" name="autor" id="autor" required><br><br>
+
+          <label for="brStrana">Broj strana:</label>
+          <input type="brStrana" name="brStrana" id="brStrana" required><br><br>
+
+          <input type="submit" value="Dodaj podatke">
+      </form> 
+    </div>
+    <?php
+    
+    
+    
+    ?>
+
+
+
     <!-- prikaz knjiga (ovo treba procitati iz baze) -->
     <div class="container col-8">
       <div class="row">
@@ -55,6 +77,11 @@
           <li class="list-group-item">An item <br> <span class = "autor">Ivo andric</span></li>
       </div>
     </div>
+
+
+
+
+
 
     <!-- zatamljenje kada se otvara prozor -->
     <div id="background"></div>
