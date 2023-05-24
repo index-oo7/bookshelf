@@ -56,6 +56,9 @@
       </div>
     </div>
 
+    <!-- zatamljenje kada se otvara prozor -->
+    <div id="background"></div>
+
     <!-- js connection -->
     <script src="script.js"></script>
 
