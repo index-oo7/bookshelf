@@ -12,22 +12,31 @@ class Database{
 
 
 class knjiga {
-    public function __construct($naziv, $autor, $brojStrana, $godinaIzdavanja, $kategorija ){
+    public $id;
+    public $naziv;
+    public $autor;
+    public $godinaIzdavanja;
+    public $kategorija;
+
+    public function __construct($naziv, $autor, $godinaIzdavanja, $kategorija ){
         $this->id;
         $this->status;
         $this->naziv = $naziv;
         $this->autor = $autor;
-        $this->brojStrana = $brojStrana;
         $this->godinaIzdavanja = $godinaIzdavanja;
         $this->kategorija = $kategorija;
     }
 }
 
-class autor{
-    public function __construct($ime, $prezime){
+class admin{
+    public $id;
+    public $ime;
+    public $lozinka;
+
+    public function __construct($ime, $lozinka){
         $this->id;
         $this->ime = $ime;
-        $this->prezime = $prezime;
+        $this->lozinka = $lozinka;
     }
 }
 
