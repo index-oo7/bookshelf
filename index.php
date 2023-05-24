@@ -88,10 +88,11 @@
         }
 
         // Obrada podataka iz forme
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['btnDodaj'])) {
 
             //Ucitati iz logina sesiju admina i to proslediti kao parametar ovde
             //(ako planiras da imas samo jednog admina nije neophodno, moze i hardcode)
+
             $admin = 1;
             $naziv = $_POST["naziv"];
             $autor = $_POST["autor"];
@@ -104,15 +105,20 @@
 
 
             // Upit za dodavanje podataka u bazu
-            $sql = "INSERT INTO knjiga (ID_ADMIN, NAZIV_KNJIGA, AUTOR_KNJIGA, GODINA_IZDAVANJA_KNJIGA, KATEGORIJA) 
-                    VALUES ($admin, '$naziv', '$autor', $godinaIzdavanja, '$kategorija')";
+            $upit="INSERT INTO knjiga (ID_ADMIN, NAZIV_KNJIGA, AUTOR_KNJIGA, GODINA_IZDAVANJA_KNJIGA, KATEGORIJA) 
+            VALUES ($admin, '$naziv', '$autor', $godinaIzdavanja, '$kategorija')";
 
-            // if ($conn->query($sql) === TRUE) {
-            //     echo "Podaci su uspešno dodati u bazu.";
-            // } else {
-            //     echo "Greška prilikom dodavanja podataka: " . $conn->error;
-            // }
-        }
+
+            // $odgovor="";
+            
+            // $rez=mysqli_query($conn, $upit);
+            // while($red=mysqli_fetch_assoc($rez))
+            //     $odgovor.="<div>{$red['id']}: {$red['ime']} {$red['prezime']} ({$red['status']}) - <font color='red'>{$red['lozinka']}</font></div>";
+            // echo $odgovor;
+
+
+            
+          }
 
         // Zatvaranje konekcije
         $conn->close();
