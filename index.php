@@ -74,7 +74,7 @@
 
       <?php
         // Povezivanje sa bazom podataka
-        $database=mysqli_connect("localhost", "root", "", "pva");
+        $database=mysqli_connect("localhost", "root", "", "homelib");
         mysqli_query($database, "SET NAMES utf8");
 
 
@@ -100,11 +100,10 @@
             $upit="INSERT INTO knjiga (ID_ADMIN, NAZIV_KNJIGA, AUTOR_KNJIGA, GODINA_IZDAVANJA_KNJIGA, KATEGORIJA) 
             VALUES ($admin, '$naziv', '$autor', $godinaIzdavanja, '$kategorija')";
 
-            echo $upit
 
-            $result = mysqli_query($database, $upit);
+            // $result = mysqli_query($database, $upit);
 
-            if ($result) {
+            if ($database->query($upit) === TRUE) {
                 echo "Podaci su uspešno upisani u bazu.";
             } else {
                 echo "Greška pri upisu podataka: " . mysqli_error($database);
@@ -123,23 +122,28 @@
    
 
 
-    <!-- prikaz knjiga (ovo treba procitati iz baze) -->
-    <div id="citanjeKnjige" class="container col-8">
-      <div class="row">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Na drini cuprija <br> <span class = "autor">Ivo andric</span></li>
-          <li class="list-group-item">Travnicka hronika <br> <span class = "autor">Ivo andric</span></li>
-          <script>
+    <!-- prikaz knjiga -->
+    <script>
 
             $(document).ready(function(){
-                    $("#dugme").click(function(){
+                    $("#btnDodaj").click(function(){
                         $.get(".ajax.php?funkcija=prikaziKnjige", function(response){
-                            $("#odgovor").html(response);
+                            $("#citanjeKnjiga").html(response);
                         })
                     }) 
-
+                  })
           </script>
-      </div>
+    <div id="citanjeKnjiga" class="container col-8">
+      <!-- 
+        FORMAT ISPISA
+        <div class="row">
+        <ul class="list-group list-group-flush">
+          
+          <li class="list-group-item">Na drini cuprija <br> <span class = "autor">Ivo andric</span></li>
+          <li class="list-group-item">Travnicka hronika <br> <span class = "autor">Ivo andric</span></li> 
+        
+
+      </div> -->
     </div>
 
 
