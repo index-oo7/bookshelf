@@ -89,7 +89,7 @@
             // Ucitati iz logina sesiju admina i to proslediti kao parametar ovde
             // (ako planiras da imas samo jednog admina nije neophodno, moze i hardcode)
 
-            $admin = 1;
+            $admin = 1; //izvuci iz sesije
             $naziv = $_POST["naziv"];
             $autor = $_POST["autor"];
             $godinaIzdavanja = $_POST["godinaIzdavanja"];
@@ -123,7 +123,7 @@
     <script>
             $(document).ready(function(){
                     $("#btnSort").click(function(){
-                        $.get("ajax/ajax.php?funkcija=prikaziKnjige", function(response){
+                        $.get("ajax.php?funkcija=prikaziKnjige", function(response){
                             $("#citanjeKnjiga").html(response);
                         })
                     }) 
