@@ -33,7 +33,6 @@
             
             <!-- dodavanje knjige -->
             <button name="btnDodajKnjigu" id="btnDodajKnjigu" type="button" class="btn btn-outline-dark">Add Book</button>
-            <!-- CLASS WINDOW IZ DEVSOCNET-A I QUERY KA BAZI -->
 
             <!-- pretraga -->
             <form id="searchBar" class="d-flex" role="search">
@@ -51,7 +50,7 @@
     </nav>
 
 
-    <div id="DodavanjeKnjige" class="prozor">
+    <div id="dodavanjeKnjige" class="prozor">
 
       <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
       <form method="POST" action="index.php">
@@ -75,23 +74,20 @@
 
       <?php
         // Povezivanje sa bazom podataka
-        $dbhost = 'localhost';
-        $dbuser = 'root';
-        $dbpass = '';
-        $dbname = 'homelib';
+        $database=mysqli_connect("localhost", "root", "", "pva");
+        mysqli_query($database, "SET NAMES utf8");
 
-        $conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
 
         // Provera konekcije
-        if ($conn->connect_error) {
-            die("Greška prilikom povezivanja sa bazom podataka: " . $conn->connect_error);
+        if ($database->connect_error) {
+            die("Greška prilikom povezivanja sa bazom podataka: " . $database->connect_error);
         }
 
         // Obrada podataka iz forme
-        if (isset($_POST['btnDodaj'])) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            //Ucitati iz logina sesiju admina i to proslediti kao parametar ovde
-            //(ako planiras da imas samo jednog admina nije neophodno, moze i hardcode)
+            // Ucitati iz logina sesiju admina i to proslediti kao parametar ovde
+            // (ako planiras da imas samo jednog admina nije neophodno, moze i hardcode)
 
             $admin = 1;
             $naziv = $_POST["naziv"];
@@ -100,28 +96,26 @@
             $kategorija = $_POST["kategorija"];
 
 
-            //Ako id knjige pravi problem a nije autoinc, samo registrujes poslednji+1
-
-
-
             // Upit za dodavanje podataka u bazu
             $upit="INSERT INTO knjiga (ID_ADMIN, NAZIV_KNJIGA, AUTOR_KNJIGA, GODINA_IZDAVANJA_KNJIGA, KATEGORIJA) 
             VALUES ($admin, '$naziv', '$autor', $godinaIzdavanja, '$kategorija')";
 
+            echo $upit
 
-            // $odgovor="";
-            
-            // $rez=mysqli_query($conn, $upit);
-            // while($red=mysqli_fetch_assoc($rez))
-            //     $odgovor.="<div>{$red['id']}: {$red['ime']} {$red['prezime']} ({$red['status']}) - <font color='red'>{$red['lozinka']}</font></div>";
-            // echo $odgovor;
+            $result = mysqli_query($database, $upit);
+
+            if ($result) {
+                echo "Podaci su uspešno upisani u bazu.";
+            } else {
+                echo "Greška pri upisu podataka: " . mysqli_error($database);
+            }
 
 
-            
+
           }
 
         // Zatvaranje konekcije
-        $conn->close();
+        $database->close();
       ?>
 
 
@@ -130,12 +124,21 @@
 
 
     <!-- prikaz knjiga (ovo treba procitati iz baze) -->
-    <div class="container col-8">
+    <div id="citanjeKnjige" class="container col-8">
       <div class="row">
         <ul class="list-group list-group-flush">
           <li class="list-group-item">Na drini cuprija <br> <span class = "autor">Ivo andric</span></li>
           <li class="list-group-item">Travnicka hronika <br> <span class = "autor">Ivo andric</span></li>
+          <script>
 
+            $(document).ready(function(){
+                    $("#dugme").click(function(){
+                        $.get(".ajax.php?funkcija=prikaziKnjige", function(response){
+                            $("#odgovor").html(response);
+                        })
+                    }) 
+
+          </script>
       </div>
     </div>
 
