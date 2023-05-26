@@ -42,7 +42,7 @@
             <!-- PRETRAGA PREMA NAZIVU KNJIGE I AUTORU -->
 
             <!-- sortiranje -->
-            <button type="button" class="btn btn-outline-dark">Sort</button>
+            <button name="btnSort" id="btnSort" type="button" class="btn btn-outline-dark">Sort</button>
             <!-- SORTIRANJE PREMA NAZIVU, AUTORU, DOSTUPNOSTI, KATEGORIJA -->
             <!-- AKO SORTIRAŠ PREMA DOSTUPNOSTI UKLJUČITI MOGUĆNOST REZERVACIJE. -->
           </div>
@@ -109,14 +109,11 @@
                 echo "Greška pri upisu podataka: " . mysqli_error($database);
             }
 
-
-
           }
 
         // Zatvaranje konekcije
         $database->close();
       ?>
-
 
     </div>
    
@@ -124,15 +121,16 @@
 
     <!-- prikaz knjiga -->
     <script>
-
             $(document).ready(function(){
-                    $("#btnDodaj").click(function(){
-                        $.get(".ajax.php?funkcija=prikaziKnjige", function(response){
+                    $("#btnSort").click(function(){
+                        $.get("ajax/ajax.php?funkcija=prikaziKnjige", function(response){
                             $("#citanjeKnjiga").html(response);
                         })
                     }) 
                   })
           </script>
+
+    
     <div id="citanjeKnjiga" class="container col-8">
       <!-- 
         FORMAT ISPISA
