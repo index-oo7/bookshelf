@@ -1,3 +1,14 @@
+<?php
+  $database=mysqli_connect("localhost", "root", "", "homelib");
+  mysqli_query($database, "SET NAMES utf8");
+
+  // Provera konekcije sa bazom
+  if (!$database) {
+    die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,10 +61,13 @@
     </nav>
 
 
+
+    <!-- DODAVANJE KNJIGA -->
+
     <div id="dodavanjeKnjige" class="prozor">
 
       <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
-      <form method="POST" action="createBook.php">
+      <form method="POST" action="index.php">
           <label for="naziv">Naziv:</label>
           <input type="text" name="naziv" id="naziv" required><br><br>
 
@@ -69,34 +83,54 @@
           <input type="hidden" name="admin" id="admin" value="1">
           <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
 
-          <input type="submit" name="createBook" id="createBook" value="submit">
+          <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Add Book</button>
           
       </form> 
 
     </div> 
+
+    <?php
+
+      if(isset($_POST['btnDodaj'])){
+    
+        //Kupimo vrednosti iz post zahteva
+        $admin = $_POST['admin'];
+        $naziv = $_POST['naziv'];
+        $autor = $_POST['autor'];
+        $godinaIzdavanja = $_POST['godinaIzdavanja'];
+        $kategorija = $_POST['kategorija'];
+
+        // Slanje upita za upis knjige u bazu
+        $upit = "INSERT INTO knjiga (ID_ADMIN, NAZIV_KNJIGA, AUTOR_KNJIGA, GODINA_IZDAVANJA_KNJIGA, KATEGORIJA) 
+        VALUES ({$admin}, '{$naziv}', '{$autor}', {$godinaIzdavanja}, '{$kategorija}')";
+        mysqli_query($database, $upit);
+
+        // Nakon kreiranja osvezava stranicu
+        header("Location: index.php");
+      }
+
+    ?>
+
+
+    <!-- PRIKAZ KNJIGA -->
     
     <div id="prikazKnjiga" class="container col-8">
-       
         <div class="row">
         <ul class="list-group list-group-flush">
+          
           <?php
-            $database=mysqli_connect("localhost", "root", "", "homelib");
-            mysqli_query($database, "SET NAMES utf8");
-
+  
             $odgovor="";
             $upit = 'SELECT * FROM knjiga';
             $rez = mysqli_query($database, $upit);
             while($red = mysqli_fetch_assoc($rez))
-              $odgovor.="<li id='{$red['ID_KNJIGA']}' class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span></li>";
+              $odgovor.="<li id='id{$red['ID_KNJIGA']}' class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></li>";
             echo $odgovor;
-            
-            // ZATVARANJE BAZE
-            mysqli_close($database);
-          ?>
+
+            ?>
+
       </div>
     </div>
-
-
 
     <script>
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,3 +157,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+<?php
+// ZATVARANJE BAZE
+mysqli_close($database);
+?>
