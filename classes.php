@@ -1,14 +1,5 @@
 <?php
-class Database{
-    private $host = "localhost";
-    private $user = "root";
-    private $pass = "";
-    private $name = "homelib";
 
-    function connect(){
-        return mysqli_connect($this->host, $this->user, $this->pass, $this->name); 
-    }
-}
 
 
 class knjiga {

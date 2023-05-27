@@ -69,92 +69,96 @@
           <button name="btnDodaj" id="btnDodaj" type="submit" class="btn btn-outline-dark">Add Book</button>
           
       </form> 
-
-      <!-- PHP koji se bavi dodavanjem knjige u bazu podataka -->
-
-      <?php
-        // Povezivanje sa bazom podataka
-        $database=mysqli_connect("localhost", "root", "", "homelib");
-        mysqli_query($database, "SET NAMES utf8");
-
-
-        // Provera konekcije
-        if ($database->connect_error) {
-            die("Greška prilikom povezivanja sa bazom podataka: " . $database->connect_error);
-        }
-
-        // Obrada podataka iz forme
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-            // Ucitati iz logina sesiju admina i to proslediti kao parametar ovde
-            // (ako planiras da imas samo jednog admina nije neophodno, moze i hardcode)
-
-            $admin = 1; //izvuci iz sesije
-            $naziv = $_POST["naziv"];
-            $autor = $_POST["autor"];
-            $godinaIzdavanja = $_POST["godinaIzdavanja"];
-            $kategorija = $_POST["kategorija"];
-
-
-            // Upit za dodavanje podataka u bazu
-            $upit="INSERT INTO knjiga (ID_ADMIN, NAZIV_KNJIGA, AUTOR_KNJIGA, GODINA_IZDAVANJA_KNJIGA, KATEGORIJA) 
-            VALUES ($admin, '$naziv', '$autor', $godinaIzdavanja, '$kategorija')";
-
-
-            // $result = mysqli_query($database, $upit);
-
-            if ($database->query($upit) === TRUE) {
-                echo "Podaci su uspešno upisani u bazu.";
-            } else {
-                echo "Greška pri upisu podataka: " . mysqli_error($database);
-            }
-
-          }
-
-        // Zatvaranje konekcije
-        $database->close();
-      ?>
-
     </div>
    
 
 
-    <!-- prikaz knjiga -->
     <script>
-            $(document).ready(function(){
-                    $("#btnSort").click(function(){
-                        $.get("ajax.php?funkcija=prikaziKnjige", function(response){
-                            $("#citanjeKnjiga").html(response);
-                        })
-                    }) 
-                  })
-          </script>
+
+      $(document).ready(function(){
+
+        $("#btnDodaj").click(function(){
+
+          let admin = 1; //uvek imam samo 1 admina, resicu ovo preko sesija na kraju
+          let naziv = $("#naziv").val();
+          let autor = $("#autor").val();
+          let godinaIzdavanja = $("#godinaIzdavanja").val();
+          let kategorija = $("#kategorija").val();
+
+          $.post("ajax.php?funkcija=dodajKnjigu", {admin:admin, naziv:naziv, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
+            // citanje knjiga
+            $("#prikazKnjiga").html(response);
+          })
+
+        })
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // 1. Dodati dugme za brisanje knjige
+        // 2. Dodati dugme za izmenu knjige
+        // 3. Dodati formu za izmenu knjige
+        // 4. Dodati login/register stranicu + odjavu home page
+        // 5. Dodati pretragu pojmova (imas vec ceo algoritam u pva zad5)
+        // 6. Dodati sortiranje po select izboru (ChatGPT da uradi algoritam)
+        // 7. Dodati info za svaku knjigu mogucnost rezervacije knjige
+        //    - u info spada i to da li je knjiga trenutno dostupna ili ne, svakako rezervacija se pravi od prvog dostupnog dana.
+        //    - ograniciti rezervaciju na mesec dana
+        // 8. Smisliti kako da prosledis ID knjige ukoliko ispisujes dugmad za brisanje i izmenu u sklopu ispisa info o knjizi.
+
+
+
+      //   $("#btnObrisi").click(function(){
+
+      //     let admin = 1; //uvek imam samo 1 admina, resicu ovo preko sesija na kraju
+      //     let id = id;
+      //     let naziv = $("#naziv").val();
+      //     let autor = $("#autor").val();
+
+      //     $.post("ajax.php?funkcija=obrisiKnjigu", {admin:admin, id:id, naziv:naziv, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
+      //       // citanje knjiga
+      //       $("#prikazKnjiga").html(response);
+      //     })
+
+      //   })
+
+      //   $("#btnIzmeni").click(function(){
+
+      //     let admin = 1; //uvek imam samo 1 admina, resicu ovo preko sesija na kraju
+      //     let id = id;
+      //     let naziv = $("#naziv").val();
+      //     let autor = $("#autor").val();
+
+      //     //jos jedna forma za podatke koji treba da se upisu
+
+      //     $.post("ajax.php?funkcija=izmeniKnjigu", {admin:admin, id:id, naziv:naziv, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
+      //       // citanje knjiga
+      //       $("#prikazKnjiga").html(response);
+      //     })
+
+      //   })
+
+
+      })
+
+    </script>
 
     
-    <div id="citanjeKnjiga" class="container col-8">
-      <!-- 
-        FORMAT ISPISA
+    <div id="prikazKnjiga" class="container col-8">
+       
         <div class="row">
         <ul class="list-group list-group-flush">
           
-          <li class="list-group-item">Na drini cuprija <br> <span class = "autor">Ivo andric</span></li>
-          <li class="list-group-item">Travnicka hronika <br> <span class = "autor">Ivo andric</span></li> 
+          <li class="list-group-item">Prva knjiga <br> <span class = "autor">prvi autor</span></li>
+          <li class="list-group-item">Druga knjiga <br> <span class = "autor">drugi autor</span></li> 
         
 
-      </div> -->
+      </div>
     </div>
-
-
-
-
-
-
-
 
     <!-- zatamljenje kada se otvara prozor -->
     <div id="pozadina"></div>
 
-    <!-- konekcija JS-a -->
+    <!-- konekcija JS fajla koji se bavi animacijama -->
     <script src="script.js"></script>
 
     <!-- konekcija bootrstrap-ovog JS-a -->

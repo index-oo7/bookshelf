@@ -1,6 +1,6 @@
 <?php
 // KUPIMO FUNKCIJU I KONEKTUJEMO SE NA BAZU
-$funkcija=$_GET['funkcija'];
+$funkcija=$_POST['funkcija'];
 
 $database=mysqli_connect("localhost", "root", "", "homelib");
 mysqli_query($database, "SET NAMES utf8");
@@ -10,8 +10,17 @@ if (!$database) {
     die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
 }
 
+
+
+
+
+
 // DEFINICIJA FUNKCIJE ZA PRIKAZ
 function prikaziKnjige(){
+
+    //Dodajemo globalnu promenljivu
+    global $database; 
+
     $odgovor="";
 
     // Izvršavanje upita za čitanje podataka iz tabele
@@ -23,35 +32,74 @@ function prikaziKnjige(){
         // Iteriranje kroz svaki red rezultata
         while($red=mysqli_fetch_assoc($rez)){
             // Prikazivanje podataka iz reda
-            $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']} <span class = 'autor'> {$red['AUTOR_KNJIGA']} </span> <br>{$red['GODINA_IZDAVANJA_KNJIGA']} {$red['KATEGORIJA']} </li> <br>";
+            $odgovor.="<li class='list-group-item'>{$red['ID_KNJIGA']: $red['NAZIV_KNJIGA']} <span class = 'autor'> {$red['AUTOR_KNJIGA']} </span> <br>{$red['GODINA_IZDAVANJA_KNJIGA']} {$red['KATEGORIJA']} </li> <br>";
         }
     } else {
         $odgovor = "Nema podataka u tabeli.";
     }
     
-    return $odgovor;
+    echo $odgovor;
 }
+
+
+
+// DEFINICIJA FUNKCIJE ZA DODAVANJE
+function dodajKnjigu(){
+
+    //Dodajemo globalnu promenljivu
+    global $database; 
+
+    //Kupimo vrednosti iz post zahteva
+    $admin = $_POST['admin'];
+    $naziv = $_POST['naziv'];
+    $autor = $_POST['autor'];
+    $godinaIzdavanja = $_POST['godina$godinaIzdavanja'];
+    $kategorija = $_POST['kategorija'];
+
+    $upit = "INSERT INTO knjiga (ID_ADMIN, NAZIV_KNJIGA, AUTOR_KNJIGA, GODINA_IZDAVANJA_KNJIGA, KATEGORIJA) VALUES ($admin, '$naziv', '$autor', $godinaIzdavanja, '$kategorija')";
+    mysqli_query($database, $upit);
+
+    return prikaziKnjige();
+}
+
+
+
+
+
 
 // DEFINICIJA FUNKCIJE ZA BRISANJE
 function obrisiKnjigu(){
-    $odgovor='';
-    $id_knjiga = $_POST['id_knjiga']
-    $upit = "DELETE FROM knjige WHERE ID = ('{$id_knjiga}') ;";
-    $rez = mysqli_query($database, $upit);
 
-    prikaziKnjige()
+    //Dodajemo globalnu promenljivu
+    global $database; 
+
+    $odgovor="";
+    $id_knjiga = $_POST['id_knjiga'];
+    $upit = "DELETE FROM knjiga WHERE ID = '{$id_knjiga}' ;";
+    mysqli_query($database, $upit);
+    
+    
+    return prikaziKnjige();
+}
+
+
+
+if($funkcija == "prikaziKnjige") {
+    return prikaziKnjige();
+}
+
+if($funkcija == "dodajKnjigu") {
+    return dodajKnjigu(); 
+}
+
+if($funkcija == "obrisiKnjigu") {
+    return obrisiKnjigu();
 }
 
 
 
 
-if($funkcija == "prikaziKnjige") prikaziKnjige();
 
-if($funkcija == "dodajKnjigu") dodajKnjigu();
-
-if($funkcija == "obrisiKnjigu") obrisiKnjigu();
-
-if($funkcija == "izmeniKnjigu") izmeniKnjigu();
 
 
 
