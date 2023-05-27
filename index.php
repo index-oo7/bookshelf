@@ -45,6 +45,13 @@
             <!-- dodavanje knjige -->
             <button name="btnDodajKnjigu" id="btnDodajKnjigu" type="button" class="btn btn-outline-dark">Add Book</button>
 
+            <!-- izmena knjige -->
+            <button name="btnIzmeniKnjigu" id="btnIzmeniKnjigu" type="button" class="btn btn-outline-dark">Change Book</button>
+
+            <!-- brisanje knjige -->
+            <button name="btnObrisiKnjigu" id="btnObrisiKnjigu" type="button" class="btn btn-outline-dark">Delete Book</button>
+
+
             <!-- pretraga -->
             <form id="searchBar" class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" id="search" aria-label="Search">
@@ -53,7 +60,7 @@
             <!-- PRETRAGA PREMA NAZIVU KNJIGE I AUTORU -->
 
             <!-- sortiranje -->
-            <button name="btnSort" id="btnSort" type="button" onclick='prikaz()' class="btn btn-outline-dark">Sort</button>
+            <button name="btnSort" id="btnSort" type="button" class="btn btn-outline-dark">Sort</button>
             <!-- SORTIRANJE PREMA NAZIVU, AUTORU, DOSTUPNOSTI, KATEGORIJA -->
             <!-- AKO SORTIRAŠ PREMA DOSTUPNOSTI UKLJUČITI MOGUĆNOST REZERVACIJE. -->
           </div>
@@ -83,7 +90,7 @@
           <input type="hidden" name="admin" id="admin" value="1">
           <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
 
-          <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Add Book</button>
+          <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Save Book</button>
           
       </form> 
 
@@ -124,7 +131,7 @@
             $upit = 'SELECT * FROM knjiga';
             $rez = mysqli_query($database, $upit);
             while($red = mysqli_fetch_assoc($rez))
-              $odgovor.="<li id='id{$red['ID_KNJIGA']}' class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></li>";
+              $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></li>";
             echo $odgovor;
 
             ?>
@@ -132,18 +139,121 @@
       </div>
     </div>
 
+
+
+  <!-- IZMENA KNJIGE -->
+
+    <div id="izmenaKnjige" class="prozor">
+
+      <!-- Forma za izmenu knjiga u lokalnoj bazi podataka -->
+      <form method="POST" action="index.php">
+
+        <select name="izborIzmene" id="izborIzmene">
+          <?php
+            $odgovor="";
+            $upit = 'SELECT * FROM knjiga';
+            $rez = mysqli_query($database, $upit);
+            while($red = mysqli_fetch_assoc($rez))
+              $odgovor.="<option value='{$red['ID_KNJIGA']}'>{$red['NAZIV_KNJIGA']}</option>";
+            echo $odgovor;
+          ?>
+        </select>
+
+
+        <!-- Forma u kojoj treba uneti podatke za izmenu -->
+        <h3>Ovde unesite izmene:</h3>
+
+        <label for="naziv">Naziv:</label>
+          <input type="text" name="naziv" id="naziv"><br><br>
+
+          <label for="autor">Autor:</label>
+          <input type="text" name="autor" id="autor"><br><br>
+
+          <label for="godinaIzdavanja">Godina izdavanja:</label>
+          <input type="text" name="godinaIzdavanja" id="godinaIzdavanja"><br><br>
+
+          <label for="kategorija">Kategorija:</label>
+          <input type="text" name="kategorija" id="kategorija"><br><br>
+
+          <input type="hidden" name="admin" id="admin" value="1">
+          <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
+  
+
+        <button type="submit" name="btnIzmeni" id="btnIzmeni" value="submit" class="btn btn-outline-dark">Save changes</button>
+          
+      </form> 
+
+    </div> 
+
+    <?php
+
+      if(isset($_POST['btnIzmeni'])){
+
+        //Kupimo vrednosti iz post zahteva
+        $izborIzmene = $_POST['izborIzmene'];
+        $naziv = $_POST['naziv'];
+        $autor = $_POST['autor'];
+        $godinaIzdavanja = $_POST['godinaIzdavanja'];
+        $kategorija = $_POST['kategorija'];
+
+        
+        // Slanje upita za upis knjige u bazu
+        $upit = "UPDATE knjiga 
+        SET NAZIV_KNJIGA = '{$naziv}', AUTOR_KNJIGA = '{$autor}', GODINA_IZDAVANJA_KNJIGA = '{$godinaIzdavanja}', KATEGORIJA = '{$kategorija}'
+        WHERE ID_KNJIGA = '{$izborIzmene}' ";
+        mysqli_query($database, $upit);
+        
+      }
+
+    
+    ?>
+
+    <!-- BRISANJE KNJIGE -->
+
+    <div id="brisanjeKnjige" class="prozor">
+      <form method="POST" action="index.php">
+        <h3>Ovde izaberite koju knjigu zelite da obrisete</h3>
+        <select name="izborBrisanja" id="izborBrisanja">
+          <?php
+            $odgovor="";
+            $upit = 'SELECT * FROM knjiga';
+            $rez = mysqli_query($database, $upit);
+            while($red = mysqli_fetch_assoc($rez))
+              $odgovor.="<option value='{$red['ID_KNJIGA']}'>{$red['NAZIV_KNJIGA']}</option>";
+            echo $odgovor;
+          ?>
+
+        </select><br><br>
+        
+        <button type="submit" name="btnObrisi" id="btnObrisi" value="submit" class="btn btn-outline-dark">Delete book</button>
+
+      </form>
+
+    </div>
+
+    <?php
+      if(isset($_POST['btnObrisi'])){
+
+        //Kupimo vrednosti iz post zahteva
+        
+        $izborBrisanja = $_POST['izborBrisanja'];
+
+        // Slanje upita za upis knjige u bazu
+        $upit = "DELETE FROM knjiga
+        WHERE ID_KNJIGA = '$izborBrisanja'";
+        mysqli_query($database, $upit);
+        
+      }
+    ?>
+
     <script>
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // 1. Dodati dugme za brisanje knjige
-        // 2. Dodati dugme za izmenu knjige
-        // 3. Dodati formu za izmenu knjige
         // 4. Dodati login/register stranicu + odjavu home page
         // 5. Dodati pretragu pojmova (imas vec ceo algoritam u pva zad5)
         // 6. Dodati sortiranje po select izboru (ChatGPT da uradi algoritam)
         // 7. Dodati info za svaku knjigu mogucnost rezervacije knjige
         //    - u info spada i to da li je knjiga trenutno dostupna ili ne, svakako rezervacija se pravi od prvog dostupnog dana.
         //    - ograniciti rezervaciju na mesec dana
-        // 8. Smisliti kako da prosledis ID knjige ukoliko ispisujes dugmad za brisanje i izmenu u sklopu ispisa info o knjizi.
     </script>
 
 
