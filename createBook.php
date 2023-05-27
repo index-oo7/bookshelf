@@ -21,7 +21,7 @@ if (!$database) {
     VALUES ({$admin}, '{$naziv}', '{$autor}', {$godinaIzdavanja}, '{$kategorija}')";
     mysqli_query($database, $upit);
 
-    // Nakon 
+    // Nakon kreiranja redirektuje na index.php
     header("Location: index.php");
 
 

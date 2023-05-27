@@ -83,10 +83,11 @@
             $database=mysqli_connect("localhost", "root", "", "homelib");
             mysqli_query($database, "SET NAMES utf8");
 
+            $odgovor="";
             $upit = 'SELECT * FROM knjiga';
             $rez = mysqli_query($database, $upit);
             while($red = mysqli_fetch_assoc($rez))
-              $odgovor.="<li id='{$id_knjiga}' class='list-group-item'>{$naziv_knjiga}<br><span class = 'autor'>{$naziv_knjiga}</span></li>"
+              $odgovor.="<li id='{$red['ID_KNJIGA']}' class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span></li>";
             echo $odgovor;
             
             // ZATVARANJE BAZE
