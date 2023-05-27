@@ -1,7 +1,5 @@
 <?php
 
-
-
 class knjiga {
     public $id;
     public $naziv;
