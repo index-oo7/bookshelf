@@ -61,8 +61,19 @@
             <!-- PRETRAGA PREMA NAZIVU KNJIGE I AUTORU -->
 
             <!-- sortiranje -->
-            <button name="btnSort" id="btnSort" type="button" class="btn btn-outline-dark">Sort</button>
-            <!-- SORTIRANJE PREMA NAZIVU, AUTORU, DOSTUPNOSTI, KATEGORIJA -->
+            <div class="dropdown">
+            <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" name="btnSortiranje" id="btnSortiranje">
+              Sortiraj
+            </button>
+            <ul class="dropdown-menu" name="sortiranje" id="sortiranje">
+              <li id="sortNaziv"><a class="dropdown-item">Naziv</a></li>
+              <li id="sortAutor"><a class="dropdown-item">Autor</a></li>
+              <li id="sortKategorija"><a class="dropdown-item">Kategorija</a></li>
+              <li id="sortDostupno"><a class="dropdown-item">Dostupno</a></li>
+              <li id="sortRezervisano"><a class="dropdown-item">Rezervisano</a></li>
+            </ul>
+          </div>
+            
             <!-- AKO SORTIRAŠ PREMA DOSTUPNOSTI UKLJUČITI MOGUĆNOST REZERVACIJE. -->
           </div>
         </div>
@@ -288,7 +299,6 @@
     <script>
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 4. Dodati login/register stranicu + odjavu home page
-        // 5. Dodati pretragu pojmova (imas vec ceo algoritam u pva zad5)
         // 6. Dodati sortiranje po select izboru (ChatGPT da uradi algoritam)
         // 7. Dodati info za svaku knjigu mogucnost rezervacije knjige
         //    - u info spada i to da li je knjiga trenutno dostupna ili ne, svakako rezervacija se pravi od prvog dostupnog dana.
