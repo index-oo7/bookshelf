@@ -53,9 +53,10 @@
 
 
             <!-- pretraga -->
-            <form id="searchBar" class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" id="search" aria-label="Search">
-              <button class="btn btn-outline-dark" type="submit">Search</button>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" name="pretraga" id="pretraga" aria-label="Search">
+              <div id="rezultatiPretrage"></div>
+              <button class="btn btn-outline-dark" type="submit" name="btnPretrazi" id="btnPretrazi">Search</button>
             </form>
             <!-- PRETRAGA PREMA NAZIVU KNJIGE I AUTORU -->
 
@@ -121,10 +122,10 @@
 
     <!-- PRIKAZ KNJIGA -->
     
-    <div id="prikazKnjiga" class="container col-8">
-        <div class="row">
-        <ul class="list-group list-group-flush">
-          
+    <div class="container col-8">
+        <div class="row" id="prikazKnjiga" >
+        <ul class="list-group list-group-flush"> 
+
           <?php
   
             $odgovor="";
@@ -136,12 +137,13 @@
 
             ?>
 
+        </ul>
       </div>
     </div>
 
 
 
-  <!-- IZMENA KNJIGE -->
+    <!-- IZMENA KNJIGE -->
 
     <div id="izmenaKnjige" class="prozor">
 
@@ -245,6 +247,43 @@
         
       }
     ?>
+
+
+    <script>
+      $(document).ready(function () {
+        $("#pretraga").on("input", function() {
+          
+        });
+
+        function pozicijaRezultataPretrage() {
+          var searchInputOffset = $("#pretraga").offset();
+          var searchInputHeight = $("#pretraga").outerHeight();
+          $("#rezultatiPretrage").css({
+            top: searchInputOffset.top + searchInputHeight + 5,
+            left: searchInputOffset.left,
+            width: $("#pretraga").outerWidth()
+          });
+        }
+
+          $(window).resize(function() {
+            pozicijaRezultataPretrage();
+          });
+
+          $("#pretraga").on("input", function() {
+            var terminPretrage = $(this).val();
+            if (terminPretrage.length >= 2) {
+              $.post("ajax.php", { terminPretrage: terminPretrage }, function(response) {
+                $("#rezultatiPretrage").html(response);
+              });
+            } else {
+              $("#rezultatiPretrage").empty();
+            }
+          });
+
+          pozicijaRezultataPretrage();
+      })
+    </script>
+
 
     <script>
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
