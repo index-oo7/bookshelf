@@ -38,7 +38,7 @@
         <div class="container-fluid">
 
           <!-- logo -->
-          <a id="logo" class="navbar-brand fa-fade" href="index.html">Bookshelf <sup>©</sup></a>
+          <a id="logo" class="navbar-brand fa-fade" href="index.php">Bookshelf <sup>©</sup></a>
 
           <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
             
@@ -51,6 +51,8 @@
             <!-- brisanje knjige -->
             <button name="btnObrisiKnjigu" id="btnObrisiKnjigu" type="button" class="btn btn-outline-dark">Obrisi knjigu</button>
 
+            <!-- rezervacija knjige -->
+            <button name="btnRezervisiKnjigu" id="btnRezervisiKnjigu" type="button" class="btn btn-outline-dark">Rezervisi knjigu</button>
 
             <!-- pretraga -->
             <form class="d-flex" role="search">
@@ -65,16 +67,15 @@
             <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" name="btnSortiranje" id="btnSortiranje">
               Sortiraj
             </button>
-            <ul class="dropdown-menu" name="sortiranje" id="sortiranje">
-              <li id="sortNaziv"><a class="dropdown-item">Naziv</a></li>
-              <li id="sortAutor"><a class="dropdown-item">Autor</a></li>
-              <li id="sortKategorija"><a class="dropdown-item">Kategorija</a></li>
-              <li id="sortDostupno"><a class="dropdown-item">Dostupno</a></li>
-              <li id="sortRezervisano"><a class="dropdown-item">Rezervisano</a></li>
-            </ul>
-          </div>
-            
-            <!-- AKO SORTIRAŠ PREMA DOSTUPNOSTI UKLJUČITI MOGUĆNOST REZERVACIJE. -->
+              <ul class="dropdown-menu" name="sortiranje" id="sortiranje">
+                <li id="sortNaziv"><a class="dropdown-item">Naziv</a></li>
+                <li id="sortAutor"><a class="dropdown-item">Autor</a></li>
+                <li id="sortKategorija"><a class="dropdown-item">Kategorija</a></li>
+                <li id="sortDostupno"><a class="dropdown-item">Dostupno</a></li>
+                <li id="sortRezervisano"><a class="dropdown-item">Rezervisano</a></li>
+              </ul>
+            </div>
+
           </div>
         </div>
     </nav>
@@ -102,7 +103,7 @@
           <input type="hidden" name="admin" id="admin" value="1">
           <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
 
-          <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Save Book</button>
+          <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Sačuvaj knjigu</button>
           
       </form> 
 
@@ -190,7 +191,7 @@
           <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
   
 
-        <button type="submit" name="btnIzmeni" id="btnIzmeni" value="submit" class="btn btn-outline-dark">Save changes</button>
+        <button type="submit" name="btnIzmeni" id="btnIzmeni" value="submit" class="btn btn-outline-dark">Sačuvaj izmene</button>
           
       </form> 
 
@@ -224,7 +225,7 @@
 
     <div id="brisanjeKnjige" class="prozor">
       <form method="POST" action="index.php">
-        <h3>Ovde izaberite koju knjigu zelite da obrisete</h3>
+        <h3>Ovde izaberite koju knjigu zelite da obrišete:</h3>
         <select name="izborBrisanja" id="izborBrisanja">
           <?php
             $odgovor="";
@@ -237,7 +238,7 @@
 
         </select><br><br>
         
-        <button type="submit" name="btnObrisi" id="btnObrisi" value="submit" class="btn btn-outline-dark">Delete book</button>
+        <button type="submit" name="btnObrisi" id="btnObrisi" value="submit" class="btn btn-outline-dark">Obriši knjigu</button>
 
       </form>
 
@@ -259,13 +260,79 @@
       }
     ?>
 
+    <!-- REZERVISANJE KNJIGE -->
+
+    <div id="rezervacijaKnjige" class="prozor">
+    <form method="POST" action="index.php">
+        <h3>Ovde izaberite koju knjigu zelite da rezervišete:</h3>
+        <select name="izborRezervacije" id="izborRezervacije">
+          <?php
+            $odgovor="";
+
+            //prikaz samo dostupnih knjiga
+            $upit = "SELECT * FROM knjiga WHERE ID_KNJIGA NOT IN (SELECT ID_KNJIGA FROM rezervacija)";
+            $rez = mysqli_query($database, $upit);
+            while($red = mysqli_fetch_assoc($rez))
+              $odgovor.="<option value='{$red['ID_KNJIGA']}'>{$red['NAZIV_KNJIGA']}</option>";
+            echo $odgovor;
+          ?>
+
+        </select><br><br>
+        
+        <p>Rezervacija traje 5 dana od trenutka rezervisanja.</p>
+
+
+        <button type="submit" name="btnRezervisi" id="btnRezervisi" value="submit" class="btn btn-outline-dark">Rezerviši knjigu</button>
+
+
+      </form>
+    </div>
+    <?php
+    
+  //   // Provera konekcije sa bazom
+  //   if (!$database) {
+  //     die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
+  //    }
+
+  //     if(isset($_POST['btnRezervisi']) and isset($_POST['izborRezervacije'])){
+
+  //       $idKnjiga = $_POST['izborRezervacije'];
+  //       $idKorisnik = 1;//sesija korisnika
+
+  //       // formiranje datuma za pocetak i kraj rezervacije
+  //       $pocetakRezervacije = strtotime("now");
+  //       $krajRezervacije = $pocetakRezervacije + (24*60*60*5);
+
+  //       $pocetak = date("Y-m-d H:i:s", $pocetakRezervacije);
+  //       $kraj = date("Y-m-d H:i:s", $krajRezervacije);
+
+      
+  //       // Provera da li se id_knjiga nalazi u tabeli rezervacija
+  //       $upit = "SELECT * FROM rezervacija WHERE id_knjiga = $id_knjiga";
+
+  //       $rezultat = mysqli_query($database, $upit);
+
+  //       if (mysqli_num_rows($rezultat) > 0) {
+  //           // Id_knjiga se nalazi u tabeli rezervacija
+            
+  //           return;
+            
+  //       } else {
+  //         $upit = "INSERT INTO rezervacija (ID_KORISNIK, ID_KNJIGA, POCETAK_REZERVACIJA, KRAJ_REZERVACIJA)
+  //         VALUES ($idKorisnik, $idKnjiga, '$pocetak', '$kraj')";
+
+  //         // Izvršavanje upita
+  //         mysqli_query($database, $upit);
+  //       }
+  //     }
+    ?>
+
 
     <script>
-      function osveziStranicu() {
-        location.reload();
-      }
+      
 
       $(document).ready(function () {
+        // PRETRAGA
 
         function pozicijaRezultataPretrage() {
           var searchInputOffset = $("#pretraga").offset();
@@ -284,7 +351,7 @@
           $("#pretraga").on("input", function() {
             var terminPretrage = $(this).val();
             if (terminPretrage.length >= 2) {
-              $.post("ajax.php", { terminPretrage: terminPretrage }, function(response) {
+              $.post("ajax.php?funkcija=pretraga", { terminPretrage: terminPretrage }, function(response) {
                 $("#rezultatiPretrage").html(response);
               });
             } else {
@@ -295,15 +362,13 @@
           pozicijaRezultataPretrage();
 
 
-          // sortiranje
+          // SORTIRANJE
+
           $("#sortiranje li").click(function() {
           // Izbor korisnika (tekst stavke koju je kliknuo)
           var kriterijum = $(this).text();
           
-          // Prikaz kriterijuma u konzoli - test
-          console.log("Korisnikov kriterijum: " + kriterijum);
-          
-
+            // po nazivu
           if (kriterijum === "Naziv") {
             let kolona = "NAZIV_KNJIGA";
             $.post("ajax.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
@@ -311,27 +376,27 @@
               });
               
           }
-          
+            // po autoru
           if (kriterijum === "Autor") {
             let kolona = "AUTOR_KNJIGA";
             $.post("ajax.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
                 $("#prikazKnjiga").html(response);
               });
           }
-          
+            // po kategoriji
           if (kriterijum === "Kategorija") {
             let kolona = "KATEGORIJA";
             $.post("ajax.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
                 $("#prikazKnjiga").html(response);
               });
           }
-
+            // dostupne knjige
           if (kriterijum === "Dostupno") {
             $.post("ajax.php?funkcija=sortirajDostupno", function(response) {
                 $("#prikazKnjiga").html(response);
               });
           }
-
+            // rezervisane
           if (kriterijum === "Rezervisano") {
             $.post("ajax.php?funkcija=sortirajRezervisano", function(response) {
                 $("#prikazKnjiga").html(response);
@@ -343,15 +408,6 @@
       })
     </script>
 
-
-    <script>
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // 4. Dodati login/register stranicu + odjavu home page
-        // 6. Dodati sortiranje po select izboru (ChatGPT da uradi algoritam)
-        // 7. Dodati info za svaku knjigu mogucnost rezervacije knjige
-        //    - u info spada i to da li je knjiga trenutno dostupna ili ne, svakako rezervacija se pravi od prvog dostupnog dana.
-        //    - ograniciti rezervaciju na mesec dana
-    </script>
 
 
     <!-- zatamljenje kada se otvara prozor -->
