@@ -20,7 +20,8 @@
             <label for="lozinka">lozinka:</label>
             <input type="password" id="lozinka" name="lozinka" required>
 
-            <button type="submit" name="btnSubmit">Uloguj se</button>
+            <button type="submit" name="btnSubmit" href="../Login/Login.php">Registruj se</button>
+            <div class="warning"><p>Već imate nalog? <b><a href='../Login/Login.php'>Prijavite se</a></b><br></p></div>
         </form>
     </div>
            
@@ -42,9 +43,7 @@
                 $upit="INSERT INTO korisnik (IME_KORISNIK,LOZINKA_KORISNIK) values ('$ime','$lozinka')";
                 mysqli_query($database,$upit);
 
-
-                
-
+                header("Location: ../index.php");
             }
         }
         mysqli_close($database);

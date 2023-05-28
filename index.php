@@ -60,20 +60,19 @@
               <div id="rezultatiPretrage"></div>
               <button class="btn btn-outline-dark" type="submit" name="btnPretrazi" id="btnPretrazi">Search</button>
             </form>
-            <!-- PRETRAGA PREMA NAZIVU KNJIGE I AUTORU -->
 
             <!-- sortiranje -->
             <div class="dropdown">
-            <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" name="btnSortiranje" id="btnSortiranje">
-              Sortiraj
-            </button>
-              <ul class="dropdown-menu" name="sortiranje" id="sortiranje">
-                <li id="sortNaziv"><a class="dropdown-item">Naziv</a></li>
-                <li id="sortAutor"><a class="dropdown-item">Autor</a></li>
-                <li id="sortKategorija"><a class="dropdown-item">Kategorija</a></li>
-                <li id="sortDostupno"><a class="dropdown-item">Dostupno</a></li>
-                <li id="sortRezervisano"><a class="dropdown-item">Rezervisano</a></li>
-              </ul>
+              <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" name="btnSortiranje" id="btnSortiranje">
+                Sortiraj
+              </button>
+                <ul class="dropdown-menu" name="sortiranje" id="sortiranje">
+                  <li id="sortNaziv"><a class="dropdown-item">Naziv</a></li>
+                  <li id="sortAutor"><a class="dropdown-item">Autor</a></li>
+                  <li id="sortKategorija"><a class="dropdown-item">Kategorija</a></li>
+                  <li id="sortDostupno"><a class="dropdown-item">Dostupno</a></li>
+                  <li id="sortRezervisano"><a class="dropdown-item">Rezervisano</a></li>
+                </ul>
             </div>
 
           </div>
