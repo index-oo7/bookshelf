@@ -43,13 +43,13 @@
           <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
             
             <!-- dodavanje knjige -->
-            <button name="btnDodajKnjigu" id="btnDodajKnjigu" type="button" class="btn btn-outline-dark">Add Book</button>
+            <button name="btnDodajKnjigu" id="btnDodajKnjigu" type="button" class="btn btn-outline-dark">Dodaj knjigu</button>
 
             <!-- izmena knjige -->
-            <button name="btnIzmeniKnjigu" id="btnIzmeniKnjigu" type="button" class="btn btn-outline-dark">Change Book</button>
+            <button name="btnIzmeniKnjigu" id="btnIzmeniKnjigu" type="button" class="btn btn-outline-dark">Izmeni knjigu</button>
 
             <!-- brisanje knjige -->
-            <button name="btnObrisiKnjigu" id="btnObrisiKnjigu" type="button" class="btn btn-outline-dark">Delete Book</button>
+            <button name="btnObrisiKnjigu" id="btnObrisiKnjigu" type="button" class="btn btn-outline-dark">Obrisi knjigu</button>
 
 
             <!-- pretraga -->
@@ -124,18 +124,16 @@
         VALUES ({$admin}, '{$naziv}', '{$autor}', {$godinaIzdavanja}, '{$kategorija}')";
         mysqli_query($database, $upit);
 
-        // Nakon kreiranja osvezava stranicu
-        header("Location: index.php");
+        
       }
 
     ?>
 
-
     <!-- PRIKAZ KNJIGA -->
     
     <div class="container col-8">
-        <div class="row" id="prikazKnjiga" >
-        <ul class="list-group list-group-flush"> 
+        <div class="row">
+        <ul class="list-group list-group-flush" id="prikazKnjiga" > 
 
           <?php
   
@@ -216,6 +214,7 @@
         WHERE ID_KNJIGA = '{$izborIzmene}' ";
         mysqli_query($database, $upit);
         
+        
       }
 
     
@@ -255,16 +254,18 @@
         $upit = "DELETE FROM knjiga
         WHERE ID_KNJIGA = '$izborBrisanja'";
         mysqli_query($database, $upit);
+       
         
       }
     ?>
 
 
     <script>
+      function osveziStranicu() {
+        location.reload();
+      }
+
       $(document).ready(function () {
-        $("#pretraga").on("input", function() {
-          
-        });
 
         function pozicijaRezultataPretrage() {
           var searchInputOffset = $("#pretraga").offset();
@@ -292,6 +293,53 @@
           });
 
           pozicijaRezultataPretrage();
+
+
+          // sortiranje
+          $("#sortiranje li").click(function() {
+          // Izbor korisnika (tekst stavke koju je kliknuo)
+          var kriterijum = $(this).text();
+          
+          // Prikaz kriterijuma u konzoli - test
+          console.log("Korisnikov kriterijum: " + kriterijum);
+          
+
+          if (kriterijum === "Naziv") {
+            let kolona = "NAZIV_KNJIGA";
+            $.post("ajax.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
+                $("#prikazKnjiga").html(response);
+              });
+              
+          }
+          
+          if (kriterijum === "Autor") {
+            let kolona = "AUTOR_KNJIGA";
+            $.post("ajax.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
+                $("#prikazKnjiga").html(response);
+              });
+          }
+          
+          if (kriterijum === "Kategorija") {
+            let kolona = "KATEGORIJA";
+            $.post("ajax.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
+                $("#prikazKnjiga").html(response);
+              });
+          }
+
+          if (kriterijum === "Dostupno") {
+            $.post("ajax.php?funkcija=sortirajDostupno", function(response) {
+                $("#prikazKnjiga").html(response);
+              });
+          }
+
+          if (kriterijum === "Rezervisano") {
+            $.post("ajax.php?funkcija=sortirajRezervisano", function(response) {
+                $("#prikazKnjiga").html(response);
+              });
+          }
+
+        });
+
       })
     </script>
 
@@ -314,7 +362,7 @@
 
     <!-- konekcija bootrstrap-ovog JS-a -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>
 
 <?php

@@ -1,5 +1,7 @@
 <?php
 
+$funkcija = $_GET['funkcija'];
+
 $database = mysqli_connect("localhost", "root", "", "homelib");
 mysqli_query($database, "SET NAMES utf8");
 
@@ -26,6 +28,77 @@ if (isset($_POST['terminPretrage'])) {
 }
 
 
+if($funkcija == 'sortirajPoKoloni'){
+    $kolona = $_POST['kolona'];
+    $odgovor="";
+
+    // Izvrši SQL upit za sortiranje
+    $upit = "SELECT * FROM knjiga ORDER BY " . mysqli_real_escape_string($database, $kolona);
+    $rezultat = mysqli_query($database, $upit);
+    
+    // Proveri da li je upit uspešno izvršen
+    if ($rezultat) {
+        // Prikaži rezultate sortiranja
+        while ($red = mysqli_fetch_assoc($rezultat)) {
+            $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></li>";
+        }
+    } else {
+        $odgovor = "Došlo je do greške prilikom sortiranja.";
+    }
+
+    echo $odgovor;
+}
+
+if($funkcija == 'sortirajDostupno'){
+    $odgovor="";
+
+    // Izvrši SQL upit za prikaz nerezervisanih knjiga
+    $upit = "SELECT * FROM knjiga WHERE ID_KNJIGA NOT IN (SELECT ID_KNJIGA FROM rezervacija)";
+    $rezultat = mysqli_query($database, $upit);
+    
+    // Proveri da li je upit uspešno izvršen
+    if ($rezultat) {
+        // Prikaži rezultate sortiranja
+        while ($red = mysqli_fetch_assoc($rezultat)) {
+            $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></li>";
+        }
+    } else {
+        $odgovor = "Došlo je do greške prilikom prikaza dostupnih knjiga.";
+    }
+
+    echo $odgovor;
+}
+
+if($funkcija == 'sortirajRezervisano'){
+    $odgovor="";
+
+    // Izvrši SQL upit za prikaz rezervisanih knjiga
+    $upit = "SELECT * FROM knjiga WHERE ID_KNJIGA IN (SELECT ID_KNJIGA FROM rezervacija)";
+    $rezultat = mysqli_query($database, $upit);
+    
+    // Proveri da li je upit uspešno izvršen
+    if ($rezultat) {
+        // Prikaži rezultate sortiranja
+        while ($red = mysqli_fetch_assoc($rezultat)) {
+            $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></li>";
+        }
+    } else {
+        $odgovor = "Došlo je do greške prilikom prikaza rezervisanih knjiga.";
+    }
+
+    echo $odgovor;
+}
+
+
+// Ukoliko ID knjige ne postoji u tabeli rezervacija onda je ta knjiga dostupna. Ukoliko postoji, iscitati datum pocetka i kraja rezervacije
+// omoguciti rezervaciju mesec dana od dana rezervacije
+// onemoguciti rezervisanje u istom terminu ili terminima koji se preklapaju
+
+
 
 mysqli_close($database);
+
+
 ?>
+
+
