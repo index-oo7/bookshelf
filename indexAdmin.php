@@ -59,31 +59,7 @@ if(isset($_SESSION['admin'])){
             <!-- brisanje knjige -->
             <button name="btnObrisiKnjigu" id="btnObrisiKnjigu" type="button" class="btn btn-outline-dark">Obrisi knjigu</button>
 
-            <!-- rezervacija knjige -->
-            <button name="btnRezervisiKnjigu" id="btnRezervisiKnjigu" type="button" class="btn btn-outline-dark">Rezervisi knjigu</button>
-
-            <!-- pretraga -->
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" name="pretraga" id="pretraga" aria-label="Search">
-              <div id="rezultatiPretrage"></div>
-              <button class="btn btn-outline-dark" type="submit" name="btnPretrazi" id="btnPretrazi">Search</button>
-            </form>
-
-            <!-- sortiranje -->
-            <div class="dropdown">
-              <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" name="btnSortiranje" id="btnSortiranje">
-                Sortiraj
-              </button>
-                <ul class="dropdown-menu" name="sortiranje" id="sortiranje">
-                  <li id="sortNaziv"><a class="dropdown-item">Naziv</a></li>
-                  <li id="sortAutor"><a class="dropdown-item">Autor</a></li>
-                  <li id="sortKategorija"><a class="dropdown-item">Kategorija</a></li>
-                  <li id="sortDostupno"><a class="dropdown-item">Dostupno</a></li>
-                  <li id="sortRezervisano"><a class="dropdown-item">Rezervisano</a></li>
-                </ul>
-            </div>
-            <form method="post" action="indexAdmin.php">
-            <button name="odjava" id="odjava">Odjava</button>
+           
             <!-- odjava -->
             </form>
             <?php
@@ -431,7 +407,7 @@ if(isset($_SESSION['admin'])){
     <div id="pozadina"></div>
 
     <!-- konekcija JS fajla koji se bavi animacijama -->
-    <script src="script.js"></script>
+    <script src="scriptAdmin.js"></script>
 
     <!-- konekcija bootrstrap-ovog JS-a -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

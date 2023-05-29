@@ -48,15 +48,6 @@ if(isset($_SESSION['korisnik'])){
           <a id="logo" class="navbar-brand fa-fade" href="index.php">Bookshelf <sup>©</sup></a>
 
           <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
-            
-            <!-- dodavanje knjige -->
-            <button name="btnDodajKnjigu" id="btnDodajKnjigu" type="button" class="btn btn-outline-dark">Dodaj knjigu</button>
-
-            <!-- izmena knjige -->
-            <button name="btnIzmeniKnjigu" id="btnIzmeniKnjigu" type="button" class="btn btn-outline-dark">Izmeni knjigu</button>
-
-            <!-- brisanje knjige -->
-            <button name="btnObrisiKnjigu" id="btnObrisiKnjigu" type="button" class="btn btn-outline-dark">Obrisi knjigu</button>
 
             <!-- rezervacija knjige -->
             <button name="btnRezervisiKnjigu" id="btnRezervisiKnjigu" type="button" class="btn btn-outline-dark">Rezervisi knjigu</button>
@@ -303,42 +294,42 @@ if(isset($_SESSION['korisnik'])){
     </div>
     <?php
     
-  //   // Provera konekcije sa bazom
-  //   if (!$database) {
-  //     die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
-  //    }
+    // Provera konekcije sa bazom
+    if (!$database) {
+      die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
+     }
 
-  //     if(isset($_POST['btnRezervisi']) and isset($_POST['izborRezervacije'])){
+      if(isset($_POST['btnRezervisi']) and isset($_POST['izborRezervacije'])){
 
-  //       $idKnjiga = $_POST['izborRezervacije'];
-  //       $idKorisnik = 1;//sesija korisnika
+        $idKnjiga = $_POST['izborRezervacije'];
+        $idKorisnik = $_SESSION['korisnik'];//sesija korisnika
 
-  //       // formiranje datuma za pocetak i kraj rezervacije
-  //       $pocetakRezervacije = strtotime("now");
-  //       $krajRezervacije = $pocetakRezervacije + (24*60*60*5);
+        // formiranje datuma za pocetak i kraj rezervacije
+        $pocetakRezervacije = strtotime("now");
+        $krajRezervacije = $pocetakRezervacije + (24*60*60*5);
 
-  //       $pocetak = date("Y-m-d H:i:s", $pocetakRezervacije);
-  //       $kraj = date("Y-m-d H:i:s", $krajRezervacije);
+        $pocetak = date("Y-m-d H:i:s", $pocetakRezervacije);
+        $kraj = date("Y-m-d H:i:s", $krajRezervacije);
 
       
-  //       // Provera da li se id_knjiga nalazi u tabeli rezervacija
-  //       $upit = "SELECT * FROM rezervacija WHERE id_knjiga = $id_knjiga";
+        // Provera da li se id_knjiga nalazi u tabeli rezervacija
+        $upit = "SELECT * FROM rezervacija WHERE id_knjiga = $id_knjiga";
 
-  //       $rezultat = mysqli_query($database, $upit);
+        $rezultat = mysqli_query($database, $upit);
 
-  //       if (mysqli_num_rows($rezultat) > 0) {
-  //           // Id_knjiga se nalazi u tabeli rezervacija
+        if (mysqli_num_rows($rezultat) > 0) {
+            // Id_knjiga se nalazi u tabeli rezervacija
             
-  //           return;
+            return;
             
-  //       } else {
-  //         $upit = "INSERT INTO rezervacija (ID_KORISNIK, ID_KNJIGA, POCETAK_REZERVACIJA, KRAJ_REZERVACIJA)
-  //         VALUES ($idKorisnik, $idKnjiga, '$pocetak', '$kraj')";
+        } else {
+          $upit = "INSERT INTO rezervacija (ID_KORISNIK, ID_KNJIGA, POCETAK_REZERVACIJA, KRAJ_REZERVACIJA)
+          VALUES ($idKorisnik, $idKnjiga, '$pocetak', '$kraj')";
 
-  //         // Izvršavanje upita
-  //         mysqli_query($database, $upit);
-  //       }
-  //     }
+          // Izvršavanje upita
+          mysqli_query($database, $upit);
+        }
+      }
     ?>
 
 
