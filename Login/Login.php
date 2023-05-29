@@ -56,8 +56,9 @@
                 warning.innerHTML += `<br><br><div class='warning'><p>Nalog ne postoji ili je lozinka pogrešna. Registrujte se <b><a href='../SignUp/SignUp.php'>ovde</a></b><br></p></div>`;
                 </script>";
             }else{
-                
-                header('Location: ../index.php');
+                $red = mysqli_fetch_assoc($rez);
+                $_SESSION['korisnik'] = $red['ID_KORISNIK'];
+                header('Location: ../index.php');//korisnik
                 exit;
             }
        }
@@ -74,8 +75,9 @@
             warning.innerHTML += `<br><br><div class='warning'><p>Nalog ne postoji ili je lozinka pogrešna. Registrujte se <b><a href='../SignUp/SignUp.php'>ovde</a></b><br></p></div>`;
             </script>";
         }else{
-            
-            header('Location: ../index.php');
+            $red = mysqli_fetch_assoc($rez);
+            $_SESSION['admin'] = $red['ID_ADMIN'];
+            header('Location: ../indexAdmin.php');//admin
             exit;
         }
    }

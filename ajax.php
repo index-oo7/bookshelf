@@ -90,10 +90,6 @@ if($funkcija == 'sortirajRezervisano'){
 }
 
 
-// Ukoliko ID knjige ne postoji u tabeli rezervacija onda je ta knjiga dostupna. Ukoliko postoji, iscitati datum pocetka i kraja rezervacije
-// omoguciti rezervaciju mesec dana od dana rezervacije
-// onemoguciti rezervisanje u istom terminu ili terminima koji se preklapaju
-
 
 
 mysqli_close($database);

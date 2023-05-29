@@ -8,7 +8,8 @@
 }
 
 session_start();
-if(isset($_SESSION['korisnik'])){
+if(isset($_SESSION['admin'])){
+
 
 }else{
   echo "Morate biti prijavljeni";
@@ -45,7 +46,7 @@ if(isset($_SESSION['korisnik'])){
         <div class="container-fluid">
 
           <!-- logo -->
-          <a id="logo" class="navbar-brand fa-fade" href="index.php">Bookshelf <sup>©</sup></a>
+          <a id="logo" class="navbar-brand fa-fade" href="indexAdmin.php">Bookshelf <sup>©</sup></a>
 
           <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
             
@@ -81,10 +82,8 @@ if(isset($_SESSION['korisnik'])){
                   <li id="sortRezervisano"><a class="dropdown-item">Rezervisano</a></li>
                 </ul>
             </div>
-
             <button>Odjava</button>
             <!-- odjava -->
-
           </div>
         </div>
     </nav>
@@ -96,7 +95,7 @@ if(isset($_SESSION['korisnik'])){
     <div id="dodavanjeKnjige" class="prozor">
 
       <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
-      <form method="POST" action="index.php">
+      <form method="POST" action="indexAdmin.php">
           <label for="naziv">Naziv:</label>
           <input type="text" name="naziv" id="naziv" required><br><br>
 
@@ -108,7 +107,9 @@ if(isset($_SESSION['korisnik'])){
 
           <label for="kategorija">Kategorija:</label>
           <input type="text" name="kategorija" id="kategorija" required><br><br>
-          
+
+          <input type="hidden" name="admin" id="admin" value="1">
+          <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
 
           <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Sačuvaj knjigu</button>
           
@@ -121,7 +122,7 @@ if(isset($_SESSION['korisnik'])){
       if(isset($_POST['btnDodaj'])){
     
         //Kupimo vrednosti iz post zahteva
-        $admin = $_SESSION['prijava'];
+        $admin = $_POST['admin'];
         $naziv = $_POST['naziv'];
         $autor = $_POST['autor'];
         $godinaIzdavanja = $_POST['godinaIzdavanja'];
@@ -165,7 +166,7 @@ if(isset($_SESSION['korisnik'])){
     <div id="izmenaKnjige" class="prozor">
 
       <!-- Forma za izmenu knjiga u lokalnoj bazi podataka -->
-      <form method="POST" action="index.php">
+      <form method="POST" action="indexAdmin.php">
 
         <select name="izborIzmene" id="izborIzmene">
           <?php
@@ -193,7 +194,9 @@ if(isset($_SESSION['korisnik'])){
 
           <label for="kategorija">Kategorija:</label>
           <input type="text" name="kategorija" id="kategorija"><br><br>
-          
+
+          <input type="hidden" name="admin" id="admin" value="1">
+          <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
   
 
         <button type="submit" name="btnIzmeni" id="btnIzmeni" value="submit" class="btn btn-outline-dark">Sačuvaj izmene</button>
@@ -229,7 +232,7 @@ if(isset($_SESSION['korisnik'])){
     <!-- BRISANJE KNJIGE -->
 
     <div id="brisanjeKnjige" class="prozor">
-      <form method="POST" action="index.php">
+      <form method="POST" action="indexAdmin.php">
         <h3>Ovde izaberite koju knjigu zelite da obrišete:</h3>
         <select name="izborBrisanja" id="izborBrisanja">
           <?php
@@ -268,7 +271,7 @@ if(isset($_SESSION['korisnik'])){
     <!-- REZERVISANJE KNJIGE -->
 
     <div id="rezervacijaKnjige" class="prozor">
-    <form method="POST" action="index.php">
+    <form method="POST" action="indexAdmin.php">
         <h3>Ovde izaberite koju knjigu zelite da rezervišete:</h3>
         <select name="izborRezervacije" id="izborRezervacije">
           <?php
