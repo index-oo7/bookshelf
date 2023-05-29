@@ -82,8 +82,17 @@ if(isset($_SESSION['admin'])){
                   <li id="sortRezervisano"><a class="dropdown-item">Rezervisano</a></li>
                 </ul>
             </div>
-            <button>Odjava</button>
+            <form method="post" action="indexAdmin.php">
+            <button name="odjava" id="odjava">Odjava</button>
             <!-- odjava -->
+            </form>
+            <?php
+              if(isset($_POST['odjava'])){
+                session_unset();
+                session_destroy();
+                header("Location: login/login.php");
+              }
+            ?>
           </div>
         </div>
     </nav>
