@@ -268,7 +268,7 @@ if(isset($_SESSION['korisnik'])){
     <!-- REZERVISANJE KNJIGE -->
 
     <div id="rezervacijaKnjige" class="prozor">
-    <form method="POST" action="index.php">
+      <form method="POST">
         <h3>Ovde izaberite koju knjigu zelite da rezervišete:</h3>
         <select name="izborRezervacije" id="izborRezervacije">
           <?php
@@ -285,8 +285,6 @@ if(isset($_SESSION['korisnik'])){
         </select><br><br>
         
         <p>Rezervacija traje 5 dana od trenutka rezervisanja.</p>
-
-
         <button type="submit" name="btnRezervisi" id="btnRezervisi" value="submit" class="btn btn-outline-dark">Rezerviši knjigu</button>
 
 
@@ -294,11 +292,6 @@ if(isset($_SESSION['korisnik'])){
     </div>
     <?php
     
-    // Provera konekcije sa bazom
-    if (!$database) {
-      die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
-     }
-
       if(isset($_POST['btnRezervisi']) and isset($_POST['izborRezervacije'])){
 
         $idKnjiga = $_POST['izborRezervacije'];
@@ -311,22 +304,15 @@ if(isset($_SESSION['korisnik'])){
         $pocetak = date("Y-m-d H:i:s", $pocetakRezervacije);
         $kraj = date("Y-m-d H:i:s", $krajRezervacije);
 
-      
-        // Provera da li se id_knjiga nalazi u tabeli rezervacija
-        $upit = "SELECT * FROM rezervacija WHERE id_knjiga = $id_knjiga";
-
+        // Provera da li se id_knjiga nalazi u tabeli rezervacija (sprecavanje ponovnog unosa pri refresovanju)
+        $upit = "SELECT * FROM rezervacija WHERE id_knjiga = $idKnjiga";
         $rezultat = mysqli_query($database, $upit);
 
         if (mysqli_num_rows($rezultat) > 0) {
-            // Id_knjiga se nalazi u tabeli rezervacija
-            
-            return;
-            
+            // Id_knjiga se nalazi u tabeli rezervacija i nece ga upisati ponovo
+            die();
         } else {
-          $upit = "INSERT INTO rezervacija (ID_KORISNIK, ID_KNJIGA, POCETAK_REZERVACIJA, KRAJ_REZERVACIJA)
-          VALUES ($idKorisnik, $idKnjiga, '$pocetak', '$kraj')";
-
-          // Izvršavanje upita
+          $upit = "INSERT INTO rezervacija (ID_KORISNIK, ID_KNJIGA, POCETAK_REZERVACIJA, KRAJ_REZERVACIJA) VALUES ($idKorisnik, $idKnjiga, '$pocetak', '$kraj')";
           mysqli_query($database, $upit);
         }
       }

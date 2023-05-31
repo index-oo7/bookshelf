@@ -50,6 +50,17 @@ if($funkcija == 'sortirajPoKoloni'){
 }
 
 if($funkcija == 'sortirajDostupno'){
+
+
+    // blok koji se izvrsava kada god izlistavamo dostupno i rezervisano da proverimo kojoj knjizi je rezervacija istekla
+    $trenutniDatum = date("Y-m-d H:i:s");
+    $upitBrisanje = "DELETE FROM rezervacija WHERE KRAJ_REZERVACIJA < '$trenutniDatum'";
+    mysqli_query($database, $upitBrisanje);
+
+
+
+
+
     $odgovor="";
 
     // Izvrši SQL upit za prikaz nerezervisanih knjiga
@@ -70,6 +81,17 @@ if($funkcija == 'sortirajDostupno'){
 }
 
 if($funkcija == 'sortirajRezervisano'){
+    
+
+    // blok koji se izvrsava kada god izlistavamo dostupno i rezervisano da proverimo kojoj knjizi je rezervacija istekla
+    $trenutniDatum = date("Y-m-d H:i:s");
+    $upitBrisanje = "DELETE FROM rezervacija WHERE KRAJ_REZERVACIJA < '$trenutniDatum'";
+    mysqli_query($database, $upitBrisanje);
+
+
+
+    
+
     $odgovor="";
 
     // Izvrši SQL upit za prikaz rezervisanih knjiga
