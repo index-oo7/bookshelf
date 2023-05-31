@@ -88,7 +88,8 @@ if($funkcija == 'sortirajRezervisano'){
     $upitBrisanje = "DELETE FROM rezervacija WHERE KRAJ_REZERVACIJA < '$trenutniDatum'";
     mysqli_query($database, $upitBrisanje);
 
-
+    // test rezervacije kada prodje pet dana
+    // $trenutniDatum = date("Y-m-d H:i:s", strtotime("+6 days"));
 
     
 
@@ -97,12 +98,20 @@ if($funkcija == 'sortirajRezervisano'){
     // Izvrši SQL upit za prikaz rezervisanih knjiga
     $upit = "SELECT * FROM knjiga WHERE ID_KNJIGA IN (SELECT ID_KNJIGA FROM rezervacija)";
     $rezultat = mysqli_query($database, $upit);
+
+    //SQL upit koji treba da nam prikaze vreme vazenja rezervacije
+    $upitRezervacija = "SELECT * FROM rezervacija";
+    $rezultatRezervacija = mysqli_query($database, $upitRezervacija);
+    
     
     // Proveri da li je upit uspešno izvršen
-    if ($rezultat) {
+    if ($rezultat and $rezultatRezervacija) {
         // Prikaži rezultate sortiranja
         while ($red = mysqli_fetch_assoc($rezultat)) {
-            $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></li>";
+            while($redRezervacija = mysqli_fetch_assoc($rezultatRezervacija)){
+                $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br>Rezervacija vazi do: {$redRezervacija['KRAJ_REZERVACIJA']}</li>";
+            }
+            
         }
     } else {
         $odgovor = "Došlo je do greške prilikom prikaza rezervisanih knjiga.";
