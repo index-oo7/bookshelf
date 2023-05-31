@@ -109,7 +109,9 @@ if($funkcija == 'sortirajRezervisano'){
         // Prikaži rezultate sortiranja
         while ($red = mysqli_fetch_assoc($rezultat)) {
             while($redRezervacija = mysqli_fetch_assoc($rezultatRezervacija)){
-                $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br>Rezervacija vazi do: {$redRezervacija['KRAJ_REZERVACIJA']}</li>";
+                $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']}<br>
+                <span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br>
+                Rezervacija vazi do: {$redRezervacija['KRAJ_REZERVACIJA']}</li>";
             }
             
         }

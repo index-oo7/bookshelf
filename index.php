@@ -73,9 +73,9 @@ if(isset($_SESSION['korisnik'])){
                 </ul>
             </div>
 
-            <form method="post" action="index.php">
-            <button name="odjava" id="odjava">Odjava</button>
             <!-- odjava -->
+            <form method="post">
+              <button name="odjava" id="odjava" type="button" class="btn btn-outline-dark">Odjava</button>
             </form>
             <?php
               if(isset($_POST['odjava'])){
