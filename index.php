@@ -75,13 +75,14 @@ if(isset($_SESSION['korisnik'])){
 
             <!-- odjava -->
             <form method="post">
-              <button name="odjava" id="odjava" type="button" class="btn btn-outline-dark">Odjava</button>
+              <button name="odjava" id="odjava" type="submit" class="btn btn-outline-dark">Odjava</button>
             </form>
             <?php
               if(isset($_POST['odjava'])){
                 session_unset();
                 session_destroy();
                 header("Location: login/login.php");
+                exit();
               }
             ?>
 
