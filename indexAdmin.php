@@ -117,8 +117,7 @@ if(isset($_SESSION['admin'])){
         $kategorija = $_POST['kategorija'];
 
         // Slanje upita za upis knjige u bazu
-        $upit = "INSERT INTO knjiga (ID_ADMIN, NAZIV_KNJIGA, AUTOR_KNJIGA, GODINA_IZDAVANJA_KNJIGA, KATEGORIJA) 
-        VALUES ({$admin}, '{$naziv}', '{$autor}', {$godinaIzdavanja}, '{$kategorija}')";
+        $upit = "CALL DodajKnjigu($admin, '$naziv', '$autor', $godinaIzdavanja, '$kategorija')";
         mysqli_query($database, $upit);
 
         
@@ -206,9 +205,7 @@ if(isset($_SESSION['admin'])){
 
         
         // Slanje upita za upis knjige u bazu
-        $upit = "UPDATE knjiga 
-        SET NAZIV_KNJIGA = '{$naziv}', AUTOR_KNJIGA = '{$autor}', GODINA_IZDAVANJA_KNJIGA = '{$godinaIzdavanja}', KATEGORIJA = '{$kategorija}'
-        WHERE ID_KNJIGA = '{$izborIzmene}' ";
+        $upit = "CALL IzmeniKnjigu('$naziv', '$autor', $godinaIzdavanja, '$kategorija', $izborIzmene)";
         mysqli_query($database, $upit);
         
         
@@ -248,8 +245,7 @@ if(isset($_SESSION['admin'])){
         $izborBrisanja = $_POST['izborBrisanja'];
 
         // Slanje upita za upis knjige u bazu
-        $upit = "DELETE FROM knjiga
-        WHERE ID_KNJIGA = '$izborBrisanja'";
+        $upit = "CALL ObrisiKnjigu($izborBrisanja)";
         mysqli_query($database, $upit);
        
         
