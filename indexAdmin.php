@@ -83,7 +83,7 @@ if(isset($_SESSION['admin'])){
     <div id="dodavanjeKnjige" class="prozor">
 
       <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
-      <form method="POST" action="indexAdmin.php">
+      <form method="POST">
           <label for="naziv">Naziv:</label>
           <input type="text" name="naziv" id="naziv" required><br><br>
 
@@ -153,7 +153,7 @@ if(isset($_SESSION['admin'])){
     <div id="izmenaKnjige" class="prozor">
 
       <!-- Forma za izmenu knjiga u lokalnoj bazi podataka -->
-      <form method="POST" action="indexAdmin.php">
+      <form method="POST">
 
         <select name="izborIzmene" id="izborIzmene">
           <?php
@@ -217,7 +217,7 @@ if(isset($_SESSION['admin'])){
     <!-- BRISANJE KNJIGE -->
 
     <div id="brisanjeKnjige" class="prozor">
-      <form method="POST" action="indexAdmin.php">
+      <form method="POST">
         <h3>Ovde izaberite koju knjigu zelite da obrišete:</h3>
         <select name="izborBrisanja" id="izborBrisanja">
           <?php
