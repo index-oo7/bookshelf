@@ -1,2 +1,2 @@
-# homeLib
-System for managing home library.
+# Bookshelf
+System for managing library.
