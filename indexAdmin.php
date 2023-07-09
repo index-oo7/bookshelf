@@ -128,7 +128,7 @@ if(isset($_SESSION['admin'])){
     <!-- PRIKAZ KNJIGA -->
 
     <div class="container col-12">
-      <div class="row">
+      <div class="row" style="margin: 20px;">
           <?php
 
             $odgovor="";
@@ -155,7 +155,7 @@ if(isset($_SESSION['admin'])){
                               </div>
                             </div>
                             </div>"; // postoji jos jedan div koji zatvara red jer je 6. knjiga prikazana
-                $odgovor.="<div class='row'>";
+                $odgovor.="<div class='row'  style='margin: 20px;'>";
               }
               $i++;
             }
