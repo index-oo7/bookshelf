@@ -11,7 +11,7 @@ session_start();
 if(isset($_SESSION['korisnik'])){
 
 }else{
-  echo "Morate biti prijavljeni";
+  echo "Morate biti prijavljeni <br> <a href='./login/login.php'>Prijavite se ovde</a>";
   exit();
 }
 ?>

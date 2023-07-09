@@ -12,7 +12,7 @@ if(isset($_SESSION['admin'])){
 
 
 }else{
-  echo "Morate biti prijavljeni";
+    echo "Morate biti prijavljeni <br> <a href='./login/login.php'>Prijavite se ovde</a>";
   exit();
 }
 ?>
@@ -126,7 +126,7 @@ if(isset($_SESSION['admin'])){
     ?>
 
     <!-- PRIKAZ KNJIGA -->
-    
+
     <div class="container col-12">
       <div class="row">
           <?php
@@ -137,9 +137,24 @@ if(isset($_SESSION['admin'])){
             $i=1;
             while($red = mysqli_fetch_assoc($rez)){
               if($i % 6 != 0){
-                $odgovor.="<div class='col'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></div>";
+                $odgovor.="<div class='col-md-2'>
+                              <div class='card'>
+                                <div class='card-body'>
+                                  <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
+                                  <p class='card-text'><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span></p>
+                                </div>
+                              </div>
+                            </div>";
               }else{
-                $odgovor.="<div class='col'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></div></div>";
+                $odgovor.="<div class='col-md-2'>
+                              <div class='card'>
+                                <div class='card-body'>
+                                  <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
+                                  <p class='card-text'><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span></p>
+                                </div>
+                              </div>
+                            </div>
+                            </div>"; // postoji jos jedan div koji zatvara red jer je 6. knjiga prikazana
                 $odgovor.="<div class='row'>";
               }
               $i++;
