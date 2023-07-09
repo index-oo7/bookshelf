@@ -127,23 +127,28 @@ if(isset($_SESSION['admin'])){
 
     <!-- PRIKAZ KNJIGA -->
     
-    <div class="container col-8">
-        <div class="row">
-        <ul class="list-group list-group-flush" id="prikazKnjiga" > 
-
+    <div class="container col-12">
+      <div class="row">
           <?php
-  
+
             $odgovor="";
             $upit = 'SELECT * FROM knjiga';
             $rez = mysqli_query($database, $upit);
-            while($red = mysqli_fetch_assoc($rez))
-              $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></li>";
+            $i=1;
+            while($red = mysqli_fetch_assoc($rez)){
+              if($i % 6 != 0){
+                $odgovor.="<div class='col'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></div>";
+              }else{
+                $odgovor.="<div class='col'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></div></div>";
+                $odgovor.="<div class='row'>";
+              }
+              $i++;
+            }
+            if($i % 6 != 0) $odgovor.="</div>";
+
             echo $odgovor;
 
             ?>
-
-        </ul>
-      </div>
     </div>
 
 
