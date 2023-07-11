@@ -56,7 +56,7 @@ nav {
   z-index: 900;
   }
 
-  #rezultatiPretrage {
+#rezultatiPretrage {
   position: absolute;
   top: calc(100% + 5px);
   left: 0;
@@ -81,8 +81,4 @@ nav {
 
 #rezultatiPretrage li:hover {
   background-color: #f1f1f1;
-}
-
-.red{
-  margin: 100px;
 }

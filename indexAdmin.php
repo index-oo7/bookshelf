@@ -127,7 +127,7 @@ if(isset($_SESSION['admin'])){
 
     <!-- PRIKAZ KNJIGA -->
 
-    <div class="container col-12">
+    <div class="container col-12" id="prikazKnjiga">
       <div class="row" style="margin: 20px;">
           <?php
 
@@ -137,7 +137,7 @@ if(isset($_SESSION['admin'])){
             $i=1;
             while($red = mysqli_fetch_assoc($rez)){
               if($i % 6 != 0){
-                $odgovor.="<div class='col-md-2'>
+                $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
                               <div class='card'>
                                 <div class='card-body'>
                                   <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
@@ -146,7 +146,7 @@ if(isset($_SESSION['admin'])){
                               </div>
                             </div>";
               }else{
-                $odgovor.="<div class='col-md-2'>
+                $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
                               <div class='card'>
                                 <div class='card-body'>
                                   <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
@@ -272,6 +272,19 @@ if(isset($_SESSION['admin'])){
       }
     ?>
 
+
+    <!-- OTVARANJE DETALJA KNJIGE -->
+    <script>
+       $(document).ready(function () {
+        $(".knjiga").click(function(){
+          let idModal = $(this).attr("id");
+          $.post("ajax.php?funkcija=modal", {idModal: idModal}, function(response){
+              $("#prikazKnjiga").html(response);
+            })
+          })
+        })
+
+    </script>
 
     <!-- zatamljenje kada se otvara prozor -->
     <div id="pozadina"></div>
