@@ -1,13 +1,13 @@
 <?php
+//KONEKCIJA NA BAZU
+    $funkcija = $_GET['funkcija'];
 
-$funkcija = $_GET['funkcija'];
+    $database = mysqli_connect("localhost", "root", "", "homelib");
+    mysqli_query($database, "SET NAMES utf8");
 
-$database = mysqli_connect("localhost", "root", "", "homelib");
-mysqli_query($database, "SET NAMES utf8");
-
-if (!$database) {
-  die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
-}
+    if (!$database) {
+    die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
+    }
 
 
 
@@ -156,8 +156,8 @@ if (isset($_POST['idModal'])) {
 
 
 
-
-mysqli_close($database);
+//ZATVARANJE BAZE
+    mysqli_close($database);
 
 
 ?>

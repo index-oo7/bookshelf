@@ -81,30 +81,30 @@
 
     <!-- DODAVANJE KNJIGA -->
 
-    <div id="dodavanjeKnjige" class="prozor">
+      <div id="dodavanjeKnjige" class="prozor">
 
-      <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
-      <form id = "dodajForma">
-          <label for="naziv">Naziv:</label>
-          <input type="text" name="naziv" id="naziv" required><br><br>
+        <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
+        <form id = "dodajForma">
+            <label for="naziv">Naziv:</label>
+            <input type="text" name="naziv" id="naziv" required><br><br>
 
-          <label for="autor">Autor:</label>
-          <input type="text" name="autor" id="autor" required><br><br>
+            <label for="autor">Autor:</label>
+            <input type="text" name="autor" id="autor" required><br><br>
 
-          <label for="godinaIzdavanja">Godina izdavanja:</label>
-          <input type="text" name="godinaIzdavanja" id="godinaIzdavanja" required><br><br>
+            <label for="godinaIzdavanja">Godina izdavanja:</label>
+            <input type="text" name="godinaIzdavanja" id="godinaIzdavanja" required><br><br>
 
-          <label for="kategorija">Kategorija:</label>
-          <input type="text" name="kategorija" id="kategorija" required><br><br>
+            <label for="kategorija">Kategorija:</label>
+            <input type="text" name="kategorija" id="kategorija" required><br><br>
 
-          <input type="hidden" name="admin" id="admin" value="1">
-          <!-- samo za test-->
+            <input type="hidden" name="admin" id="admin" value="1">
+            <!-- samo za test-->
 
-          <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Sačuvaj knjigu</button>
-          
-      </form> 
+            <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Sačuvaj knjigu</button>
+            
+        </form> 
 
-    </div> 
+      </div> 
 
     <script>
       $(document).ready(function(){
@@ -143,9 +143,10 @@
       <div id="izmenaKnjige" class="prozor">
 
         <!-- Forma za izmenu knjiga u lokalnoj bazi podataka -->
-        <form method="POST">
+        <form id="izmeniForma" method="POST">
 
           <select name="izborIzmene" id="izborIzmene">
+            <!-- DINAMICKI ISPISATI -->
             <?php
               $odgovor="";
               $upit = 'SELECT * FROM knjiga';
