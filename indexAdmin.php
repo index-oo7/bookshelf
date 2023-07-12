@@ -118,6 +118,7 @@
           prikaziKnjige(); // Poziv funkcije za prikaz
 
 
+        // Dodavanje knjige
         $("#dodajForma").submit(function(e){
           e.preventDefault();
           let naziv = $("naziv").val();
@@ -125,10 +126,29 @@
           let godinaIzdavanja = $("godinaIzdavanja").val();
           let kategorija = $("kategorija").val();
           $.post("./crud/dodajKnjigu.php", {naziv: naziv, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
-              $("#dodajForma input").val(""); // resetovanje input polja forme
-              prikaziKnjige();
-            })
+            $("#dodajForma input").val(""); // resetovanje input polja forme
+            prikaziKnjige();
+          })
         })
+
+        // Izmena knjige
+        $("#izmeniForma").submit(function(e){
+          e.preventDefault();
+          let izborIzmene = $("#izborIzmene").val();
+          let naziv = $("#izmeniNaziv").val();
+          let autor = $("#izmeniAutor").val();
+          let godinaIzdavanja = $("#izmeniGodinaIzdavanja").val();
+          let kategorija = $("#izmeniKategorija").val();
+
+          $.post("./crud/izmeniKnjigu.php", {izborIzmene:izborIzmene, naziv: naziv, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
+            $("#izmeniForma input").val(""); // resetovanje input polja forme
+            prikaziKnjige();
+          })
+        });
+        
+        
+
+
       })
       </script>
 
@@ -143,7 +163,7 @@
       <div id="izmenaKnjige" class="prozor">
 
         <!-- Forma za izmenu knjiga u lokalnoj bazi podataka -->
-        <form id="izmeniForma" method="POST">
+        <form id="izmeniForma">
 
           <select name="izborIzmene" id="izborIzmene">
             <!-- DINAMICKI ISPISATI -->
@@ -162,16 +182,16 @@
           <h3>Ovde unesite izmene:</h3>
 
           <label for="naziv">Naziv:</label>
-            <input type="text" name="naziv" id="naziv"><br><br>
+            <input type="text" name="izmeniNaziv" id="izmeniNaziv"><br><br>
 
             <label for="autor">Autor:</label>
-            <input type="text" name="autor" id="autor"><br><br>
+            <input type="text" name="izmeniAutor" id="izmeniAutor"><br><br>
 
             <label for="godinaIzdavanja">Godina izdavanja:</label>
-            <input type="text" name="godinaIzdavanja" id="godinaIzdavanja"><br><br>
+            <input type="text" name="izmeniGodinaIzdavanja" id="izmeniGodinaIzdavanja"><br><br>
 
             <label for="kategorija">Kategorija:</label>
-            <input type="text" name="kategorija" id="kategorija"><br><br>
+            <input type="text" name="izmeniKategorija" id="izmeniKategorija"><br><br>
 
             <input type="hidden" name="admin" id="admin" value="1">
             <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
@@ -182,28 +202,6 @@
         </form> 
 
       </div> 
-
-      <?php
-
-        if(isset($_POST['btnIzmeni'])){
-
-          //Kupimo vrednosti iz post zahteva
-          $izborIzmene = $_POST['izborIzmene'];
-          $naziv = $_POST['naziv'];
-          $autor = $_POST['autor'];
-          $godinaIzdavanja = $_POST['godinaIzdavanja'];
-          $kategorija = $_POST['kategorija'];
-
-          
-          // Slanje upita za upis knjige u bazu
-          $upit = "CALL IzmeniKnjigu('$naziv', '$autor', $godinaIzdavanja, '$kategorija', $izborIzmene)";
-          mysqli_query($database, $upit);
-          
-          
-        }
-
-      
-      ?>
 
     <!-- BRISANJE KNJIGE -->
 
