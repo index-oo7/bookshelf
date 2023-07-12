@@ -2,7 +2,7 @@
 
 $funkcija = $_GET['funkcija'];
 
-$database = mysqli_connect("localhost", "root", "", "bookshelf");
+$database = mysqli_connect("localhost", "root", "", "homelib");
 mysqli_query($database, "SET NAMES utf8");
 
 if (!$database) {

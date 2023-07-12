@@ -1,20 +1,21 @@
 <?php
-  $database=mysqli_connect("localhost", "root", "", "bookshelf");
+//KONEKCIJA NA BAZU
+  $database=mysqli_connect("localhost", "root", "", "homelib");
   mysqli_query($database, "SET NAMES utf8");
 
   // Provera konekcije sa bazom
   if (!$database) {
     die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
-}
+  }
 
-session_start();
-if(isset($_SESSION['admin'])){
+  session_start();
+  if(isset($_SESSION['admin'])){
 
 
-}else{
-    echo "Morate biti prijavljeni <br> <a href='./login/login.php'>Prijavite se ovde</a>";
-  exit();
-}
+  }else{
+      echo "Morate biti prijavljeni <br> <a href='./login/login.php'>Prijavite se ovde</a>";
+    exit();
+  }
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +84,7 @@ if(isset($_SESSION['admin'])){
     <div id="dodavanjeKnjige" class="prozor">
 
       <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
-      <form method="POST">
+      <form id = "dodajForma">
           <label for="naziv">Naziv:</label>
           <input type="text" name="naziv" id="naziv" required><br><br>
 
@@ -97,7 +98,7 @@ if(isset($_SESSION['admin'])){
           <input type="text" name="kategorija" id="kategorija" required><br><br>
 
           <input type="hidden" name="admin" id="admin" value="1">
-          <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
+          <!-- samo za test-->
 
           <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Sačuvaj knjigu</button>
           
@@ -105,195 +106,164 @@ if(isset($_SESSION['admin'])){
 
     </div> 
 
-    <?php
+    <script>
+      $(document).ready(function(){
+          // Prikazivanje svih knjiga
+          function prikaziKnjige() {
+              $.post("./crud/prikaziKnjige.php", function(response){
+              $("#prikazKnjiga").html(response);
+            })
+          }
 
-      if(isset($_POST['btnDodaj'])){
-    
-        //Kupimo vrednosti iz post zahteva
-        $admin = $_POST['admin'];
-        $naziv = $_POST['naziv'];
-        $autor = $_POST['autor'];
-        $godinaIzdavanja = $_POST['godinaIzdavanja'];
-        $kategorija = $_POST['kategorija'];
+          prikaziKnjige(); // Poziv funkcije za prikaz
 
-        // Slanje upita za upis knjige u bazu
-        $upit = "CALL DodajKnjigu($admin, '$naziv', '$autor', $godinaIzdavanja, '$kategorija')";
-        mysqli_query($database, $upit);
 
-        
-      }
+        $("#dodajForma").submit(function(e){
+          e.preventDefault();
+          let naziv = $("naziv").val();
+          let autor = $("autor").val();
+          let godinaIzdavanja = $("godinaIzdavanja").val();
+          let kategorija = $("kategorija").val();
+          $.post("./crud/dodajKnjigu.php", {naziv: naziv, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
+              $("#dodajForma input").val(""); // resetovanje input polja forme
+              prikaziKnjige();
+            })
+        })
+      })
+      </script>
 
-    ?>
 
     <!-- PRIKAZ KNJIGA -->
-
-    <div class="container col-12" id="prikazKnjiga">
-      <div class="row" style="margin: 20px;">
-          <?php
-
-            $odgovor="";
-            $upit = 'SELECT * FROM knjiga';
-            $rez = mysqli_query($database, $upit);
-            $i=1;
-            while($red = mysqli_fetch_assoc($rez)){
-              if($i % 6 != 0){
-                $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
-                              <div class='card'>
-                                <div class='card-body'>
-                                  <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
-                                  <p class='card-text'><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span></p>
-                                </div>
-                              </div>
-                            </div>";
-              }else{
-                $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
-                              <div class='card'>
-                                <div class='card-body'>
-                                  <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
-                                  <p class='card-text'><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span></p>
-                                </div>
-                              </div>
-                            </div>
-                            </div>"; // postoji jos jedan div koji zatvara red jer je 6. knjiga prikazana
-                $odgovor.="<div class='row'  style='margin: 20px;'>";
-              }
-              $i++;
-            }
-            if($i % 6 != 0) $odgovor.="</div>";
-
-            echo $odgovor;
-
-            ?>
-    </div>
-
+      <div class="container col-12" id="prikazKnjiga"></div>
+    
 
 
     <!-- IZMENA KNJIGE -->
 
-    <div id="izmenaKnjige" class="prozor">
+      <div id="izmenaKnjige" class="prozor">
 
-      <!-- Forma za izmenu knjiga u lokalnoj bazi podataka -->
-      <form method="POST">
+        <!-- Forma za izmenu knjiga u lokalnoj bazi podataka -->
+        <form method="POST">
 
-        <select name="izborIzmene" id="izborIzmene">
-          <?php
-            $odgovor="";
-            $upit = 'SELECT * FROM knjiga';
-            $rez = mysqli_query($database, $upit);
-            while($red = mysqli_fetch_assoc($rez))
-              $odgovor.="<option value='{$red['ID_KNJIGA']}'>{$red['NAZIV_KNJIGA']}</option>";
-            echo $odgovor;
-          ?>
-        </select>
+          <select name="izborIzmene" id="izborIzmene">
+            <?php
+              $odgovor="";
+              $upit = 'SELECT * FROM knjiga';
+              $rez = mysqli_query($database, $upit);
+              while($red = mysqli_fetch_assoc($rez))
+                $odgovor.="<option value='{$red['ID_KNJIGA']}'>{$red['NAZIV_KNJIGA']}</option>";
+              echo $odgovor;
+            ?>
+          </select>
 
 
-        <!-- Forma u kojoj treba uneti podatke za izmenu -->
-        <h3>Ovde unesite izmene:</h3>
+          <!-- Forma u kojoj treba uneti podatke za izmenu -->
+          <h3>Ovde unesite izmene:</h3>
 
-        <label for="naziv">Naziv:</label>
-          <input type="text" name="naziv" id="naziv"><br><br>
+          <label for="naziv">Naziv:</label>
+            <input type="text" name="naziv" id="naziv"><br><br>
 
-          <label for="autor">Autor:</label>
-          <input type="text" name="autor" id="autor"><br><br>
+            <label for="autor">Autor:</label>
+            <input type="text" name="autor" id="autor"><br><br>
 
-          <label for="godinaIzdavanja">Godina izdavanja:</label>
-          <input type="text" name="godinaIzdavanja" id="godinaIzdavanja"><br><br>
+            <label for="godinaIzdavanja">Godina izdavanja:</label>
+            <input type="text" name="godinaIzdavanja" id="godinaIzdavanja"><br><br>
 
-          <label for="kategorija">Kategorija:</label>
-          <input type="text" name="kategorija" id="kategorija"><br><br>
+            <label for="kategorija">Kategorija:</label>
+            <input type="text" name="kategorija" id="kategorija"><br><br>
 
-          <input type="hidden" name="admin" id="admin" value="1">
-          <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
-  
-
-        <button type="submit" name="btnIzmeni" id="btnIzmeni" value="submit" class="btn btn-outline-dark">Sačuvaj izmene</button>
-          
-      </form> 
-
-    </div> 
-
-    <?php
-
-      if(isset($_POST['btnIzmeni'])){
-
-        //Kupimo vrednosti iz post zahteva
-        $izborIzmene = $_POST['izborIzmene'];
-        $naziv = $_POST['naziv'];
-        $autor = $_POST['autor'];
-        $godinaIzdavanja = $_POST['godinaIzdavanja'];
-        $kategorija = $_POST['kategorija'];
-
-        
-        // Slanje upita za upis knjige u bazu
-        $upit = "CALL IzmeniKnjigu('$naziv', '$autor', $godinaIzdavanja, '$kategorija', $izborIzmene)";
-        mysqli_query($database, $upit);
-        
-        
-      }
-
+            <input type="hidden" name="admin" id="admin" value="1">
+            <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
     
-    ?>
+
+          <button type="submit" name="btnIzmeni" id="btnIzmeni" value="submit" class="btn btn-outline-dark">Sačuvaj izmene</button>
+            
+        </form> 
+
+      </div> 
+
+      <?php
+
+        if(isset($_POST['btnIzmeni'])){
+
+          //Kupimo vrednosti iz post zahteva
+          $izborIzmene = $_POST['izborIzmene'];
+          $naziv = $_POST['naziv'];
+          $autor = $_POST['autor'];
+          $godinaIzdavanja = $_POST['godinaIzdavanja'];
+          $kategorija = $_POST['kategorija'];
+
+          
+          // Slanje upita za upis knjige u bazu
+          $upit = "CALL IzmeniKnjigu('$naziv', '$autor', $godinaIzdavanja, '$kategorija', $izborIzmene)";
+          mysqli_query($database, $upit);
+          
+          
+        }
+
+      
+      ?>
 
     <!-- BRISANJE KNJIGE -->
 
-    <div id="brisanjeKnjige" class="prozor">
-      <form method="POST">
-        <h3>Ovde izaberite koju knjigu zelite da obrišete:</h3>
-        <select name="izborBrisanja" id="izborBrisanja">
-          <?php
-            $odgovor="";
-            $upit = 'SELECT * FROM knjiga';
-            $rez = mysqli_query($database, $upit);
-            while($red = mysqli_fetch_assoc($rez))
-              $odgovor.="<option value='{$red['ID_KNJIGA']}'>{$red['NAZIV_KNJIGA']}</option>";
-            echo $odgovor;
-          ?>
+      <div id="brisanjeKnjige" class="prozor">
+        <form method="POST">
+          <h3>Ovde izaberite koju knjigu zelite da obrišete:</h3>
+          <select name="izborBrisanja" id="izborBrisanja">
+            <?php
+              $odgovor="";
+              $upit = 'SELECT * FROM knjiga';
+              $rez = mysqli_query($database, $upit);
+              while($red = mysqli_fetch_assoc($rez))
+                $odgovor.="<option value='{$red['ID_KNJIGA']}'>{$red['NAZIV_KNJIGA']}</option>";
+              echo $odgovor;
+            ?>
 
-        </select><br><br>
+          </select><br><br>
+          
+          <button type="submit" name="btnObrisi" id="btnObrisi" value="submit" class="btn btn-outline-dark">Obriši knjigu</button>
+
+        </form>
+
+      </div>
+
+      <?php
+        if(isset($_POST['btnObrisi'])){
+
+          //Kupimo vrednosti iz post zahteva
+          
+          $izborBrisanja = $_POST['izborBrisanja'];
+
+          // Slanje upita za upis knjige u bazu
+          $upit = "CALL ObrisiKnjigu($izborBrisanja)";
+          mysqli_query($database, $upit);
         
-        <button type="submit" name="btnObrisi" id="btnObrisi" value="submit" class="btn btn-outline-dark">Obriši knjigu</button>
-
-      </form>
-
-    </div>
-
-    <?php
-      if(isset($_POST['btnObrisi'])){
-
-        //Kupimo vrednosti iz post zahteva
-        
-        $izborBrisanja = $_POST['izborBrisanja'];
-
-        // Slanje upita za upis knjige u bazu
-        $upit = "CALL ObrisiKnjigu($izborBrisanja)";
-        mysqli_query($database, $upit);
-       
-        
-      }
-    ?>
+          
+        }
+      ?>
 
 
     <!-- OTVARANJE DETALJA KNJIGE -->
-    <script>
-       $(document).ready(function () {
-        $(".knjiga").click(function(){
-          let idModal = $(this).attr("id");
-          $.post("ajax.php?funkcija=modal", {idModal: idModal}, function(response){
-              $("#prikazKnjiga").html(response);
+      <script>
+        $(document).ready(function () {
+          $(".knjiga").click(function(){
+            let idModal = $(this).attr("id");
+            $.post("ajax.php?funkcija=modal", {idModal: idModal}, function(response){
+                $("#prikazKnjiga").html(response);
+              })
             })
           })
-        })
 
-    </script>
+      </script>
 
     <!-- zatamljenje kada se otvara prozor -->
-    <div id="pozadina"></div>
+      <div id="pozadina"></div>
 
     <!-- konekcija JS fajla koji se bavi animacijama -->
-    <script src="scriptAdmin.js"></script>
+      <script src="scriptAdmin.js"></script>
 
     <!-- konekcija bootrstrap-ovog JS-a -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
 
