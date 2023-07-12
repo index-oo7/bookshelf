@@ -1,21 +1,3 @@
-<?php
-  $database=mysqli_connect("localhost", "root", "", "homelib");
-  mysqli_query($database, "SET NAMES utf8");
-
-  // Provera konekcije sa bazom
-  if (!$database) {
-    die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
-}
-
-session_start();
-if(isset($_SESSION['korisnik'])){
-
-}else{
-  echo "Morate biti prijavljeni <br> <a href='./login/login.php'>Prijavite se ovde</a>";
-  exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -260,8 +242,3 @@ if(isset($_SESSION['korisnik'])){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
-
-<?php
-// ZATVARANJE BAZE
-mysqli_close($database);
-?>
