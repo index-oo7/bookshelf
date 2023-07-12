@@ -108,12 +108,13 @@
 
     <script>
       $(document).ready(function(){
-          // Prikazivanje svih knjiga
-          function prikaziKnjige() {
-              $.post("./crud/prikaziKnjige.php", function(response){
-              $("#prikazKnjiga").html(response);
-            })
-          }
+
+        // Prikaz knjiga
+        function prikaziKnjige() {
+            $.post("./crud/prikaziKnjige.php", function(response){
+            $("#prikazKnjiga").html(response);
+          });
+        }
 
           prikaziKnjige(); // Poziv funkcije za prikaz
 
@@ -128,8 +129,8 @@
           $.post("./crud/dodajKnjigu.php", {naziv: naziv, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
             $("#dodajForma input").val(""); // resetovanje input polja forme
             prikaziKnjige();
-          })
-        })
+          });
+        });
 
         // Izmena knjige
         $("#izmeniForma").submit(function(e){
@@ -143,10 +144,19 @@
           $.post("./crud/izmeniKnjigu.php", {izborIzmene:izborIzmene, naziv: naziv, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
             $("#izmeniForma input").val(""); // resetovanje input polja forme
             prikaziKnjige();
-          })
+          });
         });
         
-        
+        // Brisanje knjige
+        $("#obrisiForma").submit(function(e){
+          e.preventDefault();
+          let izborBrisanja = $("#izborBrisanja").val();
+
+          $.post("./crud/obrisiKnjigu.php", {izborBrisanja:izborBrisanja}, function(response){
+            prikaziKnjige();
+          });
+        });
+            
 
 
       })
@@ -206,7 +216,7 @@
     <!-- BRISANJE KNJIGE -->
 
       <div id="brisanjeKnjige" class="prozor">
-        <form method="POST">
+        <form id="obrisiForma">
           <h3>Ovde izaberite koju knjigu zelite da obrišete:</h3>
           <select name="izborBrisanja" id="izborBrisanja">
             <?php
@@ -225,22 +235,6 @@
         </form>
 
       </div>
-
-      <?php
-        if(isset($_POST['btnObrisi'])){
-
-          //Kupimo vrednosti iz post zahteva
-          
-          $izborBrisanja = $_POST['izborBrisanja'];
-
-          // Slanje upita za upis knjige u bazu
-          $upit = "CALL ObrisiKnjigu($izborBrisanja)";
-          mysqli_query($database, $upit);
-        
-          
-        }
-      ?>
-
 
     <!-- OTVARANJE DETALJA KNJIGE -->
       <script>
