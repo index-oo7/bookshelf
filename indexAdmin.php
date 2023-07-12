@@ -1,23 +1,3 @@
-<?php
-//KONEKCIJA NA BAZU
-  $database=mysqli_connect("localhost", "root", "", "homelib");
-  mysqli_query($database, "SET NAMES utf8");
-
-  // Provera konekcije sa bazom
-  if (!$database) {
-    die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
-  }
-
-  session_start();
-  if(isset($_SESSION['admin'])){
-
-
-  }else{
-      echo "Morate biti prijavljeni <br> <a href='./login/login.php'>Prijavite se ovde</a>";
-    exit();
-  }
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,40 +22,39 @@
 <body>
     
     <!-- nav bar -->
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+          <div class="container-fluid">
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
+            <!-- logo -->
+            <a id="logo" class="navbar-brand fa-fade" href="indexAdmin.php">Bookshelf <sup>©</sup></a>
 
-          <!-- logo -->
-          <a id="logo" class="navbar-brand fa-fade" href="indexAdmin.php">Bookshelf <sup>©</sup></a>
+            <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
+              
+              <!-- dodavanje knjige -->
+              <button name="btnDodajKnjigu" id="btnDodajKnjigu" type="button" class="btn btn-outline-dark">Dodaj knjigu</button>
 
-          <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
+              <!-- izmena knjige -->
+              <button name="btnIzmeniKnjigu" id="btnIzmeniKnjigu" type="button" class="btn btn-outline-dark">Izmeni knjigu</button>
+
+              <!-- brisanje knjige -->
+              <button name="btnObrisiKnjigu" id="btnObrisiKnjigu" type="button" class="btn btn-outline-dark">Obrisi knjigu</button>
+
             
-            <!-- dodavanje knjige -->
-            <button name="btnDodajKnjigu" id="btnDodajKnjigu" type="button" class="btn btn-outline-dark">Dodaj knjigu</button>
-
-            <!-- izmena knjige -->
-            <button name="btnIzmeniKnjigu" id="btnIzmeniKnjigu" type="button" class="btn btn-outline-dark">Izmeni knjigu</button>
-
-            <!-- brisanje knjige -->
-            <button name="btnObrisiKnjigu" id="btnObrisiKnjigu" type="button" class="btn btn-outline-dark">Obrisi knjigu</button>
-
-           
-            <!-- odjava -->
-            <form method="post">
-              <button name="odjava" id="odjava" type="submit" class="btn btn-outline-dark">Odjava</button>
-            </form>
-            <?php
-              if(isset($_POST['odjava'])){
-                session_unset();
-                session_destroy();
-                header("Location: login/login.php");
-                exit();
-              }
-            ?>
+              <!-- odjava -->
+              <form method="post">
+                <button name="odjava" id="odjava" type="submit" class="btn btn-outline-dark">Odjava</button>
+              </form>
+              <?php
+                if(isset($_POST['odjava'])){
+                  session_unset();
+                  session_destroy();
+                  header("Location: login/login.php");
+                  exit();
+                }
+              ?>
+            </div>
           </div>
-        </div>
-    </nav>
+      </nav>
 
     <script>
       $(document).ready(function(){
@@ -260,8 +239,3 @@
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
-
-<?php
-// ZATVARANJE BAZE
-mysqli_close($database);
-?>
