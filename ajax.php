@@ -156,8 +156,8 @@ if (isset($_POST['idModal'])) {
 
 
 
-//ZATVARANJE BAZE
-    mysqli_close($database);
+    //ZATVARANJE BAZE
+        mysqli_close($database);
 
 
 ?>
