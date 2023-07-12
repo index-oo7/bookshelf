@@ -1,5 +1,5 @@
 <?php
-  $database=mysqli_connect("localhost", "root", "", "homelib");
+  $database=mysqli_connect("localhost", "root", "", "bookshelf");
   mysqli_query($database, "SET NAMES utf8");
 
   // Provera konekcije sa bazom
