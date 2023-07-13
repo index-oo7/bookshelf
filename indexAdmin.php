@@ -17,7 +17,7 @@
     <!-- konekcija css-a -->
     <link rel="stylesheet" href="./style.css">
 
-    <title>Home page</title>
+    <title>Admin</title>
 </head>
 <body>
     

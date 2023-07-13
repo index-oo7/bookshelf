@@ -17,7 +17,7 @@
     <!-- konekcija css-a -->
     <link rel="stylesheet" href="./style.css">
 
-    <title>Home page</title>
+    <title>Korisnik</title>
 </head>
 <body>
     
@@ -32,7 +32,7 @@
           <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
 
             <!-- rezervacija knjige -->
-            <button name="btnRezervisiKnjigu" id="btnRezervisiKnjigu" type="button" class="btn btn-outline-dark">Rezervisi knjigu</button>
+            <button name="btnRezervisiKnjigu" id="btnRezervisiKnjigu" type="button" class="btn btn-outline-dark"  data-toggle="modal" data-target="#rezervacijaKnjige">Rezervisi knjigu</button>
 
             <!-- pretraga -->
             <form class="d-flex" role="search">
@@ -73,88 +73,80 @@
     </nav>
 
 
+  <!-- PRIKAZ KNJIGA -->
+    <div class="container col-12" id="prikazKnjiga"></div>
+    <script>
+      $(document).ready(function(){
+        // Prikaz knjiga
+        function prikaziKnjige() {
+            $.post("./crud/prikaziKnjige.php", function(response){
+              $("#prikazKnjiga").html(response);
+            });
+          }
 
-    <!-- PRIKAZ KNJIGA -->
-    
-    <div class="container col-8">
-        <div class="row">
-        <ul class="list-group list-group-flush" id="prikazKnjiga" > 
+        prikaziKnjige(); // Poziv funkcije za prikaz
+      })
+    </script>
 
-          <?php
-  
-            $odgovor="";
-            $upit = 'SELECT * FROM knjiga';
-            $rez = mysqli_query($database, $upit);
-            while($red = mysqli_fetch_assoc($rez))
-              $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></li>";
-            echo $odgovor;
+  <!-- REZERVISANJE KNJIGE -->
+  <div class="modal fade" id="rezervacijaKnjige" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Rezervacija knjige</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="rezervisiKnjigu">
+            <h3>Ovde izaberite koju knjigu zelite da rezervišete:</h3>
+            <select name="izborRezervacije" id="izborRezervacije">
+              <?php
+                $odgovor="";
 
-            ?>
+                //prikaz samo dostupnih knjiga
+                $upit = "SELECT * FROM knjiga WHERE ID_KNJIGA NOT IN (SELECT ID_KNJIGA FROM rezervacija)";
+                $rez = mysqli_query($database, $upit);
+                while($red = mysqli_fetch_assoc($rez))
+                  $odgovor.="<option value='{$red['ID_KNJIGA']}'>{$red['NAZIV_KNJIGA']}</option>";
+                echo $odgovor;
+              ?>
 
-        </ul>
+            </select><br><br>
+            
+            <p>Rezervacija traje 5 dana od trenutka rezervisanja.</p>
+            <button type="submit" name="btnRezervisi" id="btnRezervisi" value="submit" class="btn btn-outline-dark">Rezerviši knjigu</button>
+
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
       </div>
     </div>
-
-
-    <!-- REZERVISANJE KNJIGE -->
-
-    <div id="rezervacijaKnjige" class="prozor">
-      <form method="POST">
-        <h3>Ovde izaberite koju knjigu zelite da rezervišete:</h3>
-        <select name="izborRezervacije" id="izborRezervacije">
-          <?php
-            $odgovor="";
-
-            //prikaz samo dostupnih knjiga
-            $upit = "SELECT * FROM knjiga WHERE ID_KNJIGA NOT IN (SELECT ID_KNJIGA FROM rezervacija)";
-            $rez = mysqli_query($database, $upit);
-            while($red = mysqli_fetch_assoc($rez))
-              $odgovor.="<option value='{$red['ID_KNJIGA']}'>{$red['NAZIV_KNJIGA']}</option>";
-            echo $odgovor;
-          ?>
-
-        </select><br><br>
-        
-        <p>Rezervacija traje 5 dana od trenutka rezervisanja.</p>
-        <button type="submit" name="btnRezervisi" id="btnRezervisi" value="submit" class="btn btn-outline-dark">Rezerviši knjigu</button>
-
-
-      </form>
-    </div>
-    <?php
+  </div>
     
-      if(isset($_POST['btnRezervisi']) and isset($_POST['izborRezervacije'])){
-
-        $idKnjiga = $_POST['izborRezervacije'];
-        $idKorisnik = $_SESSION['korisnik'];//sesija korisnika
-
-        // formiranje datuma za pocetak i kraj rezervacije
-        $pocetakRezervacije = strtotime("now");
-        $krajRezervacije = $pocetakRezervacije + (24*60*60*5);
-
-        $pocetak = date("Y-m-d H:i:s", $pocetakRezervacije);
-        $kraj = date("Y-m-d H:i:s", $krajRezervacije);
-
-        // Provera da li se id_knjiga nalazi u tabeli rezervacija (sprecavanje ponovnog unosa pri refresovanju)
-        $upit = "SELECT * FROM rezervacija WHERE id_knjiga = $idKnjiga";
-        $rezultat = mysqli_query($database, $upit);
-
-        if (mysqli_num_rows($rezultat) > 0) {
-            // Id_knjiga se nalazi u tabeli rezervacija i nece ga upisati ponovo
-            die();
-        } else {
-          $upit = "INSERT INTO rezervacija (ID_KORISNIK, ID_KNJIGA, POCETAK_REZERVACIJA, KRAJ_REZERVACIJA) VALUES ($idKorisnik, $idKnjiga, '$pocetak', '$kraj')";
-          mysqli_query($database, $upit);
-        }
-      }
-    ?>
-
-
     <script>
+      $(document).ready(function(){
+        $("#rezervisiKnjigu").submit(function(e){
+          let izborRezervacije = $("#izborRezervacije").val();
+          $.post("./ajaxOperations/rezervacija.php",{izborRezervacije:izborRezervacije}, function(response){
+            prikaziKnjige();  
+            });
+        })
+      })
+    </script>
+
+
+  <script>
       
 
-      $(document).ready(function () {
-        // PRETRAGA
+  $(document).ready(function () {
+
+      // PRETRAGA
 
         function pozicijaRezultataPretrage() {
           var searchInputOffset = $("#pretraga").offset();
@@ -173,7 +165,7 @@
           $("#pretraga").on("input", function() {
             var terminPretrage = $(this).val();
             if (terminPretrage.length >= 2) {
-              $.post("ajax.php?funkcija=pretraga", { terminPretrage: terminPretrage }, function(response) {
+              $.post("./ajaxOperations/pretraga.php?funkcija=pretraga", { terminPretrage: terminPretrage }, function(response) {
                 $("#rezultatiPretrage").html(response);
               });
             } else {
@@ -184,48 +176,48 @@
           pozicijaRezultataPretrage();
 
 
-          // SORTIRANJE
+      // SORTIRANJE
 
           $("#sortiranje li").click(function() {
-          // Izbor korisnika (tekst stavke koju je kliknuo)
-          var kriterijum = $(this).text();
-          
-            // po nazivu
-          if (kriterijum === "Naziv") {
-            let kolona = "NAZIV_KNJIGA";
-            $.post("ajax.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
-                $("#prikazKnjiga").html(response);
-              });
-              
-          }
-            // po autoru
-          if (kriterijum === "Autor") {
-            let kolona = "AUTOR_KNJIGA";
-            $.post("ajax.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
-                $("#prikazKnjiga").html(response);
-              });
-          }
-            // po kategoriji
-          if (kriterijum === "Kategorija") {
-            let kolona = "KATEGORIJA";
-            $.post("ajax.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
-                $("#prikazKnjiga").html(response);
-              });
-          }
-            // dostupne knjige
-          if (kriterijum === "Dostupno") {
-            $.post("ajax.php?funkcija=sortirajDostupno", function(response) {
-                $("#prikazKnjiga").html(response);
-              });
-          }
-            // rezervisane
-          if (kriterijum === "Rezervisano") {
-            $.post("ajax.php?funkcija=sortirajRezervisano", function(response) {
-                $("#prikazKnjiga").html(response);
-              });
-          }
+            // Izbor korisnika (tekst stavke koju je kliknuo)
+            var kriterijum = $(this).text();
+            
+              // po nazivu
+            if (kriterijum === "Naziv") {
+              let kolona = "NAZIV_KNJIGA";
+              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
+                  $("#prikazKnjiga").html(response);
+                });
+                
+            }
+              // po autoru
+            if (kriterijum === "Autor") {
+              let kolona = "AUTOR_KNJIGA";
+              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
+                  $("#prikazKnjiga").html(response);
+                });
+            }
+              // po kategoriji
+            if (kriterijum === "Kategorija") {
+              let kolona = "KATEGORIJA";
+              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
+                  $("#prikazKnjiga").html(response);
+                });
+            }
+              // dostupne knjige
+            if (kriterijum === "Dostupno") {
+              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajDostupno", function(response) {
+                  $("#prikazKnjiga").html(response);
+                });
+            }
+              // rezervisane
+            if (kriterijum === "Rezervisano") {
+              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajRezervisano", function(response) {
+                  $("#prikazKnjiga").html(response);
+                });
+            }
 
-        });
+          });
 
       })
     </script>
