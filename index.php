@@ -17,7 +17,7 @@
     <!-- konekcija css-a -->
     <link rel="stylesheet" href="./style.css">
 
-    <title>Korisnik</title>
+    <title>Korisnik stari</title>
 </head>
 <body>
     
@@ -225,12 +225,12 @@
 
 
     <!-- zatamljenje kada se otvara prozor -->
-    <div id="pozadina"></div>
+      <div id="pozadina"></div>
 
     <!-- konekcija JS fajla koji se bavi animacijama -->
-    <script src="script.js"></script>
+      <script src="script.js"></script>
 
     <!-- konekcija bootrstrap-ovog JS-a -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

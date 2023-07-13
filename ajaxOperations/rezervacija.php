@@ -31,6 +31,7 @@
         mysqli_query($database, $upit);
     }
     
+    
   // ZATVARANJE BAZE
     mysqli_close($database);
 ?>

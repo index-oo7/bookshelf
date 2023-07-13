@@ -6,7 +6,7 @@
         mysqli_query($database, "SET NAMES utf8");
 
         if (!$database) {
-        die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
+            die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
         }
     // PRETRAGA
         $terminPretrage = $_POST['terminPretrage'];
