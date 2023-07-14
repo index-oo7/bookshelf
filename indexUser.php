@@ -29,13 +29,13 @@
                 <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
 
                 <!-- rezervacija knjige -->
-                    <button name="btnRezervisiKnjigu" id="btnRezervisiKnjigu" type="button" class="btn btn-outline-dark">Rezervisi knjigu</button>
+                    <button name="btnRezervisiKnjigu" id="btnRezervisiKnjigu" type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#rez">Rezervisi knjigu</button>
 
                 <!-- pretraga -->
                     <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" name="pretraga" id="pretraga" aria-label="Search">
-                    <div id="rezultatiPretrage"></div>
-                    <button class="btn btn-outline-dark" type="submit" name="btnPretrazi" id="btnPretrazi">Search</button>
+                        <input class="form-control me-2" type="search" placeholder="Search" name="pretraga" id="pretraga" aria-label="Search">
+                        <div id="rezultatiPretrage"></div>
+                        <button class="btn btn-outline-dark" type="submit" name="btnPretrazi" id="btnPretrazi">Search</button>
                     </form>
 
                 <!-- sortiranje -->
@@ -75,15 +75,34 @@
 
     <!-- REZERVACIJA KNJIGE -->
             <div id="rezervacijaKnjige" class="prozor">
-                <form id="rezervisiKnjigu">
+                
+            
+            </div>
+
+    <div class="modal fade" id="rez" tabindex="-1" role="dialog" aria-labelledby="dodajNalogLBL" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="dodajNalogLBL">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="rezervisiKnjigu">
                 <h3>Ovde izaberite koju knjigu zelite da rezervišete:</h3>
                 <select name="izborRezervacije" id="izborRezervacije"></select><br><br>
                 <p>Rezervacija traje 5 dana od trenutka rezervisanja.</p>
                 <button type="submit" name="btnRezervisi" id="btnRezervisi" value="submit" class="btn btn-outline-dark">Rezerviši knjigu</button>
             </form>
-            </div>
-
-
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+        </div>
+    </div>
+    </div>
 
 
 
@@ -115,6 +134,8 @@
         <script src="script.js"></script>
 
     <!-- konekcija bootrstrap-ovog JS-a -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 </html>
