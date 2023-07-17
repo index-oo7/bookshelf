@@ -10,7 +10,7 @@
   
     
     $idKnjiga = $_POST['izborRezervacije'];
-    $idKorisnik = $_SESSION['korisnik'];//sesija korisnika
+    $idKorisnik = 1;//sesija korisnika
 
     // formiranje datuma za pocetak i kraj rezervacije
     $pocetakRezervacije = strtotime("now");
