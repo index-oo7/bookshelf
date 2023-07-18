@@ -129,6 +129,49 @@
                     $("#prikazKnjiga").html(response);
                     });
                 });
+            
+            //SORTIRANJE
+            $("#sortiranje li").click(function() {
+            // Izbor korisnika (tekst stavke koju je kliknuo)
+            var kriterijum = $(this).text();
+            
+              // po nazivu
+            if (kriterijum === "Naziv") {
+              let kolona = "NAZIV_KNJIGA";
+              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
+                  $("#prikazKnjiga").html(response);
+                });
+                
+            }
+              // po autoru
+            if (kriterijum === "Autor") {
+              let kolona = "AUTOR_KNJIGA";
+              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
+                  $("#prikazKnjiga").html(response);
+                });
+            }
+              // po kategoriji
+            if (kriterijum === "Kategorija") {
+              let kolona = "KATEGORIJA";
+              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
+                  $("#prikazKnjiga").html(response);
+                });
+            }
+              // dostupne knjige
+            if (kriterijum === "Dostupno") {
+              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajDostupno", function(response) {
+                  $("#prikazKnjiga").html(response);
+                });
+            }
+              // rezervisane
+            if (kriterijum === "Rezervisano") {
+              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajRezervisano", function(response) {
+                  $("#prikazKnjiga").html(response);
+                });
+            }
+
+          });
+          
         })
     </script>
 
