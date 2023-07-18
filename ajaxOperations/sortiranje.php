@@ -26,7 +26,7 @@
                 // Prikaži rezultate sortiranja
                 while ($red = mysqli_fetch_assoc($rezultat)) {
                     if($i % 6 != 0){
-                        $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
+                        $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}'>
                           <div class='card'>
                             <div class='card-body'>
                               <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
@@ -35,7 +35,7 @@
                           </div>
                         </div>";
                       }else{
-                        $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
+                        $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}'>
                           <div class='card'>
                             <div class='card-body'>
                               <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
@@ -79,7 +79,7 @@
                 // Prikaži rezultate sortiranja
                 while ($red = mysqli_fetch_assoc($rezultat)) {
                     if($i % 6 != 0){
-                        $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
+                        $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}'>
                           <div class='card'>
                             <div class='card-body'>
                               <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
@@ -88,7 +88,7 @@
                           </div>
                         </div>";
                       }else{
-                        $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
+                        $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}'>
                           <div class='card'>
                             <div class='card-body'>
                               <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
@@ -140,7 +140,7 @@
                 while ($red = mysqli_fetch_assoc($rezultat)) {
                     while($redRezervacija = mysqli_fetch_assoc($rezultatRezervacija)){
                         if($i % 6 != 0){
-                            $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
+                            $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}'>
                               <div class='card'>
                                 <div class='card-body'>
                                   <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
@@ -150,7 +150,7 @@
                               </div>
                             </div>";
                           }else{
-                            $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
+                            $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}'>
                               <div class='card'>
                                 <div class='card-body'>
                                   <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
