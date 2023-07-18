@@ -14,18 +14,41 @@
     // SORTIRANJE
         if($funkcija == 'sortirajPoKoloni'){
             $kolona = $_POST['kolona'];
-            $odgovor="";
+            $odgovor="<div class='row' style='margin: 20px;'>";
 
             // Izvrši SQL upit za sortiranje
             $upit = "SELECT * FROM knjiga ORDER BY " . mysqli_real_escape_string($database, $kolona);
             $rezultat = mysqli_query($database, $upit);
             
+            $i=1;
             // Proveri da li je upit uspešno izvršen
             if ($rezultat) {
                 // Prikaži rezultate sortiranja
                 while ($red = mysqli_fetch_assoc($rezultat)) {
-                    $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></li>";
+                    if($i % 6 != 0){
+                        $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
+                          <div class='card'>
+                            <div class='card-body'>
+                              <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
+                              <p class='card-text'><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span></p>
+                            </div>
+                          </div>
+                        </div>";
+                      }else{
+                        $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
+                          <div class='card'>
+                            <div class='card-body'>
+                              <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
+                              <p class='card-text'><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span></p>
+                            </div>
+                          </div>
+                        </div>
+                        </div>"; // postoji jos jedan div koji zatvara red jer je 6. knjiga prikazana
+                        $odgovor.="<div class='row'  style='margin: 20px;'>";
+                      }
+                      $i++;
                 }
+                if($i % 6 != 0) $odgovor.="</div>";
             } else {
                 $odgovor = "Došlo je do greške prilikom sortiranja.";
             }
@@ -45,8 +68,8 @@
 
 
 
-            $odgovor="";
-
+            $odgovor="<div class='row' style='margin: 20px;'>";
+            $i = 1;
             // Izvrši SQL upit za prikaz nerezervisanih knjiga
             $upit = "SELECT * FROM knjiga WHERE ID_KNJIGA NOT IN (SELECT ID_KNJIGA FROM rezervacija)";
             $rezultat = mysqli_query($database, $upit);
@@ -55,8 +78,30 @@
             if ($rezultat) {
                 // Prikaži rezultate sortiranja
                 while ($red = mysqli_fetch_assoc($rezultat)) {
-                    $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']}<br><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br></li>";
+                    if($i % 6 != 0){
+                        $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
+                          <div class='card'>
+                            <div class='card-body'>
+                              <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
+                              <p class='card-text'><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span></p>
+                            </div>
+                          </div>
+                        </div>";
+                      }else{
+                        $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
+                          <div class='card'>
+                            <div class='card-body'>
+                              <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
+                              <p class='card-text'><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span></p>
+                            </div>
+                          </div>
+                        </div>
+                        </div>"; // postoji jos jedan div koji zatvara red jer je 6. knjiga prikazana
+                        $odgovor.="<div class='row'  style='margin: 20px;'>";
+                      }
+                      $i++;
                 }
+                if($i % 6 != 0) $odgovor.="</div>";
             } else {
                 $odgovor = "Došlo je do greške prilikom prikaza dostupnih knjiga.";
             }
@@ -77,7 +122,8 @@
 
             
 
-            $odgovor="";
+            $odgovor="<div class='row' style='margin: 20px;'>";
+            $i=1;
 
             // Izvrši SQL upit za prikaz rezervisanih knjiga
             $upit = "SELECT * FROM knjiga WHERE ID_KNJIGA IN (SELECT ID_KNJIGA FROM rezervacija)";
@@ -93,12 +139,33 @@
                 // Prikaži rezultate sortiranja
                 while ($red = mysqli_fetch_assoc($rezultat)) {
                     while($redRezervacija = mysqli_fetch_assoc($rezultatRezervacija)){
-                        $odgovor.="<li class='list-group-item'>{$red['NAZIV_KNJIGA']}<br>
-                        <span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br>
-                        Rezervacija vazi do: {$redRezervacija['KRAJ_REZERVACIJA']}</li>";
+                        if($i % 6 != 0){
+                            $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
+                              <div class='card'>
+                                <div class='card-body'>
+                                  <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
+                                  <p class='card-text'><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br>
+                                  Rezervacija vazi do: {$redRezervacija['KRAJ_REZERVACIJA']}</p>
+                                </div>
+                              </div>
+                            </div>";
+                          }else{
+                            $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}' data-toggle='modal' data-target='#exampleModalCenter'>
+                              <div class='card'>
+                                <div class='card-body'>
+                                  <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
+                                  <p class='card-text'><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span><br>
+                                  Rezervacija vazi do: {$redRezervacija['KRAJ_REZERVACIJA']}</p>
+                                </div>
+                              </div>
+                            </div>
+                            </div>"; // postoji jos jedan div koji zatvara red jer je 6. knjiga prikazana
+                            $odgovor.="<div class='row'  style='margin: 20px;'>";
+                          }
+                          $i++;
                     }
-                    
                 }
+                if($i % 6 != 0) $odgovor.="</div>";
             } else {
                 $odgovor = "Došlo je do greške prilikom prikaza rezervisanih knjiga.";
             }
