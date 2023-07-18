@@ -56,29 +56,8 @@ nav {
   z-index: 900;
   }
 
-#rezultatiPretrage {
-  position: absolute;
-  top: calc(100% + 5px);
-  left: 0;
-  right: 0;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 999;
-}
-
-#rezultatiPretrage ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#rezultatiPretrage li {
-  padding: 10px;
-  cursor: pointer;
-}
-
-#rezultatiPretrage li:hover {
-  background-color: #f1f1f1;
-}
+  .modal-body{
+    background-color: var(--main);
+    color: white;
+    border-radius: 5px;
+  }
