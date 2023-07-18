@@ -33,7 +33,7 @@
 
                     <!-- pretraga -->
                         <form class="d-flex" role="search" id="pretraga">
-                            <input class="form-control me-2" type="search" placeholder="Search" name="pretraga" id="pretraga" aria-label="Search">
+                            <input class="form-control me-2" type="search" placeholder="Search" name="terminPretrage" id="terminPretrage" aria-label="Search">
                             <button class="btn btn-outline-dark" type="submit" name="btnPretrazi" id="btnPretrazi">Search</button>
                         </form>
 
@@ -93,33 +93,42 @@
 
 
     <script>
-      $(document).ready(function(){
+        $(document).ready(function(){
 
-    //PRIKAZ KNJIGA
-        function prikaziKnjige() {
-            $.post("./crud/prikaziKnjige.php", function(response){
-              $("#prikazKnjiga").html(response);
-            });
-          }
+            //PRIKAZ KNJIGA
+                function prikaziKnjige() {
+                    $.post("./crud/prikaziKnjige.php", function(response){
+                    $("#prikazKnjiga").html(response);
+                    });
+                }
 
-        prikaziKnjige();
+                prikaziKnjige();
 
-    //PRIKAZ MODALA ZA REZERVACIJU 
-        $('#btnRezervisiKnjigu').click(function() {
-            $('#rezervacija').modal('show');
-            });
+            //PRIKAZ MODALA ZA REZERVACIJU 
+                $('#btnRezervisiKnjigu').click(function() {
+                    $('#rezervacija').modal('show');
+                    });
 
-    //DINAMICKI ISPIS DOSTUPNIH KNJIGA U REZERVACIJI
-        $.post("./ajaxOperations/opcijeRezervacija.php?funkcija=dostupno", function(response){
-              $("#izborRezervacije").html(response);
-            });
-      })
+            //DINAMICKI ISPIS DOSTUPNIH KNJIGA U REZERVACIJI
+                $.post("./ajaxOperations/opcijeRezervacija.php?funkcija=dostupno", function(response){
+                    $("#izborRezervacije").html(response);
+                    });
 
-    //UPIS REZERVACIJE
-        $("#rezervisiKnjigu").submit(function(e){
-            e.preventDefault();
-            let izborRezervacije = $("#izborRezervacije").val();
-            $.post("./ajaxOperations/rezervacija.php?",{izborRezervacije:izborRezervacije});
+            //UPIS REZERVACIJE
+                $("#rezervisiKnjigu").submit(function(e){
+                    e.preventDefault();
+                    let izborRezervacije = $("#izborRezervacije").val();
+                    $.post("./ajaxOperations/rezervacija.php?",{izborRezervacije:izborRezervacije});
+                })
+
+            //PRETRAGA
+                $("#btnPretrazi").click(function(e) {
+                    e.preventDefault();
+                    let terminPretrage = $("#terminPretrage").val();
+                    $.post("./ajaxOperations/pretraga.php?",{terminPretrage:terminPretrage}, function(response){
+                    $("#prikazKnjiga").html(response);
+                    });
+                });
         })
     </script>
 
