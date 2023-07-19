@@ -93,12 +93,21 @@
 
 
     <script>
+        // Definisanje klika na elemente s klasom "knjiga"
+        $(document).on('click', '.knjiga', function() {
+            let idModal = this.id;
+            $.post("./ajaxOperations/detaljiKnjiga.php", {idModal: idModal}, function(response){
+                $("#prikazKnjiga").html(response);
+            });
+        });
+
+
         $(document).ready(function(){
 
             //PRIKAZ KNJIGA
                 function prikaziKnjige() {
                     $.post("./crud/prikaziKnjige.php", function(response){
-                    $("#prikazKnjiga").html(response);
+                        $("#prikazKnjiga").html(response);
                     });
                 }
 
@@ -107,12 +116,12 @@
             //PRIKAZ MODALA ZA REZERVACIJU 
                 $('#btnRezervisiKnjigu').click(function() {
                     $('#rezervacija').modal('show');
-                    });
+                });
 
             //DINAMICKI ISPIS DOSTUPNIH KNJIGA U REZERVACIJI
                 $.post("./ajaxOperations/opcijeRezervacija.php?funkcija=dostupno", function(response){
                     $("#izborRezervacije").html(response);
-                    });
+                });
 
             //UPIS REZERVACIJE
                 $("#rezervisiKnjigu").submit(function(e){
@@ -126,53 +135,54 @@
                     e.preventDefault();
                     let terminPretrage = $("#terminPretrage").val();
                     $.post("./ajaxOperations/pretraga.php?",{terminPretrage:terminPretrage}, function(response){
-                    $("#prikazKnjiga").html(response);
+                        $("#prikazKnjiga").html(response);
                     });
                 });
             
             //SORTIRANJE
-            $("#sortiranje li").click(function() {
-            // Izbor korisnika (tekst stavke koju je kliknuo)
-            var kriterijum = $(this).text();
-            
-              // po nazivu
-            if (kriterijum === "Naziv") {
-              let kolona = "NAZIV_KNJIGA";
-              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
-                  $("#prikazKnjiga").html(response);
-                });
-                
-            }
-              // po autoru
-            if (kriterijum === "Autor") {
-              let kolona = "AUTOR_KNJIGA";
-              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
-                  $("#prikazKnjiga").html(response);
-                });
-            }
-              // po kategoriji
-            if (kriterijum === "Kategorija") {
-              let kolona = "KATEGORIJA";
-              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
-                  $("#prikazKnjiga").html(response);
-                });
-            }
-              // dostupne knjige
-            if (kriterijum === "Dostupno") {
-              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajDostupno", function(response) {
-                  $("#prikazKnjiga").html(response);
-                });
-            }
-              // rezervisane
-            if (kriterijum === "Rezervisano") {
-              $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajRezervisano", function(response) {
-                  $("#prikazKnjiga").html(response);
-                });
-            }
+                $("#sortiranje li").click(function() {
+                    // Izbor korisnika (tekst stavke koju je kliknuo)
+                    var kriterijum = $(this).text();
+                    
+                    // po nazivu
+                    if (kriterijum === "Naziv") {
+                        let kolona = "NAZIV_KNJIGA";
+                        $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
+                            $("#prikazKnjiga").html(response);
+                        });
+                    }
+                    // po autoru
+                    if (kriterijum === "Autor") {
+                        let kolona = "AUTOR_KNJIGA";
+                        $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
+                            $("#prikazKnjiga").html(response);
+                        });
+                    }
+                    // po kategoriji
+                    if (kriterijum === "Kategorija") {
+                        let kolona = "KATEGORIJA";
+                        $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
+                            $("#prikazKnjiga").html(response);
+                        });
+                    }
+                    // dostupne knjige
+                    if (kriterijum === "Dostupno") {
+                        $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajDostupno", function(response) {
+                            $("#prikazKnjiga").html(response);
+                        });
+                    }
+                    // rezervisane
+                    if (kriterijum === "Rezervisano") {
+                        $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajRezervisano", function(response) {
+                            $("#prikazKnjiga").html(response);
+                        });
+                    }
 
-          });
-          
+                });
+            
         })
+
+        
     </script>
 
     
