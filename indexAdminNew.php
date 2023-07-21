@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- konekcija jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+    <!-- konekcija font awesome css-a -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- konekcija bootstrap-ovog css-a -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <!-- konekcija css-a -->
+    <link rel="stylesheet" href="./style.css">
+
+    <title>Admin</title>
+</head>
+<body>
+    
+    <!-- nav bar -->
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+          <div class="container-fluid">
+
+            <!-- logo -->
+            <a id="logo" class="navbar-brand fa-fade" href="indexAdmin.php">Bookshelf <sup>©</sup></a>
+
+            <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
+              
+              <!-- dodavanje knjige -->
+              <button name="btnDodajKnjigu" id="btnDodajKnjigu" type="button" class="btn btn-outline-dark">Dodaj knjigu</button>
+
+              <!-- izmena knjige -->
+              <button name="btnIzmeniKnjigu" id="btnIzmeniKnjigu" type="button" class="btn btn-outline-dark">Izmeni knjigu</button>
+
+              <!-- brisanje knjige -->
+              <button name="btnObrisiKnjigu" id="btnObrisiKnjigu" type="button" class="btn btn-outline-dark">Obrisi knjigu</button>
+
+            
+              <!-- odjava -->
+              <form method="post">
+                <button name="odjava" id="odjava" type="submit" class="btn btn-outline-dark">Odjava</button>
+              </form>
+              <?php
+                if(isset($_POST['odjava'])){
+                  session_unset();
+                  session_destroy();
+                  header("Location: login/login.php");
+                  exit();
+                }
+              ?>
+            </div>
+          </div>
+      </nav>
+
+    <!-- PRIKAZ KNJIGA -->
+      <div class="container col-12" id="prikazKnjiga"></div>
+    
+    <!-- DODAVANJE KNJIGA -->
+      <div class="modal fade" id="dodavanjeKnjige" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body" >
+              <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
+              <form id = "dodajForma">
+                  <label for="naziv">Naziv:</label>
+                  <input type="text" name="naziv" id="naziv" required><br><br>
+
+                  <label for="autor">Autor:</label>
+                  <input type="text" name="autor" id="autor" required><br><br>
+
+                  <label for="godinaIzdavanja">Godina izdavanja:</label>
+                  <input type="text" name="godinaIzdavanja" id="godinaIzdavanja" required><br><br>
+
+                  <label for="kategorija">Kategorija:</label>
+                  <input type="text" name="kategorija" id="kategorija" required><br><br>
+
+                  <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Sačuvaj knjigu</button>
+                  
+              </form> 
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script>
+      // Definisanje klika na elemente s klasom "knjiga"
+      $(document).on('click', '.knjiga', function() {
+            let idModal = this.id;
+            $.post("./ajaxOperations/detaljiKnjiga.php", {idModal: idModal}, function(response){
+                $("#prikazKnjiga").html(response);
+            });
+        });
+
+      $(document).ready(function(){
+
+        // PRIKAZ KNJIGA
+        function prikaziKnjige() {
+            $.post("./crud/prikaziKnjige.php", function(response){
+            $("#prikazKnjiga").html(response);
+          });
+        }
+
+          prikaziKnjige(); // Poziv funkcije za prikaz
+
+        //PRIKAZ MODALA ZA DODAVANJE KNJIGE 
+          $('#btnDodajKnjigu').click(function() {
+            $('#dodavanjeKnjige').modal('show');
+          });
+        
+        // DODAVANJE KNJIGE
+          $("#dodajForma").submit(function(e){
+            e.preventDefault();
+            let naziv = $("#naziv").val();
+            let autor = $("#autor").val();
+            let godinaIzdavanja = $("#godinaIzdavanja").val();
+            let kategorija = $("#kategorija").val();
+            $.post("./crud/dodajKnjigu.php", {naziv: naziv, admin: 1, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
+              $("#dodajForma input").val(""); // resetovanje input polja forme
+              prikaziKnjige();
+            });
+          });
+      })
+    </script>
+
+    <!-- konekcija bootrstrap-ovog JS-a -->
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+
+  </body>
+</html>
+
+

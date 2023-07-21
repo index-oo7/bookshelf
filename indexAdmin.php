@@ -57,6 +57,14 @@
       </nav>
 
     <script>
+      // Definisanje klika na elemente s klasom "knjiga"
+      $(document).on('click', '.knjiga', function() {
+            let idModal = this.id;
+            $.post("./ajaxOperations/detaljiKnjiga.php", {idModal: idModal}, function(response){
+                $("#prikazKnjiga").html(response);
+            });
+        });
+
       $(document).ready(function(){
 
         // PRIKAZ KNJIGA
@@ -67,21 +75,6 @@
         }
 
           prikaziKnjige(); // Poziv funkcije za prikaz
-          
-        // PRIKAZ DETALJA O KNJIZI
-        $(".knjiga").click(function(){
-            let idModal = $(this).attr("id");
-            $.post("./ajaxOperations/detaljiKnjiga.php", {idModal: idModal}, function(response){
-                $("#prikazKnjiga").html(response);
-              })
-            })
-        
-
-
-        //PRIKAZ MODALA ZA DODAVANJE KNJIGE
-        $('#btnDodajKnjigu').click(function() {
-                    $('#dodavanjeKnjige').modal('show');
-                });
 
         // DODAVANJE KNJIGE
         $("#dodajForma").submit(function(e){
