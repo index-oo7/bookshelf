@@ -26,7 +26,7 @@
           <div class="container-fluid">
 
             <!-- logo -->
-            <a id="logo" class="navbar-brand fa-fade" href="indexAdmin.php">Bookshelf <sup>©</sup></a>
+            <a id="logo" class="navbar-brand fa-fade" href="indexAdminNew.php">Bookshelf <sup>©</sup></a>
 
             <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
               
@@ -86,6 +86,45 @@
         </div>
       </div>
 
+    <!-- IZMENA KNJIGE -->
+      <div class="modal fade" id="izmenaKnjige" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body" >
+                <!-- Forma za izmenu knjiga u lokalnoj bazi podataka -->
+                  <form id="izmeniForma">
+
+                  <select name="izborIzmene" id="izborIzmene"></select>
+
+
+                    <!-- Forma u kojoj treba uneti podatke za izmenu -->
+                    <h3>Ovde unesite izmene:</h3>
+
+                    <label for="naziv">Naziv:</label>
+                      <input type="text" name="izmeniNaziv" id="izmeniNaziv"><br><br>
+
+                      <label for="autor">Autor:</label>
+                      <input type="text" name="izmeniAutor" id="izmeniAutor"><br><br>
+
+                      <label for="godinaIzdavanja">Godina izdavanja:</label>
+                      <input type="text" name="izmeniGodinaIzdavanja" id="izmeniGodinaIzdavanja"><br><br>
+
+                      <label for="kategorija">Kategorija:</label>
+                      <input type="text" name="izmeniKategorija" id="izmeniKategorija"><br><br>
+
+                      <input type="hidden" name="admin" id="admin" value="1">
+                      <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
+
+
+                    <button type="submit" name="btnIzmeni" id="btnIzmeni" value="submit" class="btn btn-outline-dark">Sačuvaj izmene</button>
+                      
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+                
     <script>
       // Definisanje klika na elemente s klasom "knjiga"
       $(document).on('click', '.knjiga', function() {
@@ -120,6 +159,31 @@
             let kategorija = $("#kategorija").val();
             $.post("./crud/dodajKnjigu.php", {naziv: naziv, admin: 1, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
               $("#dodajForma input").val(""); // resetovanje input polja forme
+              prikaziKnjige();
+            });
+          });
+
+        //PRIKAZ MODALA ZA IZMENU KNJIGE 
+          $('#btnIzmeniKnjigu').click(function() {
+              $('#izmenaKnjige').modal('show');
+            });
+
+        //DINAMICKI ISPIS IZBORA IZMENE
+          $.post("./ajaxOperations/opcijeIzmena.php", function(response){
+            $("#izborIzmene").html(response);
+          });
+
+        // IZMENA KNJIGE
+          $("#izmeniForma").submit(function(e){
+            e.preventDefault();
+            let izborIzmene = $("#izborIzmene").val();
+            let naziv = $("#izmeniNaziv").val();
+            let autor = $("#izmeniAutor").val();
+            let godinaIzdavanja = $("#izmeniGodinaIzdavanja").val();
+            let kategorija = $("#izmeniKategorija").val();
+
+            $.post("./crud/izmeniKnjigu.php", {izborIzmene:izborIzmene, naziv: naziv, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
+              $("#izmeniForma input").val(""); // resetovanje input polja forme
               prikaziKnjige();
             });
           });

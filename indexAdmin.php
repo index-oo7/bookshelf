@@ -121,34 +121,34 @@
 
 
     <!-- DODAVANJE KNJIGA -->
-    <div class="modal fade" id="dodavanjeKnjige" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-body">
-             <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
-            <form id = "dodajForma">
-                <label for="naziv">Naziv:</label>
-                <input type="text" name="naziv" id="naziv" required><br><br>
+      <div class="modal fade" id="dodavanjeKnjige" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
+              <form id = "dodajForma">
+                  <label for="naziv">Naziv:</label>
+                  <input type="text" name="naziv" id="naziv" required><br><br>
 
-                <label for="autor">Autor:</label>
-                <input type="text" name="autor" id="autor" required><br><br>
+                  <label for="autor">Autor:</label>
+                  <input type="text" name="autor" id="autor" required><br><br>
 
-                <label for="godinaIzdavanja">Godina izdavanja:</label>
-                <input type="text" name="godinaIzdavanja" id="godinaIzdavanja" required><br><br>
+                  <label for="godinaIzdavanja">Godina izdavanja:</label>
+                  <input type="text" name="godinaIzdavanja" id="godinaIzdavanja" required><br><br>
 
-                <label for="kategorija">Kategorija:</label>
-                <input type="text" name="kategorija" id="kategorija" required><br><br>
+                  <label for="kategorija">Kategorija:</label>
+                  <input type="text" name="kategorija" id="kategorija" required><br><br>
 
-                <input type="hidden" name="admin" id="admin" value="1">
-                <!-- samo za test-->
+                  <input type="hidden" name="admin" id="admin" value="1">
+                  <!-- samo za test-->
 
-                <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Sačuvaj knjigu</button>
-                
-            </form> 
+                  <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Sačuvaj knjigu</button>
+                  
+              </form> 
+            </div>
           </div>
         </div>
       </div>
-    </div>
     
 
 
