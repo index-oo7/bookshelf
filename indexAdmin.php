@@ -56,6 +56,92 @@
           </div>
       </nav>
 
+    <!-- PRIKAZ KNJIGA -->
+      <div class="container col-12" id="prikazKnjiga"></div>
+    
+    <!-- DODAVANJE KNJIGA -->
+      <div class="modal fade" id="dodavanjeKnjige" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
+              <form id = "dodajForma">
+                  <label for="naziv">Naziv:</label>
+                  <input type="text" name="naziv" id="naziv" required><br><br>
+
+                  <label for="autor">Autor:</label>
+                  <input type="text" name="autor" id="autor" required><br><br>
+
+                  <label for="godinaIzdavanja">Godina izdavanja:</label>
+                  <input type="text" name="godinaIzdavanja" id="godinaIzdavanja" required><br><br>
+
+                  <label for="kategorija">Kategorija:</label>
+                  <input type="text" name="kategorija" id="kategorija" required><br><br>
+
+                  <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Sačuvaj knjigu</button>
+                  
+              </form> 
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- IZMENA KNJIGE -->
+      <div class="modal fade" id="izmenaKnjige" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+                <!-- Forma za izmenu knjiga u lokalnoj bazi podataka -->
+                  <form id="izmeniForma">
+
+                  <select name="izborIzmene" id="izborIzmene"></select>
+
+
+                    <!-- Forma u kojoj treba uneti podatke za izmenu -->
+                    <h3>Ovde unesite izmene:</h3>
+
+                    <label for="naziv">Naziv:</label>
+                      <input type="text" name="izmeniNaziv" id="izmeniNaziv"><br><br>
+
+                      <label for="autor">Autor:</label>
+                      <input type="text" name="izmeniAutor" id="izmeniAutor"><br><br>
+
+                      <label for="godinaIzdavanja">Godina izdavanja:</label>
+                      <input type="text" name="izmeniGodinaIzdavanja" id="izmeniGodinaIzdavanja"><br><br>
+
+                      <label for="kategorija">Kategorija:</label>
+                      <input type="text" name="izmeniKategorija" id="izmeniKategorija"><br><br>
+
+                      <input type="hidden" name="admin" id="admin" value="1">
+                      <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
+
+
+                    <button type="submit" name="btnIzmeni" id="btnIzmeni" value="submit" class="btn btn-outline-dark">Sačuvaj izmene</button>
+                      
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!--BRISANJE KNJIGE  -->
+      <div class="modal fade" id="brisanjeKnjige" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <form id="obrisiForma">
+                <h3>Ovde izaberite koju knjigu zelite da obrišete:</h3>
+                <select name="izborBrisanja" id="izborBrisanja"></select><br><br>
+                  
+                <button type="submit" name="btnObrisi" id="btnObrisi" value="submit" class="btn btn-outline-dark">Obriši knjigu</button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+          
     <script>
       // Definisanje klika na elemente s klasom "knjiga"
       $(document).on('click', '.knjiga', function() {
@@ -76,154 +162,71 @@
 
           prikaziKnjige(); // Poziv funkcije za prikaz
 
-        // DODAVANJE KNJIGE
-        $("#dodajForma").submit(function(e){
-          e.preventDefault();
-          let naziv = $("naziv").val();
-          let autor = $("autor").val();
-          let godinaIzdavanja = $("godinaIzdavanja").val();
-          let kategorija = $("kategorija").val();
-          $.post("./crud/dodajKnjigu.php", {naziv: naziv, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
-            $("#dodajForma input").val(""); // resetovanje input polja forme
-            prikaziKnjige();
+        //PRIKAZ MODALA ZA DODAVANJE KNJIGE 
+          $('#btnDodajKnjigu').click(function() {
+            $('#dodavanjeKnjige').modal('show');
           });
-        });
+        
+        // DODAVANJE KNJIGE
+          $("#dodajForma").submit(function(e){
+            e.preventDefault();
+            let naziv = $("#naziv").val();
+            let autor = $("#autor").val();
+            let godinaIzdavanja = $("#godinaIzdavanja").val();
+            let kategorija = $("#kategorija").val();
+            $.post("./crud/dodajKnjigu.php", {naziv: naziv, admin: 1, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
+              $("#dodajForma input").val(""); // resetovanje input polja forme
+              prikaziKnjige();
+            });
+          });
+
+        //PRIKAZ MODALA ZA IZMENU KNJIGE 
+          $('#btnIzmeniKnjigu').click(function() {
+              $('#izmenaKnjige').modal('show');
+            });
+
+        //DINAMICKI ISPIS IZBORA IZMENE
+          $.post("./ajaxOperations/opcijeIzmena.php", function(response){
+            $("#izborIzmene").html(response);
+          });
 
         // IZMENA KNJIGE
-        $("#izmeniForma").submit(function(e){
-          e.preventDefault();
-          let izborIzmene = $("#izborIzmene").val();
-          let naziv = $("#izmeniNaziv").val();
-          let autor = $("#izmeniAutor").val();
-          let godinaIzdavanja = $("#izmeniGodinaIzdavanja").val();
-          let kategorija = $("#izmeniKategorija").val();
+          $("#izmeniForma").submit(function(e){
+            e.preventDefault();
+            let izborIzmene = $("#izborIzmene").val();
+            let naziv = $("#izmeniNaziv").val();
+            let autor = $("#izmeniAutor").val();
+            let godinaIzdavanja = $("#izmeniGodinaIzdavanja").val();
+            let kategorija = $("#izmeniKategorija").val();
 
-          $.post("./crud/izmeniKnjigu.php", {izborIzmene:izborIzmene, naziv: naziv, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
-            $("#izmeniForma input").val(""); // resetovanje input polja forme
-            prikaziKnjige();
+            $.post("./crud/izmeniKnjigu.php", {izborIzmene:izborIzmene, naziv: naziv, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
+              $("#izmeniForma input").val(""); // resetovanje input polja forme
+              prikaziKnjige();
+            });
           });
-        });
+
+        //PRIKAZ MODALA ZA BRISANJE KNJIGE 
+          $('#btnObrisiKnjigu').click(function() {
+            $('#brisanjeKnjige').modal('show');
+          });
         
+        //DINAMICKI ISPIS IZBORA BRISANJA
+          $.post("./ajaxOperations/opcijeBrisanje.php", function(response){
+              $("#izborBrisanja").html(response);
+            });
+
         // BRISANJE KNJIGE
-        $("#obrisiForma").submit(function(e){
-          e.preventDefault();
-          let izborBrisanja = $("#izborBrisanja").val();
+          $("#obrisiForma").submit(function(e){
+            e.preventDefault();
+            let izborBrisanja = $("#izborBrisanja").val();
 
-          $.post("./crud/obrisiKnjigu.php", {izborBrisanja:izborBrisanja}, function(response){
-            prikaziKnjige();
+            $.post("./crud/obrisiKnjigu.php", {izborBrisanja:izborBrisanja}, function(response){
+              prikaziKnjige();
+            });
           });
-        });
-            
-
-
+        
       })
-      </script>
-
-
-    <!-- DODAVANJE KNJIGA -->
-      <div class="modal fade" id="dodavanjeKnjige" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-body">
-              <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
-              <form id = "dodajForma">
-                  <label for="naziv">Naziv:</label>
-                  <input type="text" name="naziv" id="naziv" required><br><br>
-
-                  <label for="autor">Autor:</label>
-                  <input type="text" name="autor" id="autor" required><br><br>
-
-                  <label for="godinaIzdavanja">Godina izdavanja:</label>
-                  <input type="text" name="godinaIzdavanja" id="godinaIzdavanja" required><br><br>
-
-                  <label for="kategorija">Kategorija:</label>
-                  <input type="text" name="kategorija" id="kategorija" required><br><br>
-
-                  <input type="hidden" name="admin" id="admin" value="1">
-                  <!-- samo za test-->
-
-                  <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Sačuvaj knjigu</button>
-                  
-              </form> 
-            </div>
-          </div>
-        </div>
-      </div>
-    
-
-
-    <!-- PRIKAZ KNJIGA -->
-      <div class="container col-12" id="prikazKnjiga"></div>
-    
-
-
-    <!-- IZMENA KNJIGE -->
-
-      <div id="izmenaKnjige" class="prozor">
-
-        <!-- Forma za izmenu knjiga u lokalnoj bazi podataka -->
-        <form id="izmeniForma">
-
-          <select name="izborIzmene" id="izborIzmene">
-            <!-- DINAMICKI ISPISATI -->
-            <?php
-              $odgovor="";
-              $upit = 'SELECT * FROM knjiga';
-              $rez = mysqli_query($database, $upit);
-              while($red = mysqli_fetch_assoc($rez))
-                $odgovor.="<option value='{$red['ID_KNJIGA']}'>{$red['NAZIV_KNJIGA']}</option>";
-              echo $odgovor;
-            ?>
-          </select>
-
-
-          <!-- Forma u kojoj treba uneti podatke za izmenu -->
-          <h3>Ovde unesite izmene:</h3>
-
-          <label for="naziv">Naziv:</label>
-            <input type="text" name="izmeniNaziv" id="izmeniNaziv"><br><br>
-
-            <label for="autor">Autor:</label>
-            <input type="text" name="izmeniAutor" id="izmeniAutor"><br><br>
-
-            <label for="godinaIzdavanja">Godina izdavanja:</label>
-            <input type="text" name="izmeniGodinaIzdavanja" id="izmeniGodinaIzdavanja"><br><br>
-
-            <label for="kategorija">Kategorija:</label>
-            <input type="text" name="izmeniKategorija" id="izmeniKategorija"><br><br>
-
-            <input type="hidden" name="admin" id="admin" value="1">
-            <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
-    
-
-          <button type="submit" name="btnIzmeni" id="btnIzmeni" value="submit" class="btn btn-outline-dark">Sačuvaj izmene</button>
-            
-        </form> 
-
-      </div> 
-
-    <!-- BRISANJE KNJIGE -->
-
-      
-        <form id="obrisiForma">
-          <h3>Ovde izaberite koju knjigu zelite da obrišete:</h3>
-          <select name="izborBrisanja" id="izborBrisanja">
-            <?php
-              $odgovor="";
-              $upit = 'SELECT * FROM knjiga';
-              $rez = mysqli_query($database, $upit);
-              while($red = mysqli_fetch_assoc($rez))
-                $odgovor.="<option value='{$red['ID_KNJIGA']}'>{$red['NAZIV_KNJIGA']}</option>";
-              echo $odgovor;
-            ?>
-
-          </select><br><br>
-          
-          <button type="submit" name="btnObrisi" id="btnObrisi" value="submit" class="btn btn-outline-dark">Obriši knjigu</button>
-
-        </form>
-
-      
+    </script>
 
     <!-- konekcija bootrstrap-ovog JS-a -->
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
