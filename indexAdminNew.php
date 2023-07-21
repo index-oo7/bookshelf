@@ -63,7 +63,7 @@
       <div class="modal fade" id="dodavanjeKnjige" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
-            <div class="modal-body" >
+            <div class="modal-body">
               <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
               <form id = "dodajForma">
                   <label for="naziv">Naziv:</label>
@@ -90,7 +90,7 @@
       <div class="modal fade" id="izmenaKnjige" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
-            <div class="modal-body" >
+            <div class="modal-body">
                 <!-- Forma za izmenu knjiga u lokalnoj bazi podataka -->
                   <form id="izmeniForma">
 
@@ -124,7 +124,24 @@
           </div>
         </div>
       </div>
-                
+
+    <!--BRISANJE KNJIGE  -->
+      <div class="modal fade" id="brisanjeKnjige" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <form id="obrisiForma">
+                <h3>Ovde izaberite koju knjigu zelite da obrišete:</h3>
+                <select name="izborBrisanja" id="izborBrisanja"></select><br><br>
+                  
+                <button type="submit" name="btnObrisi" id="btnObrisi" value="submit" class="btn btn-outline-dark">Obriši knjigu</button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+          
     <script>
       // Definisanje klika na elemente s klasom "knjiga"
       $(document).on('click', '.knjiga', function() {
@@ -187,6 +204,27 @@
               prikaziKnjige();
             });
           });
+
+        //PRIKAZ MODALA ZA BRISANJE KNJIGE 
+          $('#btnObrisiKnjigu').click(function() {
+            $('#brisanjeKnjige').modal('show');
+          });
+        
+        //DINAMICKI ISPIS IZBORA BRISANJA
+          $.post("./ajaxOperations/opcijeBrisanje.php", function(response){
+              $("#izborBrisanja").html(response);
+            });
+
+        // BRISANJE KNJIGE
+          $("#obrisiForma").submit(function(e){
+            e.preventDefault();
+            let izborBrisanja = $("#izborBrisanja").val();
+
+            $.post("./crud/obrisiKnjigu.php", {izborBrisanja:izborBrisanja}, function(response){
+              prikaziKnjige();
+            });
+          });
+        
       })
     </script>
 

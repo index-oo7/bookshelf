@@ -204,7 +204,7 @@
 
     <!-- BRISANJE KNJIGE -->
 
-      <div id="brisanjeKnjige" class="prozor">
+      
         <form id="obrisiForma">
           <h3>Ovde izaberite koju knjigu zelite da obrišete:</h3>
           <select name="izborBrisanja" id="izborBrisanja">
@@ -223,7 +223,7 @@
 
         </form>
 
-      </div>
+      
 
     <!-- konekcija bootrstrap-ovog JS-a -->
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
