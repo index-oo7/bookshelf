@@ -125,7 +125,7 @@
         </div>
       </div>
 
-    <!--BRISANJE KNJIGE  -->
+    <!-- BRISANJE KNJIGE  -->
       <div class="modal fade" id="brisanjeKnjige" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
@@ -154,11 +154,11 @@
       $(document).ready(function(){
 
         // PRIKAZ KNJIGA
-        function prikaziKnjige() {
-            $.post("./crud/prikaziKnjige.php", function(response){
-            $("#prikazKnjiga").html(response);
-          });
-        }
+          function prikaziKnjige() {
+              $.post("./crud/prikaziKnjige.php", function(response){
+              $("#prikazKnjiga").html(response);
+            });
+          }
 
           prikaziKnjige(); // Poziv funkcije za prikaz
 
