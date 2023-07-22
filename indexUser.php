@@ -50,6 +50,14 @@
                                 <li id="sortRezervisano"><a class="dropdown-item">Rezervisano</a></li>
                             </ul>
                         </div>
+                    
+                    <!-- kategorija -->
+                        <div class="dropdown">
+                            <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true" name="btnKategorija" id="btnKategorija">
+                                Kategorije
+                            </button>
+                            <ul class="dropdown-menu" name="izborKategorije" id="izborKategorije"></ul>
+                        </div>
 
                     <!-- odjava -->
                         <form method="post">
@@ -178,6 +186,11 @@
                         });
                     }
 
+                });
+            
+            //DINAMICKI ISPIS DOSTUPNIH KATEGORIJA
+                $.post("./ajaxOperations/opcijeKategorija.php", function(response){
+                    $("#izborKategorije").html(response);
                 });
             
         })
