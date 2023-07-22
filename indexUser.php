@@ -109,6 +109,14 @@
             });
         });
 
+        //SORTIRANJE KATEGORIJA
+        $(document).on('click', '#izborKategorije li', function() {
+                    var kriterijum = $(this).text();
+                    $.post("./ajaxOperations/kategorizacija.php", {kriterijum:kriterijum}, function(response) {
+                            $("#prikazKnjiga").html(response);
+                        });
+                })
+
 
         $(document).ready(function(){
 
