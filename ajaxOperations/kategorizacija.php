@@ -16,7 +16,7 @@
             $odgovor="<div class='row' style='margin: 20px;'>";
 
             // Izvrši SQL upit za sortiranje
-            $upit = "SELECT * FROM knjiga WHERE KATEGORIJA LIKE '%$kriterijum%'";
+            $upit = "SELECT * FROM knjiga WHERE KATEGORIJA LIKE '$kriterijum'";
             $rezultat = mysqli_query($database, $upit);
             
             $i=1;
