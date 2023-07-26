@@ -9,41 +9,61 @@
     }
 
 
-  $odgovor="<div class='row' style='margin: 20px;'>";
-  $upit = 'SELECT * FROM knjiga';
-  $rez = mysqli_query($database, $upit);
-  $i=1;
-  while($red = mysqli_fetch_assoc($rez)){
-    if($i % 6 != 0){
-      $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}'>
-        <div class='card'>
-          <img src='{$red['SLIKA_KNJIGA']}' class='card-img-top'>
-          <div class='card-body'>
-            <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
-            <p class='card-text'><span class = 'autor'>AUTOR</span></p>
-          </div>
-        </div>
-      </div>";
-    }else{
-      $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}'>
-        <div class='card'>
-          <div class='card-body'>
-            <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
-            <p class='card-text'><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span></p>
-          </div>
-        </div>
-      </div>
-      </div>"; // postoji jos jedan div koji zatvara red jer je 6. knjiga prikazana
-      $odgovor.="<div class='row'  style='margin: 20px;'>";
-    }
-    $i++;
-  }
-  if($i % 6 != 0) $odgovor.="</div>";
+  
+$odgovor = "<div class='row' style='margin: 20px;'>";
+$upit = 'SELECT * FROM knjiga';
+$rez = mysqli_query($database, $upit);
+$i = 1;
 
-  echo $odgovor;
+while ($red = mysqli_fetch_assoc($rez)) {
+    // Dohvatanje svih autora za datu knjigu
+    $knjigaID = $red['ID_KNJIGA'];
+    $autorUpit = "SELECT a.IME_AUTOR FROM autor a
+                  INNER JOIN autorizacija az ON a.ID_AUTOR = az.ID_AUTOR
+                  WHERE az.ID_KNJIGA = $knjigaID";
+
+    $autorRez = mysqli_query($database, $autorUpit);
+    $autori = array();
+
+    while ($autorRed = mysqli_fetch_assoc($autorRez)) {
+        $autori[] = $autorRed['IME_AUTOR'];
+    }
+
+    $autoriString = implode(', ', $autori);
+
+    if ($i % 6 != 0) {
+        $odgovor .= "<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}'>
+                        <div class='card'>
+                            <img src='{$red['SLIKA_KNJIGA']}' class='card-img-top'>
+                            <div class='card-body'>
+                                <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
+                                <p class='card-text'><span class='autor'>$autoriString</span></p>
+                            </div>
+                        </div>
+                    </div>";
+    } else {
+        $odgovor .= "<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}'>
+                        <div class='card'>
+                        <img src='{$red['SLIKA_KNJIGA']}' class='card-img-top'>
+                            <div class='card-body'>
+                                <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
+                                <p class='card-text'><span class='autor'>$autoriString</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>"; // postoji jos jedan div koji zatvara red jer je 6. knjiga prikazana
+        $odgovor .= "<div class='row'  style='margin: 20px;'>";
+    }
+
+    $i++;
+}
+
+if ($i % 6 != 0) $odgovor .= "</div>";
+
+echo $odgovor;
+
 
   // ZATVARANJE BAZE
     mysqli_close($database);
 
 ?>
-<!-- {$red['AUTOR_KNJIGA']} -->
