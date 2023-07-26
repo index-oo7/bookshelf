@@ -1,6 +1,6 @@
 <?php
   //KONEKCIJA NA BAZU
-    $database=mysqli_connect("localhost", "root", "", "homelib");
+    $database=mysqli_connect("localhost", "root", "", "bookshelf");
     mysqli_query($database, "SET NAMES utf8");
     
     // Provera konekcije sa bazom
@@ -19,7 +19,7 @@
         <div class='card'>
           <div class='card-body'>
             <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
-            <p class='card-text'><span class = 'autor'>{$red['AUTOR_KNJIGA']}</span></p>
+            <p class='card-text'><span class = 'autor'>AUTOR</span></p>
           </div>
         </div>
       </div>";
@@ -45,3 +45,4 @@
     mysqli_close($database);
 
 ?>
+<!-- {$red['AUTOR_KNJIGA']} -->

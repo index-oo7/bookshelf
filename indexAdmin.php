@@ -65,7 +65,7 @@
           <div class="modal-content">
             <div class="modal-body">
               <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
-              <form id = "dodajForma">
+              <form id = "dodajForma" enctype = "multipart/form-data">
                   <label for="naziv">Naziv:</label>
                   <input type="text" name="naziv" id="naziv" required><br><br>
 
@@ -73,10 +73,16 @@
                   <input type="text" name="autor" id="autor" required><br><br>
 
                   <label for="godinaIzdavanja">Godina izdavanja:</label>
-                  <input type="text" name="godinaIzdavanja" id="godinaIzdavanja" required><br><br>
+                  <input type="number" name="godinaIzdavanja" id="godinaIzdavanja" required><br><br>
 
                   <label for="kategorija">Kategorija:</label>
                   <input type="text" name="kategorija" id="kategorija" required><br><br>
+
+                  <label for="stanje">Stanje:</label>
+                  <input type="number" name="stanje" id="stanje" required><br><br>
+
+                  <label for="slika">Slika:</label>
+                  <input type="file" name="slika" id="slika" accept="image/*" required><br><br>
 
                   <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Sačuvaj knjigu</button>
                   
@@ -170,13 +176,34 @@
         // DODAVANJE KNJIGE
           $("#dodajForma").submit(function(e){
             e.preventDefault();
+            
             let naziv = $("#naziv").val();
             let autor = $("#autor").val();
             let godinaIzdavanja = $("#godinaIzdavanja").val();
             let kategorija = $("#kategorija").val();
-            $.post("./crud/dodajKnjigu.php", {naziv: naziv, admin: 1, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
-              $("#dodajForma input").val(""); // resetovanje input polja forme
-              prikaziKnjige();
+            let stanje = $("#stanje").val();
+            let slika = $("#slika")[0].files[0];
+
+
+            var formData = new FormData(this);
+            formData.append('naziv', naziv);
+            formData.append('autor', autor);
+            formData.append('godinaIzdavanja', godinaIzdavanja);
+            formData.append('kategorija', kategorija);
+            formData.append('stanje', stanje);
+            formData.append('slika', slika);
+
+
+            $.ajax({
+              url: "./crud/dodajKnjigu.php",
+              type: "POST",
+              data: formData,
+              contentType: false,
+              processData: false,
+              success: function(response) {
+                  console.log(response);
+                  prikaziKnjige();
+              }
             });
           });
 
