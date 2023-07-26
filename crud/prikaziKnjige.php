@@ -17,6 +17,7 @@
     if($i % 6 != 0){
       $odgovor.="<div class='col-md-2 knjiga' id='{$red['ID_KNJIGA']}'>
         <div class='card'>
+          <img src='{$red['SLIKA_KNJIGA']}' class='card-img-top'>
           <div class='card-body'>
             <h5 class='card-title'>{$red['NAZIV_KNJIGA']}</h5>
             <p class='card-text'><span class = 'autor'>AUTOR</span></p>

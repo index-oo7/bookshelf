@@ -16,19 +16,19 @@
         $kategorija = $_POST['kategorija'];
         $stanje = $_POST['stanje'];
 
-    
+        $folder = '../slike/';
 
     // Provera i čuvanje slike
         if (isset($_FILES['slika'])) {
             $imeSlike = $_FILES['slika']['name'];
-            $privremenoImeSlike = $_FILES['slika']['tmp_name'];
-            $lokacijaSlike = 'slike/' . $imeSlike;
+            $privremenaLokacija = $_FILES['slika']['tmp_name'];
+            $lokacijaSlike = $folder . $imeSlike;
 
         // Premestite sliku iz privremenog foldera u odgovarajući folder na serveru
-            move_uploaded_file($privremenoImeSlike, 'C:/xampp/htdocs/Projects/bookshelf/' . $lokacijaSlike);
+            move_uploaded_file($privremenaLokacija, $lokacijaSlike);
 
         // Slanje upita za upis knjige u bazu
-            $upit = "CALL DodajKnjigu('$naziv', '$autor', $godinaIzdavanja, '$lokacijaSlike','$kategorija', $stanje);";
+            $upit = "CALL DodajKnjigu('$naziv', '$autor', $godinaIzdavanja, 'slike/$imeSlike','$kategorija', $stanje);";
             mysqli_query($database, $upit);
         }
 
