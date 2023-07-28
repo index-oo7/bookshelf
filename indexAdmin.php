@@ -178,20 +178,21 @@
             e.preventDefault();
             
             let naziv = $("#naziv").val();
-            let autor = $("#autor").val();
             let godinaIzdavanja = $("#godinaIzdavanja").val();
-            let kategorija = $("#kategorija").val();
             let stanje = $("#stanje").val();
             let slika = $("#slika")[0].files[0];
 
-
             var formData = new FormData(this);
+
             formData.append('naziv', naziv);
-            formData.append('autor', autor);
             formData.append('godinaIzdavanja', godinaIzdavanja);
-            formData.append('kategorija', kategorija);
             formData.append('stanje', stanje);
             formData.append('slika', slika);
+
+            let kategorije = $("#kategorija").val();
+            let autori = $("#autor").val();
+            formData.append('kategorije', kategorije);
+            formData.append('autori', autori);
 
 
             $.ajax({
