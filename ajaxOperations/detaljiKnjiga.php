@@ -1,7 +1,7 @@
 <?php
     //KONEKCIJA NA BAZU
 
-        $database = mysqli_connect("localhost", "root", "", "homelib");
+        $database = mysqli_connect("localhost", "root", "", "bookshelf");
         mysqli_query($database, "SET NAMES utf8");
 
         if (!$database) {
@@ -11,20 +11,51 @@
 
         $odgovor="";
         $idModal = $_POST['idModal'];
-        $upit = "SELECT * FROM knjiga WHERE ID_KNJIGA LIKE '$idModal'";
-        $rez = mysqli_query($database, $upit);
-        $red = mysqli_fetch_assoc($rez);
+
+        //ISPISIVANJE KNJIGE
+            $upitKnjiga = "SELECT * FROM knjiga WHERE ID_KNJIGA LIKE '$idModal' AND STATUS_KNJIGA = TRUE";
+            $rezKnjiga = mysqli_query($database, $upitKnjiga);
+            $redKnjiga = mysqli_fetch_assoc($rezKnjiga);
+
+        //ISPISIVANJE AUTORA
+            $autorUpit = "SELECT a.IME_AUTOR FROM autor a
+                        INNER JOIN autorizacija az ON a.ID_AUTOR = az.ID_AUTOR
+                        WHERE az.ID_KNJIGA = $idModal";
+
+            $autorRez = mysqli_query($database, $autorUpit);
+            $autori = array();
+
+            while ($autorRed = mysqli_fetch_assoc($autorRez)) {
+                $autori[] = $autorRed['IME_AUTOR'];
+            }
+
+            $autoriString = implode(', ', $autori);
+
+        //ISPISIVANJE KATEGORIJE
+            $kategorijaUpit = "SELECT k.NAZIV_KATEGORIJA FROM kategorija k
+                        INNER JOIN kategorizacija kz ON k.ID_KATEGORIJA = kz.ID_KATEGORIJA
+                        WHERE kz.ID_KNJIGA = $idModal";
+
+            $kategorijaRez = mysqli_query($database, $kategorijaUpit);
+            $kategorije = array();
+
+            while ($kategorijaRed = mysqli_fetch_assoc($kategorijaRez)) {
+                $kategorije[] = $kategorijaRed['NAZIV_KATEGORIJA'];
+            }
+
+            $kategorijeString = implode(', ', $kategorije);
         
-        $odgovor = "
-        <div class='card detalji' style='width: 18rem;'>
-            <img class='card-img-top' src='https://www.vulkani.rs/files/thumbs/files/images/slike_proizvoda/thumbs_1200/28528_1200_1200px.jpg' alt='Card image cap'>
-            <div class='card-body'>
-                <h5 class='card-title'>{$red['NAZIV_KNJIGA']} </h5>
-                <p class='card-text'> {$red['AUTOR_KNJIGA']} <br>
-                        {$red['GODINA_IZDAVANJA_KNJIGA']} <br>
-                        {$red['KATEGORIJA']} <br> </p>
-            </div>
-        </div>";
+            $odgovor = "
+            <div class='card ' style='width: 15rem; margin: 10px;'>
+                <img class='card-img-top' src='{$redKnjiga['SLIKA_KNJIGA']}' alt='Card image cap'>
+                <div class='card-body'>
+                    <h5 class='card-title'>{$redKnjiga['NAZIV_KNJIGA']} </h5>
+                    <p class='card-text'> <b>Autor/i:</b> $autoriString <br>
+                    <b>Godina izdavanja:</b> {$redKnjiga['GODINA_IZDAVANJA_KNJIGA']} <br>
+                    <b>Kategorija/e:</b> $kategorijeString <br> </p>
+                    <b>Raspolozivo stanje:</b> {$redKnjiga['STANJE_KNJIGA']}
+                </div>
+            </div>";
 
 
         echo $odgovor;
