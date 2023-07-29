@@ -59,7 +59,7 @@
             // Povezivanje kategorija sa knjigom
             if (isset($_POST['kategorije'])) {
                 $kategorijeString = $_POST['kategorije'];
-                $kategorije = explode(', ', $kategorijeString); // Razdvajamo string na osnovu zareza i razmaka
+                $kategorije = explode(',', $kategorijeString); // Razdvajamo string na osnovu zareza i razmaka
                 // Trimovanje elemenata niza
                 $kategorije = array_map('trim', $kategorije);
                 for($i=0; $i <  count($kategorije); $i++){
