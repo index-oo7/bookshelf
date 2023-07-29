@@ -118,8 +118,11 @@
                       <label for="kategorija">Kategorija:</label>
                       <input type="text" name="izmeniKategorija" id="izmeniKategorija"><br><br>
 
-                      <input type="hidden" name="admin" id="admin" value="1">
-                      <!-- umesto value=1 ce ici vrednost sesije u php tagovima -->
+                      <label for="stanje">Stanje:</label>
+                      <input type="number" name="izmeniStanje" id="izmeniStanje"><br><br>
+
+                      <label for="slika">Slika:</label>
+                      <input type="file" name="izmeniSlika" id="izmeniSlika" accept="image/*"><br><br>
 
 
                     <button type="submit" name="btnIzmeni" id="btnIzmeni" value="submit" class="btn btn-outline-dark">Sačuvaj izmene</button>
@@ -226,10 +229,32 @@
             let autor = $("#izmeniAutor").val();
             let godinaIzdavanja = $("#izmeniGodinaIzdavanja").val();
             let kategorija = $("#izmeniKategorija").val();
+            let stanje = $("izmeniStanje").val();
+            let slika = $("#izmeniSlika")[0].files[0];
 
-            $.post("./crud/izmeniKnjigu.php", {izborIzmene:izborIzmene, naziv: naziv, autor:autor, godinaIzdavanja:godinaIzdavanja, kategorija:kategorija}, function(response){
-              $("#izmeniForma input").val(""); // resetovanje input polja forme
-              prikaziKnjige();
+
+            var formDataIzmena = new FormData(this);
+
+            formDataIzmena.append('naziv', naziv);
+            formDataIzmena.append('godinaIzdavanja', godinaIzdavanja);
+            formDataIzmena.append('stanje', stanje);
+            formDataIzmena.append('slika', slika);
+
+            let kategorije = $("#kategorija").val();
+            let autori = $("#autor").val();
+            formDataIzmena.append('kategorije', kategorije);
+            formDataIzmena.append('autori', autori);
+
+            $.ajax({
+              url: "./crud/izmeniKnjigu.php",
+              type: "POST",
+              data: formData,
+              contentType: false,
+              processData: false,
+              success: function(response) {
+                  console.log(response);
+                  prikaziKnjige();
+              }
             });
           });
 
