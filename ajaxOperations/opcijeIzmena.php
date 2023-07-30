@@ -13,7 +13,7 @@
     $odgovor="";
 
     // Izvrši SQL upit za prikaz nerezervisanih knjiga
-    $upit = "SELECT * FROM knjiga";
+    $upit = "SELECT * FROM knjiga WHERE STATUS_KNJIGA = 1";
     $rezultat = mysqli_query($database, $upit);
         
     // Proveri da li je upit uspešno izvršen

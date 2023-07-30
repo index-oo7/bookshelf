@@ -1,7 +1,7 @@
 <?php
     //KONEKCIJA NA BAZU
 
-        $database=mysqli_connect("localhost", "root", "", "homelib");
+        $database=mysqli_connect("localhost", "root", "", "bookshelf");
         mysqli_query($database, "SET NAMES utf8");
 
         // Provera konekcije sa bazom
@@ -13,7 +13,7 @@
     $odgovor="";
 
     // Izvrši SQL upit za prikaz nerezervisanih knjiga
-    $upit = "SELECT * FROM knjiga";
+    $upit = "SELECT * FROM knjiga WHERE STATUS_KNJIGA = 1";
     $rezultat = mysqli_query($database, $upit);
         
     // Proveri da li je upit uspešno izvršen

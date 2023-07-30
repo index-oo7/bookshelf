@@ -11,7 +11,7 @@
 
   
   $odgovor = "<div class='row' style='margin: 20px;'>";
-  $upit = 'SELECT * FROM knjiga';
+  $upit = 'SELECT * FROM knjiga WHERE STATUS_KNJIGA = 1';
   $rez = mysqli_query($database, $upit);
   $i = 1;
 
