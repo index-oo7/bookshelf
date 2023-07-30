@@ -98,7 +98,7 @@
           <div class="modal-content">
             <div class="modal-body">
                 <!-- Forma za izmenu knjiga u lokalnoj bazi podataka -->
-                  <form id="izmeniForma">
+                  <form id="izmeniForma" enctype = "multipart/form-data">
 
                   <select name="izborIzmene" id="izborIzmene"></select>
 
@@ -119,7 +119,7 @@
                       <input type="text" name="izmeniKategorija" id="izmeniKategorija"><br><br>
 
                       <label for="stanje">Stanje:</label>
-                      <input type="number" name="izmeniStanje" id="izmeniStanje"><br><br>
+                      <input type="text" name="izmeniStanje" id="izmeniStanje"><br><br>
 
                       <label for="slika">Slika:</label>
                       <input type="file" name="izmeniSlika" id="izmeniSlika" accept="image/*"><br><br>
@@ -152,15 +152,15 @@
       </div>
           
     <script>
-      // Definisanje klika na elemente s klasom "knjiga"
-      $(document).on('click', '.knjiga', function() {
-            let idModal = this.id;
-            $.post("./ajaxOperations/detaljiKnjiga.php", {idModal: idModal}, function(response){
-                $("#prikazKnjiga").html(response);
+        // Definisanje klika na elemente s klasom "knjiga"
+          $(document).on('click', '.knjiga', function() {
+                let idModal = this.id;
+                $.post("./ajaxOperations/detaljiKnjiga.php", {idModal: idModal}, function(response){
+                    $("#prikazKnjiga").html(response);
+                });
             });
-        });
 
-      $(document).ready(function(){
+        $(document).ready(function(){
 
         // PRIKAZ KNJIGA
           function prikaziKnjige() {
@@ -226,29 +226,26 @@
             e.preventDefault();
             let izborIzmene = $("#izborIzmene").val();
             let naziv = $("#izmeniNaziv").val();
-            let autor = $("#izmeniAutor").val();
             let godinaIzdavanja = $("#izmeniGodinaIzdavanja").val();
-            let kategorija = $("#izmeniKategorija").val();
-            let stanje = $("izmeniStanje").val();
+            let stanje = $("#izmeniStanje").val();
             let slika = $("#izmeniSlika")[0].files[0];
-
+            let kategorije = $("#izmeniKategorija").val();
+            let autori = $("#izmeniAutor").val();
 
             var formDataIzmena = new FormData(this);
 
+            formDataIzmena.append('izborIzmene', izborIzmene);
             formDataIzmena.append('naziv', naziv);
             formDataIzmena.append('godinaIzdavanja', godinaIzdavanja);
             formDataIzmena.append('stanje', stanje);
             formDataIzmena.append('slika', slika);
-
-            let kategorije = $("#kategorija").val();
-            let autori = $("#autor").val();
             formDataIzmena.append('kategorije', kategorije);
             formDataIzmena.append('autori', autori);
 
             $.ajax({
               url: "./crud/izmeniKnjigu.php",
               type: "POST",
-              data: formData,
+              data: formDataIzmena,
               contentType: false,
               processData: false,
               success: function(response) {
