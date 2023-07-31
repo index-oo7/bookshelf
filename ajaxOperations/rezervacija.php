@@ -1,4 +1,5 @@
 <?php
+    session_start();
     //KONEKCIJA NA BAZU
         $database=mysqli_connect("localhost", "root", "", "bookshelf");
         mysqli_query($database, "SET NAMES utf8");
@@ -10,26 +11,19 @@
   
     
     $idKnjiga = $_POST['izborRezervacije'];
-    $idKorisnik = 1;//sesija korisnika
+    $idKorisnik = $_SESSION['korisnik'];//sesija korisnika
 
     // formiranje datuma za pocetak i kraj rezervacije
     $pocetakRezervacije = strtotime("now");
     $krajRezervacije = $pocetakRezervacije + (24*60*60*5);
 
-    $pocetak = date("Y-m-d H:i:s", $pocetakRezervacije);
-    $kraj = date("Y-m-d H:i:s", $krajRezervacije);
+    $pocetak = date("Y-m-d", $pocetakRezervacije);
+    $kraj = date("Y-m-d", $krajRezervacije);
 
-    // Provera da li se id_knjiga nalazi u tabeli rezervacija (sprecavanje ponovnog unosa pri refresovanju)
-    $upit = "SELECT * FROM rezervacija WHERE id_knjiga = $idKnjiga";
-    $rezultat = mysqli_query($database, $upit);
+    $rezervacija = "CALL DodajRezervaciju($idKorisnik, $idKnjiga, '$pocetak', '$kraj')";
+    mysqli_query($database,$rezervacija);
 
-    if (mysqli_num_rows($rezultat) > 0) {
-        // Id_knjiga se nalazi u tabeli rezervacija i nece ga upisati ponovo
-        die();
-    } else {
-        $upit = "INSERT INTO rezervacija (ID_KORISNIK, ID_KNJIGA, POCETAK_REZERVACIJA, KRAJ_REZERVACIJA) VALUES ($idKorisnik, $idKnjiga, '$pocetak', '$kraj')";
-        mysqli_query($database, $upit);
-    }
+   
     
     
   // ZATVARANJE BAZE

@@ -1,6 +1,5 @@
 <?php
     //KONEKCIJA NA BAZU
-        $funkcija = $_GET['funkcija'];
 
         $database=mysqli_connect("localhost", "root", "", "bookshelf");
         mysqli_query($database, "SET NAMES utf8");
@@ -10,23 +9,12 @@
             die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
         }
 
-    //Dinamicki prikaz dostupnih knjiga u okviru izborne liste kod rezervacije
-    if($funkcija == 'dostupno'){
-
-
-        // blok koji se izvrsava kada god izlistavamo dostupno i rezervisano da proverimo kojoj knjizi je rezervacija istekla
-        $trenutniDatum = date("Y-m-d H:i:s");
-        $upitBrisanje = "DELETE FROM rezervacija WHERE KRAJ_REZERVACIJA < '$trenutniDatum'";
-        mysqli_query($database, $upitBrisanje);
-
-
-
-
+        //Dinamicki prikaz dostupnih knjiga u okviru izborne liste kod rezervacije
 
         $odgovor="";
 
         // Izvrši SQL upit za prikaz nerezervisanih knjiga
-        $upit = "SELECT * FROM knjiga WHERE ID_KNJIGA NOT IN (SELECT ID_KNJIGA FROM rezervacija)";
+        $upit = "SELECT * FROM knjiga WHERE STANJE_KNJIGA > 0 AND STATUS_KNJIGA = 1";
         $rezultat = mysqli_query($database, $upit);
         
         // Proveri da li je upit uspešno izvršen
@@ -40,7 +28,7 @@
         }
 
         echo $odgovor;
-    }
+
 
     // ZATVARANJE BAZE
       mysqli_close($database);

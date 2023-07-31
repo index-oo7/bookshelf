@@ -9,12 +9,6 @@
         }
 
 
-            // blok koji se izvrsava kada god izlistavamo dostupno i rezervisano da proverimo kojoj knjizi je rezervacija istekla
-            $trenutniDatum = date("Y-m-d H:i:s");
-            $upitBrisanje = "DELETE FROM rezervacija WHERE KRAJ_REZERVACIJA < '$trenutniDatum'";
-            mysqli_query($database, $upitBrisanje);
-
-
 
             $odgovor="<div class='row' style='margin: 20px;'>";
             $i = 1;

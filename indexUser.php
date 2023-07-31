@@ -133,7 +133,7 @@
                 });
 
             //DINAMICKI ISPIS DOSTUPNIH KNJIGA U REZERVACIJI
-                $.post("./ajaxOperations/opcijeRezervacija.php?funkcija=dostupno", function(response){
+                $.post("./ajaxOperations/opcijeRezervacija.php", function(response){
                     $("#izborRezervacije").html(response);
                 });
 
