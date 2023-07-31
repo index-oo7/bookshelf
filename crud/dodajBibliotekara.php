@@ -20,15 +20,7 @@
         if($lozinka == $potvrda){
             $upit="CALL DodajKorisnika('$ime', '$prezime', '$mail', '$lozinka', 2)"; // prosledjujemo 2 jer se uvek radi o bibliotekaru
             mysqli_query($database,$upit); 
-            
-        }else{
-            echo "
-            <script>
-            let greska = document.getElementById('greska');
-            greska.innerHTML += `<p class = 'warning'>Pogresna potvrda lozinke, pokusajte ponovo.</p>`
-            </script>";
-        }
-            
+        }   
     }
     
 
