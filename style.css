@@ -21,6 +21,11 @@ nav {
     font-size: medium;
 }
 
+.dostupno{
+  color: green;
+  font-size: small;
+}
+
   .modal-body{
     background-color: var(--main);
     color: white;

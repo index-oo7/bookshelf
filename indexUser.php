@@ -44,8 +44,6 @@
                             </button>
                             <ul class="dropdown-menu" name="sortiranje" id="sortiranje">
                                 <li id="sortNaziv"><a class="dropdown-item">Naziv</a></li>
-                                <li id="sortAutor"><a class="dropdown-item">Autor</a></li>
-                                <li id="sortKategorija"><a class="dropdown-item">Kategorija</a></li>
                                 <li id="sortDostupno"><a class="dropdown-item">Dostupno</a></li>
                                 <li id="sortRezervisano"><a class="dropdown-item">Rezervisano</a></li>
                             </ul>
@@ -102,15 +100,15 @@
 
     <script>
         // Definisanje klika na elemente s klasom "knjiga"
-        $(document).on('click', '.knjiga', function() {
-            let idModal = this.id;
-            $.post("./ajaxOperations/detaljiKnjiga.php", {idModal: idModal}, function(response){
-                $("#prikazKnjiga").html(response);
+            $(document).on('click', '.knjiga', function() {
+                let idModal = this.id;
+                $.post("./ajaxOperations/detaljiKnjiga.php", {idModal: idModal}, function(response){
+                    $("#prikazKnjiga").html(response);
+                });
             });
-        });
 
         //SORTIRANJE KATEGORIJA
-        $(document).on('click', '#izborKategorije li', function() {
+            $(document).on('click', '#izborKategorije li', function() {
                     var kriterijum = this.id;
                     $.post("./ajaxOperations/kategorizacija.php", {kriterijum:kriterijum}, function(response) {
                             $("#prikazKnjiga").html(response);
@@ -163,33 +161,20 @@
                     // po nazivu
                     if (kriterijum === "Naziv") {
                         let kolona = "NAZIV_KNJIGA";
-                        $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
+                        $.post("./ajaxOperations/sortKolona.php", { kolona: kolona }, function(response) {
                             $("#prikazKnjiga").html(response);
                         });
                     }
-                    // po autoru
-                    if (kriterijum === "Autor") {
-                        let kolona = "AUTOR_KNJIGA";
-                        $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
-                            $("#prikazKnjiga").html(response);
-                        });
-                    }
-                    // po kategoriji
-                    if (kriterijum === "Kategorija") {
-                        let kolona = "KATEGORIJA";
-                        $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajPoKoloni", { kolona: kolona }, function(response) {
-                            $("#prikazKnjiga").html(response);
-                        });
-                    }
+                    
                     // dostupne knjige
                     if (kriterijum === "Dostupno") {
-                        $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajDostupno", function(response) {
+                        $.post("./ajaxOperations/sortDostupno.php", function(response) {
                             $("#prikazKnjiga").html(response);
                         });
                     }
                     // rezervisane
                     if (kriterijum === "Rezervisano") {
-                        $.post("./ajaxOperations/sortiranje.php?funkcija=sortirajRezervisano", function(response) {
+                        $.post("./ajaxOperations/sortRezervisano.php", function(response) {
                             $("#prikazKnjiga").html(response);
                         });
                     }
@@ -209,8 +194,8 @@
     
         
     <!-- konekcija bootrstrap-ovog JS-a -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
 
 </body>
 </html>
