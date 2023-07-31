@@ -56,7 +56,43 @@
     <!-- PRIKAZ NEAKTIVNIH -->
       <br><br>
       <div class="container col-12" id="prikazNeaktivnih"></div>
-          
+    
+    <!-- MODAL ZA DODAVANJE BIBLIOTEKARA -->
+      <div class="modal fade" id="dodavanjeBibliotekara" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
+              <form id = "dodajForma">
+
+                <label for="ime">Ime:</label>
+                <input type="text" id="ime" name="ime" required><br><br>
+
+                <label for="prezime">Prezime:</label>
+                <input type="text" id="prezime" name="prezime" required><br><br>
+
+                <label for="mail">E-Mail:</label>
+                <input type="text" id="mail" name="mail" required><br><br>
+
+                <label for="lozinka">Lozinka:</label>
+                <input type="password" id="lozinka" name="lozinka" required><br><br>
+
+                <label for="potvrda">Potvrda lozinke:</label>
+                <input type="password" id="potvrda" name="potvrda" required><br><br>
+
+
+                <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Dodaj bibliotekara</button><br><br>
+                  
+              </form>
+              <div class="greska"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
     <script>
         // PRIKAZ AKTIVNIH
           function prikaziAktivne() {
@@ -98,107 +134,25 @@
 
         
         //PRIKAZ MODALA ZA DODAVANJE KNJIGE 
-          $('#btnDodajKnjigu').click(function() {
-            $('#dodavanjeKnjige').modal('show');
+          $('#btnDodajBibliotekara').click(function() {
+            $('#dodavanjeBibliotekara').modal('show');
           });
         
         // DODAVANJE KNJIGE
           $("#dodajForma").submit(function(e){
             e.preventDefault();
             
-            let naziv = $("#naziv").val();
-            let godinaIzdavanja = $("#godinaIzdavanja").val();
-            let stanje = $("#stanje").val();
-            let slika = $("#slika")[0].files[0];
-
-            var formData = new FormData(this);
-
-            formData.append('naziv', naziv);
-            formData.append('godinaIzdavanja', godinaIzdavanja);
-            formData.append('stanje', stanje);
-            formData.append('slika', slika);
-
-            let kategorije = $("#kategorija").val();
-            let autori = $("#autor").val();
-            formData.append('kategorije', kategorije);
-            formData.append('autori', autori);
+            let ime = $("#ime").val();
+            let prezime = $("#prezime").val();
+            let mail = $("#mail").val();
+            let lozinka =  $("#lozinka").val();
+            let potvrda =  $("#potvrda").val();
 
 
-            $.ajax({
-              url: "./crud/dodajKnjigu.php",
-              type: "POST",
-              data: formData,
-              contentType: false,
-              processData: false,
-              success: function(response) {
-                  console.log(response);
-                  prikaziKnjige();
-              }
-            });
-          });
-
-        //PRIKAZ MODALA ZA IZMENU KNJIGE 
-          $('#btnIzmeniKnjigu').click(function() {
-              $('#izmenaKnjige').modal('show');
-            });
-
-        //DINAMICKI ISPIS IZBORA IZMENE
-          $.post("./ajaxOperations/opcijeIzmena.php", function(response){
-            $("#izborIzmene").html(response);
-          });
-
-        // IZMENA KNJIGE
-          $("#izmeniForma").submit(function(e){
-            e.preventDefault();
-            let izborIzmene = $("#izborIzmene").val();
-            let naziv = $("#izmeniNaziv").val();
-            let godinaIzdavanja = $("#izmeniGodinaIzdavanja").val();
-            let stanje = $("#izmeniStanje").val();
-            let slika = $("#izmeniSlika")[0].files[0];
-            let kategorije = $("#izmeniKategorija").val();
-            let autori = $("#izmeniAutor").val();
-
-            var formDataIzmena = new FormData(this);
-
-            formDataIzmena.append('izborIzmene', izborIzmene);
-            formDataIzmena.append('naziv', naziv);
-            formDataIzmena.append('godinaIzdavanja', godinaIzdavanja);
-            formDataIzmena.append('stanje', stanje);
-            formDataIzmena.append('slika', slika);
-            formDataIzmena.append('kategorije', kategorije);
-            formDataIzmena.append('autori', autori);
-
-            $.ajax({
-              url: "./crud/izmeniKnjigu.php",
-              type: "POST",
-              data: formDataIzmena,
-              contentType: false,
-              processData: false,
-              success: function(response) {
-                  console.log(response);
-                  prikaziKnjige();
-              }
-            });
-          });
-
-        //PRIKAZ MODALA ZA BRISANJE KNJIGE 
-          $('#btnObrisiKnjigu').click(function() {
-            $('#brisanjeKnjige').modal('show');
-          });
-        
-        //DINAMICKI ISPIS IZBORA BRISANJA
-          $.post("./ajaxOperations/opcijeBrisanje.php", function(response){
-              $("#izborBrisanja").html(response);
-            });
-
-        // BRISANJE KNJIGE
-          $("#obrisiForma").submit(function(e){
-            e.preventDefault();
-            let izborBrisanja = $("#izborBrisanja").val();
-
-            $.post("./crud/obrisiKnjigu.php", {izborBrisanja:izborBrisanja}, function(response){
-              prikaziKnjige();
-            });
+            $.post("./crud/dodajBibliotekara.php", {ime: ime, prezime: prezime,  mail: mail, lozinka: lozinka, potvrda:potvrda}, function(response){
+                  prikaziAktivne();
+                  prikaziNeaktivne();
+                });
           });
         
       })
