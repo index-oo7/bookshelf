@@ -82,20 +82,20 @@
 
     <!-- REZERVACIJA KNJIGE -->
         
-    <div class="modal fade" id="rezervacija" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form id="rezervisiKnjigu">
-                        <h3>Ovde izaberite koju knjigu zelite da rezervišete:</h3>
-                        <select name="izborRezervacije" id="izborRezervacije"></select><br><br>
-                        <p>Rezervacija traje 5 dana od trenutka rezervisanja.</p>
-                        <button type="submit" name="btnRezervisi" id="btnRezervisi" value="submit" class="btn btn-outline-dark">Rezerviši knjigu</button>
-                    </form>
+        <div class="modal fade" id="rezervacija" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form id="rezervisiKnjigu">
+                            <h3>Ovde izaberite koju knjigu zelite da rezervišete:</h3>
+                            <select name="izborRezervacije" id="izborRezervacije"></select><br><br>
+                            <p>Rezervacija traje 5 dana od trenutka rezervisanja.</p>
+                            <button type="submit" name="btnRezervisi" id="btnRezervisi" value="submit" class="btn btn-outline-dark">Rezerviši knjigu</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
 
@@ -111,7 +111,7 @@
 
         //SORTIRANJE KATEGORIJA
         $(document).on('click', '#izborKategorije li', function() {
-                    var kriterijum = $(this).text();
+                    var kriterijum = this.id;
                     $.post("./ajaxOperations/kategorizacija.php", {kriterijum:kriterijum}, function(response) {
                             $("#prikazKnjiga").html(response);
                         });
