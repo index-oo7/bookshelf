@@ -26,13 +26,20 @@
           <div class="container-fluid">
 
             <!-- logo -->
-            <a id="logo" class="navbar-brand fa-fade" href="indexAdmin.php">Bookshelf <sup>©</sup></a>
+            <a id="logo" class="navbar-brand fa-fade" href="indexBibliotekar.php">Bookshelf <sup>©</sup></a>
 
             <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
               
-              <!-- dodavanje Bibliotekara -->
-              <button name="btnDodajBibliotekara" id="btnDodajBibliotekara" type="button" class="btn btn-outline-dark">Dodaj bibliotekara</button>
+              <!-- dodavanje knjige -->
+              <button name="btnDodajKnjigu" id="btnDodajKnjigu" type="button" class="btn btn-outline-dark">Dodaj knjigu</button>
 
+              <!-- izmena knjige -->
+              <button name="btnIzmeniKnjigu" id="btnIzmeniKnjigu" type="button" class="btn btn-outline-dark">Izmeni knjigu</button>
+
+              <!-- brisanje knjige -->
+              <button name="btnObrisiKnjigu" id="btnObrisiKnjigu" type="button" class="btn btn-outline-dark">Obrisi knjigu</button>
+
+            
               <!-- odjava -->
               <form method="post">
                 <button name="odjava" id="odjava" type="submit" class="btn btn-outline-dark">Odjava</button>
@@ -49,54 +56,121 @@
           </div>
       </nav>
 
-    <!-- PRIKAZ AKTIVNIH -->
-      <br><br>
-      <div class="container col-12" id="prikazAktivnih"></div>
+    <!-- PRIKAZ KNJIGA -->
+      <div class="container col-12" id="prikazKnjiga"></div>
+    
+    <!-- DODAVANJE KNJIGA -->
+      <div class="modal fade" id="dodavanjeKnjige" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <!-- Forma za dodavanje knjiga u lokalnu bazu podataka -->
+              <form id = "dodajForma" enctype = "multipart/form-data">
+                  <label for="naziv">Naziv:</label>
+                  <input type="text" name="naziv" id="naziv" required><br><br>
 
-    <!-- PRIKAZ NEAKTIVNIH -->
-      <br><br>
-      <div class="container col-12" id="prikazNeaktivnih"></div>
+                  <label for="autor">Autor:</label>
+                  <input type="text" name="autor" id="autor" required><br><br>
+
+                  <label for="godinaIzdavanja">Godina izdavanja:</label>
+                  <input type="number" name="godinaIzdavanja" id="godinaIzdavanja" required><br><br>
+
+                  <label for="kategorija">Kategorija:</label>
+                  <input type="text" name="kategorija" id="kategorija" required><br><br>
+
+                  <label for="stanje">Stanje:</label>
+                  <input type="number" name="stanje" id="stanje" required><br><br>
+
+                  <label for="slika">Slika:</label>
+                  <input type="file" name="slika" id="slika" accept="image/*" required><br><br>
+
+                  <button type="submit" name="btnDodaj" id="btnDodaj" value="submit" class="btn btn-outline-dark">Sačuvaj knjigu</button>
+                  
+              </form> 
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- IZMENA KNJIGE -->
+      <div class="modal fade" id="izmenaKnjige" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+                <!-- Forma za izmenu knjiga u lokalnoj bazi podataka -->
+                  <form id="izmeniForma" enctype = "multipart/form-data">
+
+                  <select name="izborIzmene" id="izborIzmene"></select>
+
+
+                    <!-- Forma u kojoj treba uneti podatke za izmenu -->
+                    <h3>Ovde unesite izmene:</h3>
+
+                    <label for="naziv">Naziv:</label>
+                      <input type="text" name="izmeniNaziv" id="izmeniNaziv"><br><br>
+
+                      <label for="autor">Autor:</label>
+                      <input type="text" name="izmeniAutor" id="izmeniAutor"><br><br>
+
+                      <label for="godinaIzdavanja">Godina izdavanja:</label>
+                      <input type="text" name="izmeniGodinaIzdavanja" id="izmeniGodinaIzdavanja"><br><br>
+
+                      <label for="kategorija">Kategorija:</label>
+                      <input type="text" name="izmeniKategorija" id="izmeniKategorija"><br><br>
+
+                      <label for="stanje">Stanje:</label>
+                      <input type="text" name="izmeniStanje" id="izmeniStanje"><br><br>
+
+                      <label for="slika">Slika:</label>
+                      <input type="file" name="izmeniSlika" id="izmeniSlika" accept="image/*"><br><br>
+
+
+                    <button type="submit" name="btnIzmeni" id="btnIzmeni" value="submit" class="btn btn-outline-dark">Sačuvaj izmene</button>
+                      
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- BRISANJE KNJIGE  -->
+      <div class="modal fade" id="brisanjeKnjige" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <form id="obrisiForma">
+                <h3>Ovde izaberite koju knjigu zelite da obrišete:</h3>
+                <select name="izborBrisanja" id="izborBrisanja"></select><br><br>
+                  
+                <button type="submit" name="btnObrisi" id="btnObrisi" value="submit" class="btn btn-outline-dark">Obriši knjigu</button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
           
     <script>
-        // PRIKAZ AKTIVNIH
-          function prikaziAktivne() {
-              $.post("./crud/prikaziAktivne.php", function(response){
-              $("#prikazAktivnih").html(response);
-            });
-          }
-
-          prikaziAktivne(); // Poziv funkcije za prikaz
-        
-        // PRIKAZ NEAKTIVNIH
-          function prikaziNeaktivne() {
-              $.post("./crud/prikaziNeaktivne.php", function(response){
-              $("#prikazNeaktivnih").html(response);
-            });
-          }
-
-          prikaziNeaktivne(); // Poziv funkcije za prikaz
-        
-        // Aktiviranje korisnika
-          $(document).on('click', '.aktiviraj', function() {
-                let idKorisnika = this.id;
-                $.post("./ajaxOperations/aktivirajKorisnika.php", {idKorisnika: idKorisnika}, function(response){
-                  prikaziAktivne();
-                  prikaziNeaktivne();
-                });
-            });
-
-        // Deaktiviranje korisnika
-          $(document).on('click', '.deaktiviraj', function() {
-                let idKorisnika = this.id;
-                $.post("./ajaxOperations/deaktivirajKorisnika.php", {idKorisnika: idKorisnika}, function(response){
-                  prikaziAktivne();
-                  prikaziNeaktivne();
+        // Definisanje klika na elemente s klasom "knjiga"
+          $(document).on('click', '.knjiga', function() {
+                let idModal = this.id;
+                $.post("./ajaxOperations/detaljiKnjiga.php", {idModal: idModal}, function(response){
+                    $("#prikazKnjiga").html(response);
                 });
             });
 
         $(document).ready(function(){
 
-        
+        // PRIKAZ KNJIGA
+          function prikaziKnjige() {
+              $.post("./crud/prikaziKnjige.php", function(response){
+              $("#prikazKnjiga").html(response);
+            });
+          }
+
+          prikaziKnjige(); // Poziv funkcije za prikaz
+
         //PRIKAZ MODALA ZA DODAVANJE KNJIGE 
           $('#btnDodajKnjigu').click(function() {
             $('#dodavanjeKnjige').modal('show');
