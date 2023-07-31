@@ -45,7 +45,7 @@
                             <ul class="dropdown-menu" name="sortiranje" id="sortiranje">
                                 <li id="sortNaziv"><a class="dropdown-item">Naziv</a></li>
                                 <li id="sortDostupno"><a class="dropdown-item">Dostupno</a></li>
-                                <li id="sortRezervisano"><a class="dropdown-item">Rezervisano</a></li>
+                                <li id="sortZauzeto"><a class="dropdown-item">Zauzeto</a></li>
                             </ul>
                         </div>
                     
@@ -173,8 +173,8 @@
                         });
                     }
                     // rezervisane
-                    if (kriterijum === "Rezervisano") {
-                        $.post("./ajaxOperations/sortRezervisano.php", function(response) {
+                    if (kriterijum === "Zauzeto") {
+                        $.post("./ajaxOperations/sortZauzeto.php", function(response) {
                             $("#prikazKnjiga").html(response);
                         });
                     }
