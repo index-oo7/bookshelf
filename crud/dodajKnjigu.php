@@ -26,6 +26,7 @@
 
         // Slanje upita za upis knjige u bazu
         $upit = "CALL DodajKnjigu('$naziv', $godinaIzdavanja, $stanje, 'slike/$imeSlike');";
+        // Ukoliko knjiga postoji, nece biti prosledjen LAST_INSERT_ID() iz baze nego SQL signal koji ce ispisati fatal eror posle kog se nece nastaviti rad.
         $rezultat = mysqli_query($database, $upit);
         if ($rezultat) {
             $red = mysqli_fetch_assoc($rezultat);
