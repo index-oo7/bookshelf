@@ -17,7 +17,7 @@
     <!-- konekcija css-a -->
     <link rel="stylesheet" href="./style.css">
 
-    <title>Admin</title>
+    <title>Bibliotekar</title>
 </head>
 <body>
     
@@ -38,7 +38,9 @@
 
               <!-- brisanje knjige -->
               <button name="btnObrisiKnjigu" id="btnObrisiKnjigu" type="button" class="btn btn-outline-dark">Obrisi knjigu</button>
-
+              
+              <!-- Rezervacije knjiga -->
+              <button name="btnRezervacija" id="btnRezervacija" type="button" class="btn btn-outline-dark">Rezervacije</button>
             
               <!-- odjava -->
               <form method="post">
@@ -57,7 +59,9 @@
       </nav>
 
     <!-- PRIKAZ KNJIGA -->
-      <div class="container col-12" id="prikazKnjiga"></div>
+      <div class="container col-12" id="prikazKnjiga"></div><br><br>
+      <div class="container col-12" id="prikazZaduzenja"></div>
+
     
     <!-- DODAVANJE KNJIGA -->
       <div class="modal fade" id="dodavanjeKnjige" tabindex="-1" role="dialog" aria-hidden="true">
@@ -152,11 +156,44 @@
       </div>
           
     <script>
+        // funkcije
+        function prikaziRezervacije() {
+                $.post("./crud/prikaziRezervacije.php", function(response){
+                $("#prikazKnjiga").html(response);
+              });
+            }
+
+        function prikaziZaduzenja() {
+              $.post("./crud/prikaziZaduzenja.php", function(response){
+              $("#prikazZaduzenja").html(response);
+            });
+          }
+        
+
+        
         // Definisanje klika na elemente s klasom "knjiga"
           $(document).on('click', '.knjiga', function() {
                 let idModal = this.id;
                 $.post("./ajaxOperations/detaljiKnjiga.php", {idModal: idModal}, function(response){
                     $("#prikazKnjiga").html(response);
+                });
+            });
+
+        //Zaduzivanje knjige
+          $(document).on('click', '.zaduzi', function() {
+                let idRezervacije = this.id;
+                $.post("./ajaxOperations/zaduzenje.php", {idRezervacije: idRezervacije}, function(response){
+                  prikaziRezervacije();
+                  prikaziZaduzenja();
+                });
+            });
+          
+        //Razduzivanje knjige
+          $(document).on('click', '.razduzi', function() {
+                let idZaduzenja = this.id;
+                $.post("./ajaxOperations/razduzenje.php", {idZaduzenja: idZaduzenja}, function(response){
+                  prikaziRezervacije();
+                  prikaziZaduzenja();
                 });
             });
 
@@ -274,6 +311,13 @@
               prikaziKnjige();
             });
           });
+
+        // PRIKAZ REZERVACIJA
+          $('#btnRezervacija').click(function(){
+            prikaziRezervacije();
+            prikaziZaduzenja();
+          })
+      
         
       })
     </script>
