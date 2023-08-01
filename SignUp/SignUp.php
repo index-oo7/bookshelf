@@ -30,7 +30,9 @@
                 <input type="password" id="potvrda" name="potvrda" required>
 
                 <a href='../Login/Login.php'><button type="submit" name="btnSubmit">Registruj se</button></a>
-                <div class="warning"><p>Već imate nalog? <b><a href='../Login/Login.php'>Prijavite se</a></b><br></p></div>
+
+                <br><br><div class="warning"><p>Već imate nalog? <b><a href='../Login/Login.php'>Prijavite se</a></b><br></p></div>
+                <br><div class="notification"><p>Nastavite kao <b><a href='../index.php'>Gost</a></b><br></p></div>
                 <div id = "greska"></div>
             </form>
         </div>
@@ -63,7 +65,7 @@
                         echo "
                         <script>
                         let greska = document.getElementById('greska');
-                        greska.innerHTML += `<p class = 'warning'>Pogresna potvrda lozinke, pokusajte ponovo.</p>`
+                        greska.innerHTML += `<br><p class = 'warning'>Pogresna potvrda lozinke, pokusajte ponovo.</p>`
                         </script>";
                     }
                     

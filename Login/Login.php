@@ -23,7 +23,11 @@
                 <input type="password" id="lozinka" name="lozinka" required>
 
                 <button type="submit" name="btnSubmit">Uloguj se</button>
+
+                <br><br><div class="warning"><p>Nemas nalog?  <b><a href='../SignUp/SignUp.php'>Kreiraj nalog ovde</a></b><br></p></div>
             </form>
+
+            
         </div>
 
         <!-- PHP -->

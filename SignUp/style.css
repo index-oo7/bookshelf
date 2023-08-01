@@ -1,5 +1,6 @@
 :root{
   --warning:rgb(158, 67, 67) ;
+  --notification: rgb(4, 163, 4);
 }
 * {
     box-sizing: border-box;
@@ -89,4 +90,19 @@
   .warning a{
     text-decoration: none;
     color: var(--warning);
+  }
+
+
+  .notification{
+    color: var(--notification);
+    background-color: #e8e8e8;
+    border-radius: 25px;
+    padding: 15px;
+    height: auto;
+    width: fit-content;
+  }
+
+  .notification a{
+    text-decoration: none;
+    color: var(--notification);
   }
