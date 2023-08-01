@@ -24,10 +24,12 @@
             <div class="container-fluid">
 
                 <!-- logo -->
-                    <a id="logo" class="navbar-brand fa-fade" href="indexUser.php">Bookshelf <sup>©</sup></a>
+                    <a id="logo" class="navbar-brand fa-fade" href="index.php">Bookshelf <sup>©</sup></a>
 
                 <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
-
+                    
+                    <p class="ime">Gost</p>
+                    
                     <!-- pretraga -->
                         <form class="d-flex" role="search" id="pretraga">
                             <input class="form-control me-2" type="search" placeholder="Search" name="terminPretrage" id="terminPretrage" aria-label="Search">
@@ -54,7 +56,7 @@
 
                     <!-- prijava -->
                         <form method="post">
-                            <a href="./login/login.php"><button name="prijava" id="prijava" type="submit" class="btn btn-outline-dark">Odjava</button></a>
+                            <a href="login/login.php"><button type="button" name="prijava" id="prijava" class="btn btn-outline-dark">Prijava</button></a>
                         </form>
                 </div>
             </div>

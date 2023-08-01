@@ -46,3 +46,11 @@ nav {
     text-decoration: none;
     color: var(--warning);
   }
+
+
+  .ime{
+    font-size: larger;
+    font-weight: bolder;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }

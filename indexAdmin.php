@@ -1,3 +1,10 @@
+<?php
+session_start();
+if($_SESSION['uloga'] != '1'){
+  header("Location: ./login/login.php");
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,6 +36,8 @@
             <a id="logo" class="navbar-brand fa-fade" href="indexAdmin.php">Bookshelf <sup>©</sup></a>
 
             <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
+
+              <p class="ime"><?php echo $_SESSION['korime'];?></p>
               
               <!-- dodavanje Bibliotekara -->
               <button name="btnDodajBibliotekara" id="btnDodajBibliotekara" type="button" class="btn btn-outline-dark">Dodaj bibliotekara</button>

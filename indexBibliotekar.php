@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    if($_SESSION['uloga'] != '2'){
+      header("Location: ./login/login.php");
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +37,8 @@
 
             <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
               
+              <p class="ime"><?php echo $_SESSION['korime'];?></p>
+
               <!-- dodavanje knjige -->
               <button name="btnDodajKnjigu" id="btnDodajKnjigu" type="button" class="btn btn-outline-dark">Dodaj knjigu</button>
 

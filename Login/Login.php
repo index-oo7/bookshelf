@@ -35,8 +35,6 @@
                 die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
             }
 
-            
-
         if(isset($_POST['btnSubmit'])){
                 $mail = $_POST['mail'];
                 $lozinka = $_POST['lozinka'];
@@ -44,9 +42,13 @@
                 $provera = "SELECT * FROM KORISNIK WHERE EMAIL_KORISNIK LIKE '$mail' AND LOZINKA_KORISNIK LIKE '$lozinka'";
                 $rezultat = mysqli_query($database, $provera);
 
-                if($rezultat>0){
+                if($rezultat){
                     $red = mysqli_fetch_assoc($rezultat);
+
                     $_SESSION['korisnik'] = $red['ID_KORISNIK']; //ako korisnik postoji, odmah otvaram sesiju sa id-jem koji ce posle biti koriscen za rezervaciju
+                    $_SESSION['uloga'] = $red['ID_ULOGA'];
+                    $_SESSION['korime'] = $red['EMAIL_KORISNIK'];
+                    
                     $id_uloga = $red['ID_ULOGA'];
 
                     switch ($id_uloga){
