@@ -43,11 +43,16 @@
                 $mail = $_POST['mail'];
                 $lozinka = $_POST['lozinka'];
 
-                $provera = "SELECT * FROM KORISNIK WHERE EMAIL_KORISNIK LIKE '$mail' AND LOZINKA_KORISNIK LIKE '$lozinka'";
+                $provera = "SELECT * FROM KORISNIK WHERE EMAIL_KORISNIK LIKE '$mail' AND LOZINKA_KORISNIK LIKE '$lozinka' AND STATUS_KORISNIK = 1";
                 $rezultat = mysqli_query($database, $provera);
+                $red = mysqli_fetch_assoc($rezultat);
 
-                if($rezultat){
-                    $red = mysqli_fetch_assoc($rezultat);
+                $zabrana = "SELECT * FROM KORISNIK WHERE EMAIL_KORISNIK LIKE '$mail' AND LOZINKA_KORISNIK LIKE '$lozinka' AND STATUS_KORISNIK = 0";
+                $rezultatZabrane = mysqli_query($database, $zabrana);
+                $redZabrane = mysqli_fetch_assoc($rezultatZabrane);
+
+                if($red!=null){
+                    
 
                     $_SESSION['korisnik'] = $red['ID_KORISNIK']; //ako korisnik postoji, odmah otvaram sesiju sa id-jem koji ce posle biti koriscen za rezervaciju
                     $_SESSION['uloga'] = $red['ID_ULOGA'];
@@ -66,10 +71,15 @@
                             header('Location: ../indexUser.php');//korisnik
                             exit;
                     }
+                }else if($rezultatZabrane!=null){
+                    echo "<script>
+                    let warning = document.querySelector('.warning');
+                    warning.innerHTML = `<p>Nalog je suspendovan.</p>`;
+                    </script>";
                 }else{
                     echo "<script>
-                    let warning = document.querySelector('.form');
-                    warning.innerHTML += `<br><br><div class='warning'><p>Nalog ne postoji ili je lozinka pogrešna. Registrujte se <b><a href='../SignUp/SignUp.php'>ovde</a></b><br></p></div>`;
+                    let warning = document.querySelector('.warning');
+                    warning.innerHTML += `<br><br><p>Nalog ne postoji ili je lozinka pogrešna. Registrujte se <b><a href='../SignUp/SignUp.php'>ovde</a></b><br></p>`;
                     </script>";
                 }
             }
