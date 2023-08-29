@@ -33,12 +33,12 @@
                     <!-- pretraga -->
                         <form class="d-flex" role="search" id="pretraga">
                             <input class="form-control me-2" type="search" placeholder="Pretraga" name="terminPretrage" id="terminPretrage" aria-label="Search">
-                            <button class="btn btn-outline-dark" type="submit" name="btnPretrazi" id="btnPretrazi">Pretrazi</button>
+                            <button class="btn btn-secondary" type="submit" name="btnPretrazi" id="btnPretrazi">Pretrazi</button>
                         </form>
 
                     <!-- sortiranje -->
                         <div class="dropdown">
-                            <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true" name="btnSortiranje" id="btnSortiranje">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true" name="btnSortiranje" id="btnSortiranje">
                                 Sortiraj
                             </button>
                             <ul class="dropdown-menu" name="sortiranje" id="sortiranje">
@@ -48,7 +48,7 @@
                     
                     <!-- kategorija -->
                         <div class="dropdown">
-                            <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true" name="btnKategorija" id="btnKategorija">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true" name="btnKategorija" id="btnKategorija">
                                 Kategorije
                             </button>
                             <ul class="dropdown-menu" name="izborKategorije" id="izborKategorije"></ul>
@@ -56,7 +56,7 @@
 
                     <!-- prijava -->
                         <form method="post">
-                            <a href="login/login.php"><button type="button" name="prijava" id="prijava" class="btn btn-outline-dark">Prijava</button></a>
+                            <a href="login/login.php"><button type="button" name="prijava" id="prijava" class="btn btn-secondary">Prijava</button></a>
                         </form>
                 </div>
             </div>

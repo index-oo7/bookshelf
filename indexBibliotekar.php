@@ -40,20 +40,20 @@
               <p class="ime"><?php echo $_SESSION['korime'];?></p>
 
               <!-- dodavanje knjige -->
-              <button name="btnDodajKnjigu" id="btnDodajKnjigu" type="button" class="btn btn-outline-dark">Dodaj knjigu</button>
+              <button name="btnDodajKnjigu" id="btnDodajKnjigu" type="button" class="btn btn-secondary">Dodaj knjigu</button>
 
               <!-- izmena knjige -->
-              <button name="btnIzmeniKnjigu" id="btnIzmeniKnjigu" type="button" class="btn btn-outline-dark">Izmeni knjigu</button>
+              <button name="btnIzmeniKnjigu" id="btnIzmeniKnjigu" type="button" class="btn btn-secondary">Izmeni knjigu</button>
 
               <!-- brisanje knjige -->
-              <button name="btnObrisiKnjigu" id="btnObrisiKnjigu" type="button" class="btn btn-outline-dark">Obrisi knjigu</button>
+              <button name="btnObrisiKnjigu" id="btnObrisiKnjigu" type="button" class="btn btn-secondary">Obrisi knjigu</button>
               
               <!-- Rezervacije knjiga -->
-              <button name="btnRezervacija" id="btnRezervacija" type="button" class="btn btn-outline-dark">Rezervacije</button>
+              <button name="btnRezervacija" id="btnRezervacija" type="button" class="btn btn-secondary">Rezervacije</button>
             
               <!-- odjava -->
               <form method="post">
-                <button name="odjava" id="odjava" type="submit" class="btn btn-outline-dark">Odjava</button>
+                <button name="odjava" id="odjava" type="submit" class="btn btn-secondary">Odjava</button>
               </form>
               <?php
                 if(isset($_POST['odjava'])){

@@ -40,11 +40,11 @@ if($_SESSION['uloga'] != '1'){
               <p class="ime"><?php echo $_SESSION['korime'];?></p>
               
               <!-- dodavanje Bibliotekara -->
-              <button name="btnDodajBibliotekara" id="btnDodajBibliotekara" type="button" class="btn btn-outline-dark">Dodaj bibliotekara</button>
+              <button name="btnDodajBibliotekara" id="btnDodajBibliotekara" type="button" class="btn btn-secondary">Dodaj bibliotekara</button>
 
               <!-- odjava -->
               <form method="post">
-                <button name="odjava" id="odjava" type="submit" class="btn btn-outline-dark">Odjava</button>
+                <button name="odjava" id="odjava" type="submit" class="btn btn-secondary">Odjava</button>
               </form>
               <?php
                 if(isset($_POST['odjava'])){
