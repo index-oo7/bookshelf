@@ -32,8 +32,8 @@
                     
                     <!-- pretraga -->
                         <form class="d-flex" role="search" id="pretraga">
-                            <input class="form-control me-2" type="search" placeholder="Search" name="terminPretrage" id="terminPretrage" aria-label="Search">
-                            <button class="btn btn-outline-dark" type="submit" name="btnPretrazi" id="btnPretrazi">Search</button>
+                            <input class="form-control me-2" type="search" placeholder="Pretraga" name="terminPretrage" id="terminPretrage" aria-label="Search">
+                            <button class="btn btn-outline-dark" type="submit" name="btnPretrazi" id="btnPretrazi">Pretrazi</button>
                         </form>
 
                     <!-- sortiranje -->

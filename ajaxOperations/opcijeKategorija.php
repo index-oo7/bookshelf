@@ -9,10 +9,9 @@
             die("Greška prilikom povezivanja sa bazom podataka: " . mysqli_connect_error());
         }
 
-    //Dinamicki prikaz dostupnih knjiga u okviru izborne liste kod rezervacije
+    
     $odgovor="";
 
-    // Izvrši SQL upit za prikaz nerezervisanih knjiga
     $upit = "SELECT * FROM KATEGORIJA";
     $rezultat = mysqli_query($database, $upit);
         

@@ -12,7 +12,7 @@
 
             $odgovor="<div class='row' style='margin: 20px;'>";
             $i = 1;
-            // Izvrši SQL upit za prikaz nerezervisanih knjiga
+            // Izvrši SQL upit za prikaz rezervisanih knjiga
             $upit = "SELECT * FROM knjiga WHERE STANJE_KNJIGA = 0";
             $rez = mysqli_query($database, $upit);
 

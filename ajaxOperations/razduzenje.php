@@ -38,7 +38,7 @@
     mysqli_query($database, $upitPovecajStanje);
 
   } else {
-      // Zaduženje ne postoji, možete prikazati poruku ili prekinuti dalje izvršavanje
+      // Zaduženje ne postoji
       echo "Zaduženje sa datim ID-om ne postoji.";
   }
 
