@@ -50,7 +50,6 @@
                 
                 $enkriptovanaLozinka = $red['LOZINKA_KORISNIK'];
                 $string = hash('sha256', $lozinka, false);
-                //substr($string,0,15) == $red['LOZINKA_KORISNIK']
 
 
                 $zabrana = "SELECT * FROM KORISNIK WHERE EMAIL_KORISNIK LIKE '$mail' AND STATUS_KORISNIK = 0";

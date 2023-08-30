@@ -55,6 +55,7 @@
                     
 
                     if($lozinka == $potvrda){
+                        $lozinka = hash('sha256', $lozinka, false);
                         $upit="CALL DodajKorisnika('$ime', '$prezime', '$mail', '$lozinka', 3)"; // prosledjujemo 3 jer se uvek radi o korisniku
                         
                         if(mysqli_query($database,$upit)){
