@@ -43,15 +43,23 @@
                 $mail = $_POST['mail'];
                 $lozinka = $_POST['lozinka'];
 
-                $provera = "SELECT * FROM KORISNIK WHERE EMAIL_KORISNIK LIKE '$mail' AND LOZINKA_KORISNIK LIKE '$lozinka' AND STATUS_KORISNIK = 1";
+                $provera = "SELECT * FROM KORISNIK WHERE EMAIL_KORISNIK LIKE '$mail' AND STATUS_KORISNIK = 1";
                 $rezultat = mysqli_query($database, $provera);
                 $red = mysqli_fetch_assoc($rezultat);
 
-                $zabrana = "SELECT * FROM KORISNIK WHERE EMAIL_KORISNIK LIKE '$mail' AND LOZINKA_KORISNIK LIKE '$lozinka' AND STATUS_KORISNIK = 0";
+                
+                $enkriptovanaLozinka = $red['LOZINKA_KORISNIK'];
+                $string = hash('sha256', $lozinka, false);
+                //substr($string,0,15) == $red['LOZINKA_KORISNIK']
+
+
+                $zabrana = "SELECT * FROM KORISNIK WHERE EMAIL_KORISNIK LIKE '$mail' AND STATUS_KORISNIK = 0";
                 $rezultatZabrane = mysqli_query($database, $zabrana);
                 $redZabrane = mysqli_fetch_assoc($rezultatZabrane);
 
-                if($red!=null){
+
+
+                if($red != null && substr($string,0,15) == $enkriptovanaLozinka){
                     
 
                     $_SESSION['korisnik'] = $red['ID_KORISNIK']; //ako korisnik postoji, odmah otvaram sesiju sa id-jem koji ce posle biti koriscen za rezervaciju
@@ -62,10 +70,10 @@
 
                     switch ($id_uloga){
                         case 1:
-                            header('Location: ../indexAdmin.php');//korisnik
+                            header('Location: ../indexAdmin.php');//admin
                             exit;
                         case 2:
-                            header('Location: ../indexBibliotekar.php');//korisnik
+                            header('Location: ../indexBibliotekar.php');//bibliotekar
                             exit;
                         case 3:
                             header('Location: ../indexUser.php');//korisnik
