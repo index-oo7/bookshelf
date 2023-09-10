@@ -54,6 +54,7 @@
                     <b>Godina izdavanja:</b> {$redKnjiga['GODINA_IZDAVANJA_KNJIGA']} <br>
                     <b>Kategorija/e:</b> $kategorijeString <br> </p>
                     <b>Raspolozivo stanje:</b> {$redKnjiga['STANJE_KNJIGA']}
+                    <button name='btnRezervisiDetalji' id='btnRezervisiDetalji' type='button' class='btn btn-secondary' value='$idModal'>Rezervisi knjigu</button>
                 </div>
             </div>";
 

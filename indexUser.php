@@ -122,7 +122,12 @@
                             $("#prikazKnjiga").html(response);
                         });
                 })
-
+        // UPIS REZERVACIJE IZ DETALJA
+            $(document).on('click', '#btnRezervisiDetalji', function() {
+                let izborRezervacije = $(this).val();
+                $.post("./ajaxOperations/rezervacija.php?",{izborRezervacije:izborRezervacije});
+                alert("Uspešno ste rezervisali!"); // alert o uspesnoj rezervaciji
+            });
 
         $(document).ready(function(){
 
