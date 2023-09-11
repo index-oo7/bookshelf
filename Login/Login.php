@@ -64,6 +64,9 @@
                     $_SESSION['korisnik'] = $red['ID_KORISNIK']; //ako korisnik postoji, odmah otvaram sesiju sa id-jem koji ce posle biti koriscen za rezervaciju
                     $_SESSION['uloga'] = $red['ID_ULOGA'];
                     $_SESSION['korime'] = $red['EMAIL_KORISNIK'];
+                    $_SESSION['ime'] = $red['IME_KORISNIK'];
+                    $_SESSION['prezime'] = $red['PREZIME_KORISNIK'];
+
                     
                     $id_uloga = $red['ID_ULOGA'];
 
