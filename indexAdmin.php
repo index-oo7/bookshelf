@@ -38,6 +38,9 @@ if($_SESSION['uloga'] != '1'){
             <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
 
               <p class="ime"><?php echo $_SESSION['korime'];?></p>
+
+              <!-- uredjivanje naloga -->
+              <button name="btnEdit" id="btnEdit" type="button" class="btn btn-secondary">Uredi nalog</button>
               
               <!-- dodavanje Bibliotekara -->
               <button name="btnDodajBibliotekara" id="btnDodajBibliotekara" type="button" class="btn btn-secondary">Dodaj bibliotekara</button>
@@ -98,7 +101,38 @@ if($_SESSION['uloga'] != '1'){
           </div>
         </div>
       </div>
+      
+      <!-- UREDJIVANJE PROFILA -->
+        <div class="modal fade" id="uredjivanje" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form id="urediForma">
 
+                                <!-- Forma u kojoj treba uneti podatke za izmenu -->
+                                <h3>Uredi nalog:</h3> <br>
+
+                                <label for="ime">Ime:</label>
+                                <input type="text" name="izmeniIme" id="izmeniIme" placeholder="<?php echo $_SESSION['ime'];?>"><br><br>
+
+                                <label for="prezime">Prezime:</label>
+                                <input type="text" name="izmeniPrezime" id="izmeniPrezime" placeholder="<?php echo $_SESSION['prezime'];?>"><br><br>
+
+                                <label for="lozinka">Lozinka:</label>
+                                <input type="text" name="lozinka" id="lozinka"><br><br>
+
+                                <label for="novaLozinka">Nova Lozinka:</label>
+                                <input type="text" name="novaLozinka" id="novaLozinka"><br><br>
+
+                                <label for="potvrdaLozinka">Potvrda Lozinke:</label>
+                                <input type="text" name="potvrdaLozinka" id="potvrdaLozinka"><br><br>
+
+                                <button type="submit" name="btnUredi" id="btnUredi" value="submit" class="btn btn-outline-dark">Sačuvaj izmene</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 
@@ -162,6 +196,40 @@ if($_SESSION['uloga'] != '1'){
                   prikaziAktivne();
                   prikaziNeaktivne();
                 });
+          });
+
+        // PRIKAZ MODALA ZA UREDJIVANJE NALOGA 
+          $('#btnEdit').click(function() {
+                    $('#uredjivanje').modal('show');
+                });
+        
+        // UREDJIVANJE NALOGA
+          $("#urediForma").submit(function(e){
+              e.preventDefault();
+              let ime = $("#izmeniIme").val();
+              let prezime = $("#izmeniPrezime").val();
+              let lozinka = $("#lozinka").val();
+              let novaLozinka = $("#novaLozinka").val();
+              let potvrdaLozinka = $("#potvrdaLozinka").val();
+
+              var formDataUredi = new FormData(this);
+
+              formDataUredi.append('ime', ime);
+              formDataUredi.append('prezime', prezime);
+              formDataUredi.append('lozinka', lozinka);
+              formDataUredi.append('novaLozinka', novaLozinka);
+              formDataUredi.append('potvrdaLozinka', potvrdaLozinka);
+              $.ajax({
+              url: "./crud/urediNalog.php",
+              type: "POST",
+              data: formDataUredi,
+              contentType: false,
+              processData: false,
+              success: function(response) {
+                  var odgovor = $("#urediForma");
+                  odgovor.append(response);
+              }
+              });
           });
         
       })
