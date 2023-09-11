@@ -59,7 +59,11 @@
                         $upit="CALL DodajKorisnika('$ime', '$prezime', '$mail', '$lozinka', 3)"; // prosledjujemo 3 jer se uvek radi o korisniku
                         
                         if(mysqli_query($database,$upit)){
-                            header('Location: ../indexUser.php');//korisnik
+                            echo "
+                            <script>
+                            let greska = document.getElementById('greska');
+                            greska.innerHTML += `<br><p class = 'notification'>Uspesna registracija, prijavite se <b><a href='../indexUser.php'>ovde</a></b> </p>`
+                            </script>";
                         }
 
                     }else{
