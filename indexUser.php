@@ -135,7 +135,10 @@
                             <label for="potvrdaLozinka">Potvrda Lozinke:</label>
                             <input type="text" name="potvrdaLozinka" id="potvrdaLozinka"><br><br>
 
-                            <button type="submit" name="btnUredi" id="btnUredi" value="submit" class="btn btn-outline-dark">Sačuvaj izmene</button>
+                            <button type="submit" name="btnUredi" id="btnUredi" value="submit" class="btn btn-outline-dark">Sačuvaj izmene</button><br><br>
+
+                            <div id="poruka"></div>
+
                         </form>
                     </div>
                 </div>
@@ -275,9 +278,16 @@
                 data: formDataUredi,
                 contentType: false,
                 processData: false,
+                dataType:'json',
                 success: function(response) {
-                    var odgovor = $("#urediForma");
-                    odgovor.append(response);
+                    console.log(response);
+                    var porukaElement = $("#poruka");
+                    if(response['status'] == "uspeh"){
+                        porukaElement.html('<div class="alert alert-success" role="alert">' + response['poruka'] + '</div>');
+                    }else{
+                        porukaElement.html('<div class="alert alert-danger" role="alert">' + response['poruka'] + '</div>');
+
+                    }
                 }
                 });
             });

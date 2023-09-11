@@ -19,6 +19,7 @@
     $novaLozinka = $_POST['novaLozinka'];
     $potvrdaLozinka = $_POST['potvrdaLozinka'];
 
+    $odgovor = ['status' => 'prazno'];
     
 
     if (isset($lozinka)){
@@ -36,7 +37,10 @@
                 mysqli_query($database, $izmeniIme);
                 if(!mysqli_query($database, $izmeniIme)){
                     mysqli_error($database);
+                }else{
+                    $odgovor = array('status' => 'uspeh', 'poruka' => 'Uspesno uredjivanje naloga!');
                 }
+
             }
 
             if (isset($prezime)){
@@ -44,6 +48,8 @@
                 mysqli_query($database, $izmeniPrezime);
                 if(!mysqli_query($database, $izmeniPrezime)){
                     mysqli_error($database);
+                }else{
+                    $odgovor = array('status' => 'uspeh', 'poruka' => 'Uspesno uredjivanje naloga!');
                 }
             }
             
@@ -53,31 +59,24 @@
                         $novaLozinka = hash('sha256', $novaLozinka, false);
                         $promenaLozinke = "UPDATE KORISNIK SET LOZINKA_KORISNIK = '$novaLozinka' WHERE ID_KORISNIK = $id_korisnik";
                         mysqli_query($database, $promenaLozinke);
-                        if(mysqli_query($database, $promenaLozinke)){
-                            echo("");
-                        }else{mysqli_error($database);}
-        
-                    }else{echo(" <div class='alert alert-danger' role='alert'>
-                        <p>Netacna potvrda lozinke!</p>;
-                        </div>");}
+
+                            $odgovor = array('status' => 'uspeh', 'poruka' => 'Uspesno uredjivanje naloga!');
+
+                    }else{$odgovor = array('status' => 'greska', 'poruka' => 'Došlo je do greške prilikom uredjivanja naloga.');}
                        
                       
-                }else{echo(" <div class='alert alert-danger' role='alert'>
-                    <p>Nije unesena potvrda lozinke!</p>;
-                    </div>");}
+                }else{$odgovor = array('status' => 'greska', 'poruka' => 'Došlo je do greške prilikom uredjivanja naloga.');}
             }
 
 
-        }else{echo(" <div class='alert alert-danger' role='alert'>
-            <p>Netacna lozinka!</p>;
-            </div>");}
+        }else{$odgovor = array('status' => 'greska', 'poruka' => 'Došlo je do greške prilikom uredjivanja naloga.');}
 
         
-    }else{echo(" <div class='alert alert-danger' role='alert'>
-        <p>Lozinka nije unesena!</p>;
-        </div>");};
+    }else{$odgovor = array('status' => 'greska', 'poruka' => 'Došlo je do greške prilikom uredjivanja naloga.');}
 
+    
 
+    echo json_encode($odgovor);
    
 
 
