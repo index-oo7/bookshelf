@@ -42,6 +42,9 @@
                     <!-- rezervacija knjige -->
                         <button name="btnRezervisiKnjigu" id="btnRezervisiKnjigu" type="button" class="btn btn-secondary">Rezervisi knjigu</button>
 
+                    <!-- pregled rezervacija -->
+                        <button name="btnPregledaj" id="btnPregledaj" type="button" class="btn btn-secondary">Rezervacije</button>
+
                     <!-- pretraga -->
                         <form class="d-flex" role="search" id="pretraga">
                             <input class="form-control me-2" type="search" placeholder="Pretraga" name="terminPretrage" id="terminPretrage" aria-label="Search">
@@ -142,6 +145,12 @@
 
 
     <script>
+        function prikaziVlastiteRezervacije() {
+            $.post("./crud/prikaziVlastiteRezervacije.php", function(response){
+                    $("#prikazKnjiga").html(response);
+            });
+        }
+
         // Definisanje klika na elemente s klasom "knjiga"
             $(document).on('click', '.knjiga', function() {
                 let idModal = this.id;
@@ -272,6 +281,11 @@
                 }
                 });
             });
+
+            // PRIKAZ VLASTITIH REZERVACIJA
+            $("#btnPregledaj").click(function() {
+                prikaziVlastiteRezervacije();
+                });
         })
 
         
