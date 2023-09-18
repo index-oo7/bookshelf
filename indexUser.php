@@ -37,23 +37,23 @@
                     <p class="ime"><?php echo $_SESSION['korime'];?></p>
 
                     <!-- uredjivanje naloga -->
-                    <button name="btnEdit" id="btnEdit" type="button" class="btn btn-secondary">Uredi nalog</button>
+                    <button name="btnEdit" id="btnEdit" type="button" class="btn btn-outline-dark">Uredi nalog</button>
 
                     <!-- rezervacija knjige -->
-                        <button name="btnRezervisiKnjigu" id="btnRezervisiKnjigu" type="button" class="btn btn-secondary">Rezervisi knjigu</button>
+                        <button name="btnRezervisiKnjigu" id="btnRezervisiKnjigu" type="button" class="btn btn-outline-dark">Rezervisi knjigu</button>
 
                     <!-- pregled rezervacija -->
-                        <button name="btnPregledaj" id="btnPregledaj" type="button" class="btn btn-secondary">Rezervacije</button>
+                        <button name="btnPregledaj" id="btnPregledaj" type="button" class="btn btn-outline-dark">Rezervacije</button>
 
                     <!-- pretraga -->
                         <form class="d-flex" role="search" id="pretraga">
                             <input class="form-control me-2" type="search" placeholder="Pretraga" name="terminPretrage" id="terminPretrage" aria-label="Search">
-                            <button class="btn btn-secondary" type="submit" name="btnPretrazi" id="btnPretrazi">Pretrazi</button>
+                            <button class="btn btn-outline-dark" type="submit" name="btnPretrazi" id="btnPretrazi">Pretrazi</button>
                         </form>
 
                     <!-- sortiranje -->
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true" name="btnSortiranje" id="btnSortiranje">
+                            <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true" name="btnSortiranje" id="btnSortiranje">
                                 Sortiraj
                             </button>
                             <ul class="dropdown-menu" name="sortiranje" id="sortiranje">
@@ -65,7 +65,7 @@
                     
                     <!-- kategorija -->
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true" name="btnKategorija" id="btnKategorija">
+                            <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true" name="btnKategorija" id="btnKategorija">
                                 Kategorije
                             </button>
                             <ul class="dropdown-menu" name="izborKategorije" id="izborKategorije"></ul>
@@ -73,7 +73,7 @@
 
                     <!-- odjava -->
                         <form method="post">
-                            <button name="odjava" id="odjava" type="submit" class="btn btn-secondary">Odjava</button>
+                            <button name="odjava" id="odjava" type="submit" class="btn btn-outline-dark">Odjava</button>
                         </form>
                         <?php
                             if(isset($_POST['odjava'])){
